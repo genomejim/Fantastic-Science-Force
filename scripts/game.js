@@ -1,21 +1,22 @@
 game.fps = 50;
 
 
-mobile_object = function(x,y,v){
+mobile_object = function(draw,x,y,v,src){
+this.draw = draw;
 this.x = x;
 this.y = y;
 this.v = v;
-//var img = new Image();
-//img.src = "./content/images/car.png";
+this.img = new Image();
+this.img.src = src;
 }
 
-var title = new mobile_object(800,200,-6);
-var car = new mobile_object(0,400,5);
-var jim = new mobile_object(300,500,-2);
-var draw_jim = 'false';
-var max = new mobile_object(600,400,-.5);
-var draw_max = 'false';
-var truck = new mobile_object(800,400,-7);
+var title = new mobile_object(true,800,200,-6);
+var car = new mobile_object(true,0,400,5,"./content/images/car.png");
+var jim = new mobile_object(false,300,500,-2);
+//var draw_jim = 'false';
+var max = new mobile_object(false,600,400,-.5);
+///var draw_max = 'false';
+var truck = new mobile_object(true,800,400,-7);
 
 var screen_name = 'road';
 var pause = 'false';
@@ -26,8 +27,8 @@ var play_intro = 'true';
 var _canvas = document.getElementById('game');
 var _canvasContext = null;
 
-var car_img = new Image();
-car_img.src = "./content/images/car.png";
+//var car_img = new Image();
+//car_img.src = "./content/images/car.png";
 
 var back_img = new Image();
 back_img.src = "./content/images/back_road.png";
@@ -89,7 +90,7 @@ game.update = function() {
     if (car.x == 600 && screen_name == 'school') {         
         car.v = 0;
         pause = 'true';
-	draw_max = 'true'        
+	max.draw = true;        
      }
     
     if (pause == 'true') {
@@ -116,7 +117,7 @@ game.update = function() {
         screen_name = 'road_2';
 	title_img.src = "./content/images/title_3.png";
 	title.x = 800;
-	draw_max = 'false';
+	max.draw = false;
 	//snd_traffic.play();
     }    
 
@@ -142,17 +143,17 @@ game.update = function() {
 	//snd_traffic.play();
      }    
         if (car.x == 300 && screen_name == 'base') {
-	draw_jim = 'true';         
+	jim.draw = true;         
         car.v = 0;
         pause = 'true'; 
 	snd.stop();
 	snd_traffic.play();
 	truckx = 800;	       
      }
-     if (draw_jim == 'true') {
+     if (jim.draw == true) {
 	jim.x = jim.x + jim.v;
      }
-	if (draw_max == 'true') {
+	if (max.draw == true) {
 	max.x = max.x + max.v;
 	max.y = max.y - .5;
      }
@@ -164,15 +165,15 @@ game.draw = function() {
         //_canvasContext.clearRect(0,0,_canvas.width,_canvas.height);
         _canvasBufferContext.clearRect(0,0,_canvas.width,_canvas.height);
         _canvasBufferContext.drawImage(back_img, 0, 0);
-        if (draw_jim == 'true') {
+        if (jim.draw == true) {
         _canvasBufferContext.drawImage(jim_img, jim.x, jim.y);	
 	}
-	        if (draw_max == 'true') {
+	        if (max.draw == true) {
         _canvasBufferContext.drawImage(max_img, max.x, max.y);	
 	}
 
 	_canvasBufferContext.drawImage(truck_img, truck.x, truck.y);
-        _canvasBufferContext.drawImage(car_img, car.x, car.y);
+        _canvasBufferContext.drawImage(car.img, car.x, car.y);
 	_canvasBufferContext.drawImage(title_img, title.x, title.y);
         _canvasContext.drawImage(_canvasBuffer, 0 , 0);
 	
