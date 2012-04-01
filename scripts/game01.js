@@ -1,3 +1,4 @@
+
 var _canvas = document.getElementById('game');
 var _canvasContext = null;
 
