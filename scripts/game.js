@@ -1,46 +1,27 @@
 game.fps = 50;
 
 
-mobile_object = function(){
-this.x = 0;
-this.y = 0;
-this.z = 0;
+mobile_object = function(x,y,v){
+this.x = x;
+this.y = y;
+this.v = v;
 //var img = new Image();
 //img.src = "./content/images/car.png";
 }
 
-var title = new mobile_object();
-title.x = 800;
-title.y = 200;
-title.v = -6;
-
-var car = new mobile_object();
-car.x = 0;
-car.y = 400;
-car.v = 5;
+var title = new mobile_object(800,200,-6);
+var car = new mobile_object(0,400,5);
+var jim = new mobile_object(300,500,-2);
+var draw_jim = 'false';
+var max = new mobile_object(600,400,-.5);
+var draw_max = 'false';
+var truck = new mobile_object(800,400,-7);
 
 var screen_name = 'road';
 var pause = 'false';
 var pause_time = 0;
 var play_intro = 'true';
 
-var jim = new mobile_object();
-jim.x = 300;
-jim.y = 500;
-jim.v = - 2;
-var draw_jim = 'false';
-
-var max = new mobile_object();
-max.x = 600;
-max.y = 400;
-max.v = - .5;
-var draw_max = 'false';
-
-
-var truck = new mobile_object();
-truck.x = 800;
-truck.y = 400;
-truck.v = -7;
 
 var _canvas = document.getElementById('game');
 var _canvasContext = null;
