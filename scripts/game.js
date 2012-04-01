@@ -1,45 +1,38 @@
-game.fps = 50;
-
-
-mobile_object = function(draw,x,y,v,src){
+mobile_object = function(draw,x,y,vx,vy,src){
 this.draw = draw;
 this.x = x;
 this.y = y;
-this.v = v;
+this.vx = vx;
+this.vy = vy;
 this.img = new Image();
 this.img.src = src;
 }
 
-var title = new mobile_object(true,800,200,-6);
-var car = new mobile_object(true,0,400,5,"./content/images/car.png");
-var jim = new mobile_object(false,300,500,-2);
-//var draw_jim = 'false';
-var max = new mobile_object(false,600,400,-.5);
-///var draw_max = 'false';
-var truck = new mobile_object(true,800,400,-7);
+background = function(screen_name,src) {
+this.screen_name = screen_name;
+this.img = new Image();
+this.img.src = src;
+}
 
-var screen_name = 'road';
-var pause = 'false';
-var pause_time = 0;
-var play_intro = 'true';
+//instantiate mobs
+var title = new mobile_object(true,800,200,-6,0,"./content/images/title.png");
+var car = new mobile_object(true,0,400,5,0,"./content/images/car.png");
+var jim = new mobile_object(false,300,500,-2,0,"./content/images/jim.png");
+var max = new mobile_object(false,600,400,-.5,-.5,"./content/images/max.png");
+var truck = new mobile_object(true,800,400,-9,0,"./content/images/truck.png");
 
+//instantiate backgrounds
+var back = new background('road',"./content/images/back_road.png")
 
+//init filthy global variables
+game.pause = 'false';
+game.pause_time = 0;
+game.play_intro = 'true';
+game.fps = 50;
+
+//init canvas and buffer
 var _canvas = document.getElementById('game');
 var _canvasContext = null;
-
-//var car_img = new Image();
-//car_img.src = "./content/images/car.png";
-
-var back_img = new Image();
-back_img.src = "./content/images/back_road.png";
-var jim_img = new Image();
-jim_img.src = "./content/images/jim.png";
-var truck_img = new Image();
-truck_img.src = "./content/images/truck.png";
-var title_img = new Image();
-title_img.src = "./content/images/title.png";
-var max_img = new Image();
-max_img.src = "./content/images/max.png";
 
 if (_canvas && _canvas.getContext) {
     _canvasContext = _canvas.getContext('2d');
@@ -52,6 +45,7 @@ _canvasBuffer.height = _canvas.height;
 
 }
 
+//init sounds
 var snd = new Audio("./content/sounds/intro.mp3");
 var snd_bye = new Audio("./content/sounds/bye.wav");
 var snd_traffic = new Audio("./content/sounds/traffic.wav");
@@ -66,115 +60,115 @@ game.run = function () {
 }
 
 game.update = function() {
+    //all this nonsense plays an intro cutscene thing
     if (title.x > 200) {
-	title.x = title.x + title.v;
+	title.x = title.x + title.vx;
     }
-    if (screen_name == 'road_3'){
-    truck.x = truck.x + truck.v;
+    if (back.screen_name == 'road_3'){
+    truck.x = truck.x + truck.vx;
     }
-    car.x = car.x + car.v;
-    if (play_intro == 'true') {
+    car.x = car.x + car.vx;
+    if (game.play_intro == 'true') {
 	snd.play();
 	//snd_traffic.play();
-	play_intro = 'false';
+	game.play_intro = 'false';
     }
-    if (car.x > 850 && screen_name == 'road') { 
+    if (car.x > 850 && back.screen_name == 'road') { 
         car.x = 0;
-        back_img.src = "./content/images/back_school.png";
-	title_img.src = "./content/images/title_2.png";
+        back.img.src = "./content/images/back_school.png";
+	title.img.src = "./content/images/title_2.png";
 	title.x = 800;
-        screen_name = 'school';
-        pause_time = 0;
+        back.screen_name = 'school';
+        game.pause_time = 0;
 	//snd_traffic.play();
      }
-    if (car.x == 600 && screen_name == 'school') {         
-        car.v = 0;
-        pause = 'true';
+    if (car.x == 600 && back.screen_name == 'school') {         
+        car.vx = 0;
+        game.pause = 'true';
 	max.draw = true;        
      }
     
-    if (pause == 'true') {
-	if (pause_time == 0 && screen_name == 'school') {
+    if (game.pause == 'true') {
+	if (game.pause_time == 0 && back.screen_name == 'school') {
 	snd_bye.play();
 	
 	}
-        pause_time = pause_time + 1;
-        if (screen_name == 'school') {car.x = 601;}
-	if (screen_name == 'base' && car.x == 300) {
+        game.pause_time = game.pause_time + 1;
+        if (back.screen_name == 'school') {car.x = 601;}
+	if (back.screen_name == 'base' && car.x == 300) {
 	car.x = 301; 
 	snd_thunder.play();
 	}
     }
-    if (pause_time > 150 && screen_name == 'school') {
-        car.v = 5;
-        pause = 'false';
+    if (game.pause_time > 150 && back.screen_name == 'school') {
+        car.vx = 5;
+        game.pause = 'false';
     }
 
-     if (car.x > 850 && screen_name == 'school') { 
+     if (car.x > 850 && back.screen_name == 'school') { 
         car.x = 0;
         car.y = 450;
-        back_img.src = "./content/images/back_road_2.png";
-        screen_name = 'road_2';
-	title_img.src = "./content/images/title_3.png";
+        back.img.src = "./content/images/back_road_2.png";
+        back.screen_name = 'road_2';
+	title.img.src = "./content/images/title_3.png";
 	title.x = 800;
 	max.draw = false;
 	//snd_traffic.play();
     }    
 
-    if (car.x > 850 && screen_name == 'road_2') { 
+    if (car.x > 850 && back.screen_name == 'road_2') { 
         car.x = 0;
         car.y = 500;
-        back_img.src = "./content/images/back_road_3.png";
-        screen_name = 'road_3';
-	title_img.src = "./content/images/title_4.png";
+        back.img.src = "./content/images/back_road_3.png";
+        back.screen_name = 'road_3';
+	title.img.src = "./content/images/title_4.png";
 	title.x = 800;
-        pause_time = 0;
+        game.pause_time = 0;
 	snd_traffic.play();
      }    
 
-    if (car.x > 850 && screen_name == 'road_3') { 
+    if (car.x > 850 && back.screen_name == 'road_3') { 
         car.x = 0;
         car.y = 500;
-        back_img.src = "./content/images/back_fsf_base.png";
-        screen_name = 'base';
-	title_img.src = "./content/images/title_main.png";
+        back.img.src = "./content/images/back_fsf_base.png";
+        back.screen_name = 'base';
+	title.img.src = "./content/images/title_main.png";
 	title.x = 800;
-        pause_time = 0;
+        game.pause_time = 0;
 	//snd_traffic.play();
      }    
-        if (car.x == 300 && screen_name == 'base') {
+        if (car.x == 300 && back.screen_name == 'base') {
 	jim.draw = true;         
-        car.v = 0;
-        pause = 'true'; 
-	snd.stop();
+        car.vx = 0;
+        game.pause = 'true'; 
+	//snd.stop();
 	snd_traffic.play();
 	truckx = 800;	       
      }
      if (jim.draw == true) {
-	jim.x = jim.x + jim.v;
+	jim.x = jim.x + jim.vx;
      }
 	if (max.draw == true) {
-	max.x = max.x + max.v;
-	max.y = max.y - .5;
+	max.x = max.x + max.vx;
+	max.y = max.y + max.vy;
      }
 
 }   
 
 game.draw = function() {
 
-        //_canvasContext.clearRect(0,0,_canvas.width,_canvas.height);
+	_canvasContext.clearRect(0,0,_canvas.width,_canvas.height);
         _canvasBufferContext.clearRect(0,0,_canvas.width,_canvas.height);
-        _canvasBufferContext.drawImage(back_img, 0, 0);
+        _canvasBufferContext.drawImage(back.img, 0, 0);
         if (jim.draw == true) {
-        _canvasBufferContext.drawImage(jim_img, jim.x, jim.y);	
+        _canvasBufferContext.drawImage(jim.img, jim.x, jim.y);	
 	}
-	        if (max.draw == true) {
-        _canvasBufferContext.drawImage(max_img, max.x, max.y);	
+	if (max.draw == true) {
+        _canvasBufferContext.drawImage(max.img, max.x, max.y);	
 	}
-
-	_canvasBufferContext.drawImage(truck_img, truck.x, truck.y);
+	_canvasBufferContext.drawImage(truck.img, truck.x, truck.y);
         _canvasBufferContext.drawImage(car.img, car.x, car.y);
-	_canvasBufferContext.drawImage(title_img, title.x, title.y);
+	_canvasBufferContext.drawImage(title.img, title.x, title.y);
         _canvasContext.drawImage(_canvasBuffer, 0 , 0);
 	
 }
