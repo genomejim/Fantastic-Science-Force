@@ -62,7 +62,12 @@ game_base.run = function () {
 game_base.update = function(event) {
 
 //add ai etc in here
-
+    if (jim.x > _canvas.width -1 ) {
+        //scene transition
+        back.img.src = "./content/images/elevator.png";
+        back.screen_name = 'elevator';
+        jim.x = 0;
+    }
 }
 
 game_base.draw = function() {
@@ -83,45 +88,46 @@ function move (event) {
 
 
     if (event){
-    var key = event.keyCode;
+        var key = event.keyCode;
 
-    switch (key) {
+        switch (key) {
     
-case 87: // W
-    if (jim.y > box.yorigin){
-
-    
-    jim.y = jim.y - jim.speed;
-    } 
-    
-break;
+    case 87: // W
+        if (jim.y > box.yorigin){
 
     
+            jim.y = jim.y - jim.speed;
+        } 
+    
+    break;
+
+        
 
 case 65: // A
 
-    jim.x = jim.x - jim.speed;
+        if (jim.x > box.xorigin){
+            jim.x = jim.x - jim.speed;
+        }
+        break;
 
+
+        case 68: // D
+        if (jim.x < box.xorigin + box.xsize){
+        jim.x = jim.x + jim.speed;
+        }
+    
     break;
 
 
 
-    case 68: // D
-    jim.x = jim.x + jim.speed;
-    
+        case 83: // S
+
+        if (jim.y < box.yorigin + box.ysize - jim.height){
+            jim.y = jim.y + jim.speed;
+        }
+        
 break;
 
-
-
-    case 83: // S
-
-    if (jim.y < box.yorigin + box.ysize - jim.height){
-    jim.y = jim.y + jim.speed;
-    
-break;
-
-
-    }
 
 
 }
