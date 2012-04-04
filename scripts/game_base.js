@@ -33,6 +33,10 @@ this.right_transition = right_transition;
 
 //instantiate character
 var jim = new character (true,10,50,500,"./content/images/jim.png",48);
+//instantiate npc
+var redshirt = new character (true,10,300,500,"./content/images/redshirt.png",48);
+var blueshirt = new character (true,10,700,500,"./content/images/female_blueshirt.png",48);
+
 
 //instantiate scenes (formerly background)
 var box = new walkbox(800,100,0,450);
@@ -78,14 +82,20 @@ game_base.update = function(event) {
 	elevator.draw = true;
 	lobby.draw = false;
         jim.x = 1;
+	redshirt.draw = false;
+        blueshirt.draw = false;
     }else if (jim.x < 1 && elevator.draw){
         elevator.draw = false;
 	lobby.draw = true;
 	jim.x = _canvas.width -2;
+        redshirt.draw = true;
+        blueshirt.draw = true;
+
     }else if (jim.y < box.yorigin + 1 && jim.x > 325 && elevator.draw){
         elevator.draw = false;
         elevator_interior.draw = true;
         jim.x = 450;
+	
     }
     else if (jim.y > 499 && elevator_interior.draw){
         elevator_interior.draw = false;
@@ -110,6 +120,14 @@ game_base.draw = function() {
             _canvasBufferContext.drawImage(elevator_interior.img, 0, 0);
         }
         
+        //draw active npcs
+        if (redshirt.draw == true) {
+            _canvasBufferContext.drawImage(redshirt.img, redshirt.x, redshirt.y);	
+	}
+        if (blueshirt.draw == true) {
+            _canvasBufferContext.drawImage(blueshirt.img, blueshirt.x, blueshirt.y);	
+	}
+
         //draw active character
         if (jim.draw == true) {
             _canvasBufferContext.drawImage(jim.img, jim.x, jim.y);	
