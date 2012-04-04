@@ -32,10 +32,10 @@ this.right_transition = right_transition;
 //}
 
 //instantiate character
-var jim = new character (true,10,50,500,"./content/images/jim_right.png",48);
+var jim = new character (true,10,50,500,"./content/images/jim_right.png",96);
 //instantiate npc
-var redshirt = new character (true,10,300,500,"./content/images/redshirt.png",48);
-var blueshirt = new character (true,10,700,500,"./content/images/female_blueshirt.png",48);
+var redshirt = new character (true,10,300,500,"./content/images/redshirt.png",96);
+var blueshirt = new character (true,10,700,500,"./content/images/female_blueshirt.png",96);
 
 
 //instantiate scenes (formerly background)
@@ -68,13 +68,17 @@ _canvasBuffer.height = _canvas.height;
 
 game_base.run = function () {
     
+    
     game_base.update();
     game_base.draw();
     
 
 }
+var snd_lobby = new Audio("./content/sounds/mystery.mp3");
 
 game_base.update = function(event) {
+
+    snd_lobby.play();
 
 //add ai, scene transition etc in here
     if (jim.x > _canvas.width -1 && lobby.draw ) {
@@ -104,6 +108,9 @@ game_base.update = function(event) {
         //jim.y = box.yorigin + 2;
         jim.y = 500;
     }
+
+    redshirt.x = redshirt.x + 1;
+    blueshirt.x = blueshirt.x -1;
 }
 
 game_base.draw = function() {
@@ -177,7 +184,7 @@ case 65: // A
 
         case 83: // S
 
-        if (jim.y < box.yorigin + box.ysize - jim.height){
+        if (jim.y < box.yorigin + box.ysize -jim.height/2){
             jim.y = jim.y + jim.speed;
         }
         
