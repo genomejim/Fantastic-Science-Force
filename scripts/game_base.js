@@ -32,13 +32,14 @@ this.right_transition = right_transition;
 //}
 
 //instantiate character
-var jim = new character (true,5,50,500,"./content/images/jim.png",48);
+var jim = new character (true,10,50,500,"./content/images/jim.png",48);
 
 //instantiate scenes (formerly background)
-//var back = new background('lobby',"./content/images/lobby.png");
 var box = new walkbox(800,100,0,450);
 var lobby = new scene(true,'lobby',"./content/images/lobby.png",'lobby','elevator');
 var elevator = new scene(false,'elevator',"./content/images/elevator.png",'lobby','elevator');
+var elevator_interior = new scene(false,'elevator_interior',"./content/images/elevator_interior.png",'elevator','lab');
+
 
 //init filthy global variables
 game_base.fps = 50;
@@ -76,13 +77,22 @@ game_base.update = function(event) {
         //scene transition
 	elevator.draw = true;
 	lobby.draw = false;
-        //back.img.src = "./content/images/elevator.png";
-        //back.screen_name = 'elevator';
         jim.x = 1;
     }else if (jim.x < 1 && elevator.draw){
         elevator.draw = false;
 	lobby.draw = true;
 	jim.x = _canvas.width -2;
+    }else if (jim.y < box.yorigin + 1 && jim.x > 325 && elevator.draw){
+        elevator.draw = false;
+        elevator_interior.draw = true;
+        jim.x = 450;
+    }
+    else if (jim.y > 499 && elevator_interior.draw){
+        elevator_interior.draw = false;
+        elevator.draw = true;
+        jim.x = 425;
+        //jim.y = box.yorigin + 2;
+        jim.y = 500;
     }
 }
 
@@ -90,18 +100,23 @@ game_base.draw = function() {
 
 	_canvasContext.clearRect(0,0,_canvas.width,_canvas.height);
         _canvasBufferContext.clearRect(0,0,_canvas.width,_canvas.height);
+
+        //draw active scene        
         if (lobby.draw){
             _canvasBufferContext.drawImage(lobby.img, 0, 0);
         } else if (elevator.draw){
             _canvasBufferContext.drawImage(elevator.img, 0, 0);
+        } else if (elevator_interior.draw){
+            _canvasBufferContext.drawImage(elevator_interior.img, 0, 0);
         }
+        
+        //draw active character
         if (jim.draw == true) {
             _canvasBufferContext.drawImage(jim.img, jim.x, jim.y);	
 	}
         _canvasContext.drawImage(_canvasBuffer, 0 , 0);	
 }
 
-//game_base._intervalID = setInterval(game_base.run, 1000 / game_base.fps);
 
 
 function move (event) {
