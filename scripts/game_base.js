@@ -16,13 +16,14 @@ this.xorigin = xorigin;
 this.yorigin = yorigin;
 }
 
-scene = function(draw,scene_name,src,left_transition,right_transition) {
+scene = function(draw,scene_name,src,left_transition,right_transition,play_intro) {
 this.draw = draw;
 this.scene_name = scene_name;
 this.img = new Image();
 this.img.src = src;
 this.left_transition = left_transition;
 this.right_transition = right_transition;
+this.play_intro = play_intro;
 }
 
 //background = function(screen_name,src) {
@@ -40,10 +41,12 @@ var blueshirt = new character (true,10,700,500,"./content/images/female_blueshir
 
 //instantiate scenes (formerly background)
 var box = new walkbox(800,100,0,450);
-var lobby = new scene(true,'lobby',"./content/images/lobby.png",'lobby','elevator');
+var lobby = new scene(true,'lobby',"./content/images/lobby.png",'lobby','elevator',true);
 var elevator = new scene(false,'elevator',"./content/images/elevator.png",'lobby','elevator');
 var elevator_interior = new scene(false,'elevator_interior',"./content/images/elevator_interior.png",'elevator','lab');
 
+//init sounds
+var snd_lobby = new Audio("./content/sounds/lobby.mp3");
 
 //init filthy global variables
 game_base.fps = 50;
@@ -74,12 +77,14 @@ game_base.run = function () {
     
 
 }
-var snd_lobby = new Audio("./content/sounds/mystery.mp3");
+
 
 game_base.update = function(event) {
 
-    snd_lobby.play();
-
+if (lobby.play_intro == true) {
+	snd_lobby.play();
+	lobby.play_intro = false;
+    }
 //add ai, scene transition etc in here
     if (jim.x > _canvas.width -1 && lobby.draw ) {
         //scene transition
