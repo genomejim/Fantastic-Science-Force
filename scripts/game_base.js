@@ -32,7 +32,7 @@ this.right_transition = right_transition;
 //}
 
 //instantiate character
-var jim = new character (true,10,50,500,"./content/images/jim.png",48);
+var jim = new character (true,10,50,500,"./content/images/jim_right.png",48);
 //instantiate npc
 var redshirt = new character (true,10,300,500,"./content/images/redshirt.png",48);
 var blueshirt = new character (true,10,700,500,"./content/images/female_blueshirt.png",48);
@@ -160,13 +160,15 @@ case 65: // A
 
         if (jim.x > box.xorigin){
             jim.x = jim.x - jim.speed;
+            jim.img.src = "./content/images/jim_left.png";
         }
         break;
 
 
         case 68: // D
         if (jim.x < box.xorigin + box.xsize){
-        jim.x = jim.x + jim.speed;
+            jim.x = jim.x + jim.speed;
+            jim.img.src = "./content/images/jim_right.png";
         }
     
     break;
@@ -176,7 +178,6 @@ case 65: // A
         case 83: // S
 
         if (jim.y < box.yorigin + box.ysize - jim.height){
-        //if (jim.y < box.yorigin + box.ysize){
             jim.y = jim.y + jim.speed;
         }
         
