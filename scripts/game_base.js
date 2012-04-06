@@ -1,47 +1,14 @@
-character = function(draw,speed,x,y,src,height){
-this.draw = draw;
-this.speed = speed;
-this.x = x;
-this.y = y;
-this.src = src;
-this.img = new Image();
-this.img.src = src;
-this.height = height;
-}
-
-walkbox = function(xsize,ysize,xorigin,yorigin) {
-this.xsize = xsize;
-this.ysize = ysize;
-this.xorigin = xorigin;
-this.yorigin = yorigin;
-}
-
-scene = function(draw,scene_name,src,left_transition,right_transition,play_intro) {
-this.draw = draw;
-this.scene_name = scene_name;
-this.img = new Image();
-this.img.src = src;
-this.left_transition = left_transition;
-this.right_transition = right_transition;
-this.play_intro = play_intro;
-}
-
-//background = function(screen_name,src) {
-//this.screen_name = screen_name;
-//this.img = new Image();
-//this.img.src = src;
-//}
-
 //instantiate character
-var jim = new character (true,10,50,500,"./content/images/jim_right.png",96);
+var jim = new character (true,10,50,400,"./content/images/robin.png",150);
 //instantiate npc
-var redshirt = new character (true,10,300,500,"./content/images/redshirt.png",96);
-var blueshirt = new character (true,10,700,500,"./content/images/female_blueshirt.png",96);
+var redshirt = new character (false,10,300,500,"./content/images/redshirt.png",96);
+var blueshirt = new character (false,10,700,500,"./content/images/female_blueshirt.png",96);
+var robin = new character (true,10,600,400,"./content/images/batman_left.png",96);
 
 
 //instantiate scenes (formerly background)
-var box = new walkbox(800,100,0,450);
-var lobby = new scene(true,'lobby',"./content/images/lobby.png",'lobby','elevator',true);
+var box = new walkbox(800,200,0,350);
+var lobby = new scene(true,'lobby',"./content/images/batcave.png",'lobby','elevator',true);
 var elevator = new scene(false,'elevator',"./content/images/elevator.png",'lobby','elevator');
 var elevator_interior = new scene(false,'elevator_interior',"./content/images/elevator_interior.png",'elevator','lab');
 
@@ -93,12 +60,14 @@ if (lobby.play_intro == true) {
         jim.x = 1;
 	redshirt.draw = false;
         blueshirt.draw = false;
+        robin.draw = false;
     }else if (jim.x < 1 && elevator.draw){
         elevator.draw = false;
 	lobby.draw = true;
 	jim.x = _canvas.width -2;
         redshirt.draw = true;
         blueshirt.draw = true;
+        robin.draw = true;
 
     }else if (jim.y < box.yorigin + 1 && jim.x > 325 && elevator.draw){
         elevator.draw = false;
@@ -106,16 +75,17 @@ if (lobby.play_intro == true) {
         jim.x = 450;
 	
     }
-    else if (jim.y > 499 && elevator_interior.draw){
+    else if (jim.y > 350 && elevator_interior.draw){
         elevator_interior.draw = false;
         elevator.draw = true;
         jim.x = 425;
         //jim.y = box.yorigin + 2;
-        jim.y = 500;
+        jim.y = 400;
     }
 
     redshirt.x = redshirt.x + 1;
     blueshirt.x = blueshirt.x -1;
+    //robin.x = robin.x - 2;
 }
 
 game_base.draw = function() {
@@ -138,6 +108,9 @@ game_base.draw = function() {
 	}
         if (blueshirt.draw == true) {
             _canvasBufferContext.drawImage(blueshirt.img, blueshirt.x, blueshirt.y);	
+	}
+        if (robin.draw == true) {
+            _canvasBufferContext.drawImage(robin.img, robin.x, robin.y);	
 	}
 
         //draw active character
@@ -172,7 +145,7 @@ case 65: // A
 
         if (jim.x > box.xorigin){
             jim.x = jim.x - jim.speed;
-            jim.img.src = "./content/images/jim_left.png";
+            jim.img.src = "./content/images/robin.png";
         }
         break;
 
@@ -180,7 +153,7 @@ case 65: // A
         case 68: // D
         if (jim.x < box.xorigin + box.xsize){
             jim.x = jim.x + jim.speed;
-            jim.img.src = "./content/images/jim_right.png";
+            jim.img.src = "./content/images/robin.png";
         }
     
     break;
@@ -189,7 +162,7 @@ case 65: // A
 
         case 83: // S
 
-        if (jim.y < box.yorigin + box.ysize -jim.height/2){
+        if (jim.y < box.yorigin + box.ysize - jim.height){
             jim.y = jim.y + jim.speed;
         }
         
