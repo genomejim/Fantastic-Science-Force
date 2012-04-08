@@ -10,28 +10,41 @@ var npcs = new Object;
 var scenes = new Object;
 
 //create an object to use as an associative array to store enemies
-var enemies = new Object;
+//var enemies = new Object;
 
 //instantiate character and stuff him in the associative array chars
-var jim = new character (true,10,50,505,"./content/images/meepo.png",96,'lobby');
+var jim = new character (true,10,50,505,"./content/images/jim_right.png",96,'lobby','hero',100,'active');
 chars.jim = jim;
 var spidey = new character (false,10,120,505,"./content/images/spidey.png",96,'lobby');
 chars.spidey = spidey;
 
-//instantiate enemies and stuff them in the associative array enemies (and npcs for now)
-var ninja = new character (false,10,220,505,"./content/images/ninja_left.png",96,'elevator');
-var ettrigan = new character (false,10,220,505,"./content/images/ettrigan.png",96,'lab1');
-enemies.ninja = ninja;
+//instantiate enemies and stuff them in the associative array npcs (for now)
+var ninja = new character (false,2,500,505,"./content/images/ninja_left.png",96,'elevator','enemy',50,'active');
+var ninja2 = new character (false,2,700,511,"./content/images/ninja_left.png",96,'elevator','enemy',50,'active');
+var ninja3 = new character (false,2,400,413,"./content/images/ninja_left.png",96,'lab1','enemy',50,'active');
+//var ettrigan = new characte (false,1,500,505,"./content/images/ettrigan.png",96,'lab1','enemy',50,'active');
+var ettrigan = new character (false,1,500,505,"./content/images/ninja_left.png",96,'lab1','enemy',50,'active');
+var ninja4 = new character (false,2,600,513,"./content/images/ninja_left.png",96,'lab2','enemy',50,'active');
+var ninja5 = new character (false,2,400,423,"./content/images/ninja_left.png",96,'lab2','enemy',50,'active');
+
+
+//enemies.ninja = ninja;
 npcs.ninja = ninja;
 npcs.ettrigan = ettrigan;
+npcs.ninja2 = ninja2;
+npcs.ninja3 = ninja3;
+npcs.ninja4 = ninja4;
+npcs.ninja5 = ninja5;
 
 //instantiate npcs and stuff them in the associative array npcs
 var redshirt = new character (true,10,300,500,"./content/images/redshirt.png",96,'lobby');
 var blueshirt = new character (true,10,700,500,"./content/images/female_blueshirt.png",96,'lobby');
 var armor = new character (true,10,600,505,"./content/images/jim_left_white_armor.png",96,'lobby');
+var meepo = new character (false,10,600,505,"./content/images/meepo.png",96,'lab2');
 npcs.redshirt = redshirt;
 npcs.blueshirt = blueshirt;
 npcs.armor = armor;
+npcs.meepo = meepo;
 
 //instantiate scenes and stuff them in the associative array scenes
 var lobby = new scene(true,'lobby',"./content/images/lobby.png",'none','elevator',true);
@@ -51,12 +64,17 @@ var box = new walkbox(750,200,0,400);
 
 //init sounds
 var snd_lobby = new Audio("./content/sounds/lobby.mp3");
+var snd_hit = new Audio("./content/sounds/thunder.wav");
 
 //init filthy global variables
 game_base.fps = 50;
 
 //event handler for movement
 document.onkeydown = move;
+
+var combat_text = function(){
+var text = ' ';
+}
 
 //init canvas and buffer
 var _canvas = document.getElementById('game_base');
@@ -71,6 +89,11 @@ if (_canvas && _canvas.getContext) {
 _canvasBuffer.height = _canvas.height;
     _canvasBufferContext = _canvasBuffer.getContext('2d');
 
+    _canvasBufferContext.fillStyle    = '#00f';
+    _canvasBufferContext.font         = 'italic 30px sans-serif';
+    _canvasBufferContext.textBaseline = 'top';
+    //_canvasBufferContext.fillText  ('Hello world!', 0, 0);
+    //_canvasBufferContext.font         = 'bold 30px sans-serif';
 }
 
 
@@ -127,6 +150,44 @@ if (lobby.play_intro == true) {
     redshirt.x = redshirt.x + 1;
 //    blueshirt.x = blueshirt.x -1;
     armor.x = armor.x - 2;
+
+//check for combat
+    for (var i in npcs){
+        if (npcs[i].draw && npcs[i].type == 'enemy' && npcs[i].state == 'active'){
+            //entering combat
+            if (chars.jim.x > npcs[i].x +50) {
+                npcs[i].x = npcs[i].x + npcs[i].speed;
+            } else if (chars.jim.x < npcs[i].x -50) {
+                npcs[i].x = npcs[i].x - npcs[i].speed;
+            }
+            if (chars.jim.y > npcs[i].y) {
+                npcs[i].y = npcs[i].y + npcs[i].speed;
+            } else if (chars.jim.y < npcs[i].y) {
+                npcs[i].y = npcs[i].y - npcs[i].speed;
+            }
+            if (Math.abs(chars.jim.x - npcs[i].x) < 100) {
+                snd_hit.play();
+                chars.jim.hp = chars.jim.hp - 2;
+                npcs[i].hp = npcs[i].hp -2;
+                //combat_text.text = '5';
+                //_canvasBufferContext.strokeText('Hello world!', 0, 50);
+                //_canvasContext.drawImage(_canvasBuffer, 0 , 0);	
+            }
+            if (chars.jim.hp < 0){
+                chars.jim.state = 'defeated';
+                chars.jim.img.src = "./content/images/jim_defeated.png";
+            }
+            if (npcs[i].hp < 0){
+                 npcs[i].state = 'defeated';
+                 npcs[i].img.src = "./content/images/ninja_defeated.png";
+		 chars.jim.hp = chars.jim.hp + 25;
+            }
+                
+        }
+    }
+    if (chars.jim.hp < 25 && chars.jim.state != 'defeated'){
+        chars.jim.hp = chars.jim.hp + 1;
+    } 
 }
 
 game_base.draw = function() {
@@ -158,6 +219,8 @@ game_base.draw = function() {
             }
                 
         }
+
+        _canvasBufferContext.fillText(chars.jim.hp, chars.jim.x + 25, chars.jim.y - 50);
         _canvasContext.drawImage(_canvasBuffer, 0 , 0);	
 }
 
@@ -194,7 +257,7 @@ case 65: // A
         case 68: // D
         if (jim.x < box.xorigin + box.xsize){
             jim.x = jim.x + jim.speed;
-            jim.img.src = "./content/images/meepo.png";
+            jim.img.src = "./content/images/jim_right.png";
         }
     
     break;
