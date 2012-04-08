@@ -38,9 +38,9 @@ npcs.ninja5 = ninja5;
 
 //instantiate npcs and stuff them in the associative array npcs
 var redshirt = new character (true,10,300,500,"./content/images/redshirt.png",96,'lobby');
-var blueshirt = new character (true,10,700,500,"./content/images/female_blueshirt.png",96,'lobby');
+var blueshirt = new character (true,10,600,500,"./content/images/female_blueshirt.png",96,'lobby','quest',50,'active','Save the Lemur!');
 var armor = new character (true,10,600,505,"./content/images/jim_left_white_armor.png",96,'lobby');
-var meepo = new character (false,10,600,505,"./content/images/meepo.png",96,'lab2');
+var meepo = new character (false,10,600,505,"./content/images/meepo.png",96,'lab2','quest',50,'active','Thanks, Im Saved!');
 npcs.redshirt = redshirt;
 npcs.blueshirt = blueshirt;
 npcs.armor = armor;
@@ -107,7 +107,7 @@ game_base.update = function(event) {
 
 //play song the first time the player enters the lobby
 if (lobby.play_intro == true) {
-	snd_lobby.play();
+	//snd_lobby.play();
 	lobby.play_intro = false;
     }
 //transition to scene to the right
@@ -151,9 +151,10 @@ if (lobby.play_intro == true) {
 //    blueshirt.x = blueshirt.x -1;
     armor.x = armor.x - 2;
 
+
 //check for combat
     for (var i in npcs){
-        if (npcs[i].draw && npcs[i].type == 'enemy' && npcs[i].state == 'active'){
+        if (npcs[i].draw && npcs[i].type == 'enemy' && npcs[i].state == 'active' && chars.jim.state == 'active'){
             //entering combat
             if (chars.jim.x > npcs[i].x +50) {
                 npcs[i].x = npcs[i].x + npcs[i].speed;
@@ -168,7 +169,9 @@ if (lobby.play_intro == true) {
             if (Math.abs(chars.jim.x - npcs[i].x) < 100) {
                 snd_hit.play();
                 chars.jim.hp = chars.jim.hp - 2;
-                npcs[i].hp = npcs[i].hp -2;
+                if (chars.jim.state == 'active'){
+                    npcs[i].hp = npcs[i].hp -2;
+                }
                 //combat_text.text = '5';
                 //_canvasBufferContext.strokeText('Hello world!', 0, 50);
                 //_canvasContext.drawImage(_canvasBuffer, 0 , 0);	
@@ -219,8 +222,28 @@ game_base.draw = function() {
             }
                 
         }
+        //combat text
+        for (var i in npcs) {
+            if (npcs[i].draw && npcs[i].type == 'enemy'){
+                _canvasBufferContext.fillStyle    = '#f00';
+                _canvasBufferContext.fillText(npcs[i].hp, npcs[i].x + 25, npcs[i].y - 50);
+            }   
+        }
+       //check for npc text
+        for (var i in npcs){
+            if (npcs[i].draw && npcs[i].type == 'quest' && npcs[i].state == 'active' && chars.jim.state == 'active'){
+            //entering quest
+                if (Math.abs(chars.jim.x - npcs[i].x) < 100) {
+                    //snd_hit.play();
+                    _canvasBufferContext.fillStyle    = '#00f';
+                    _canvasBufferContext.fillText(npcs[i].text, npcs[i].x - 100, npcs[i].y - 75);
+                }
+            }
+        }
+        _canvasBufferContext.fillStyle    = '#0f0';
+        _canvasBufferContext.fillText(chars.jim.hp, chars.jim.x + 40, chars.jim.y - 50);
+        
 
-        _canvasBufferContext.fillText(chars.jim.hp, chars.jim.x + 25, chars.jim.y - 50);
         _canvasContext.drawImage(_canvasBuffer, 0 , 0);	
 }
 
@@ -229,7 +252,7 @@ game_base.draw = function() {
 function move (event) {
 
 
-    if (event){
+    if (event && chars.jim.state != 'defeated'){
         var key = event.keyCode;
 
         switch (key) {

@@ -1,4 +1,4 @@
-character = function(draw,speed,x,y,src,height,scene,type,hp,state){
+character = function(draw,speed,x,y,src,height,scene,type,hp,state,text){
 this.draw = draw;
 this.speed = speed;
 this.x = x;
@@ -11,4 +11,5 @@ this.scene = scene;
 this.type = type;
 this.hp = hp;
 this.state = state;
+this.text = text;
 }
