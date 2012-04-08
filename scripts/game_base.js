@@ -1,16 +1,53 @@
-//instantiate character
-var jim = new character (true,10,50,400,"./content/images/robin.png",150);
-//instantiate npc
-var redshirt = new character (false,10,300,500,"./content/images/redshirt.png",96);
-var blueshirt = new character (false,10,700,500,"./content/images/female_blueshirt.png",96);
-var robin = new character (true,10,600,400,"./content/images/batman_left.png",96);
+//big mess of inits that needs to get broken out up top
 
+//create an object to use as an associative array to store characters
+var chars = new Object;
 
-//instantiate scenes (formerly background)
-var box = new walkbox(800,200,0,350);
-var lobby = new scene(true,'lobby',"./content/images/batcave.png",'lobby','elevator',true);
-var elevator = new scene(false,'elevator',"./content/images/elevator.png",'lobby','elevator');
-var elevator_interior = new scene(false,'elevator_interior',"./content/images/elevator_interior.png",'elevator','lab');
+//create an object to use as an associative array to store npcs
+var npcs = new Object;
+
+//create an object to use as an associative array to store scenes
+var scenes = new Object;
+
+//create an object to use as an associative array to store enemies
+var enemies = new Object;
+
+//instantiate character and stuff him in the associative array chars
+var jim = new character (true,10,50,505,"./content/images/meepo.png",96,'lobby');
+chars.jim = jim;
+var spidey = new character (false,10,120,505,"./content/images/spidey.png",96,'lobby');
+chars.spidey = spidey;
+
+//instantiate enemies and stuff them in the associative array enemies (and npcs for now)
+var ninja = new character (false,10,220,505,"./content/images/ninja_left.png",96,'elevator');
+var ettrigan = new character (false,10,220,505,"./content/images/ettrigan.png",96,'lab1');
+enemies.ninja = ninja;
+npcs.ninja = ninja;
+npcs.ettrigan = ettrigan;
+
+//instantiate npcs and stuff them in the associative array npcs
+var redshirt = new character (true,10,300,500,"./content/images/redshirt.png",96,'lobby');
+var blueshirt = new character (true,10,700,500,"./content/images/female_blueshirt.png",96,'lobby');
+var armor = new character (true,10,600,505,"./content/images/jim_left_white_armor.png",96,'lobby');
+npcs.redshirt = redshirt;
+npcs.blueshirt = blueshirt;
+npcs.armor = armor;
+
+//instantiate scenes and stuff them in the associative array scenes
+var lobby = new scene(true,'lobby',"./content/images/lobby.png",'none','elevator',true);
+var elevator = new scene(false,'elevator',"./content/images/elevator.png",'lobby','elevator_interior');
+var elevator_interior = new scene(false,'elevator_interior',"./content/images/elevator_interior.png",'elevator','lab1');
+var lab1 = new scene(false,'lab1',"./content/images/lab1.png",'elevator_interior','lab2');
+var lab2 = new scene(false,'lab2',"./content/images/lab2.png",'lab1','none');
+
+scenes.lobby = lobby;
+scenes.elevator = elevator;
+scenes.elevator_interior = elevator_interior;
+scenes.lab1 = lab1;
+scenes.lab2 = lab2;
+
+//instantiate the walkbox
+var box = new walkbox(750,200,0,400);
 
 //init sounds
 var snd_lobby = new Audio("./content/sounds/lobby.mp3");
@@ -18,7 +55,7 @@ var snd_lobby = new Audio("./content/sounds/lobby.mp3");
 //init filthy global variables
 game_base.fps = 50;
 
-//attempts at event handlers
+//event handler for movement
 document.onkeydown = move;
 
 //init canvas and buffer
@@ -36,87 +73,91 @@ _canvasBuffer.height = _canvas.height;
 
 }
 
+
 game_base.run = function () {
-    
-    
     game_base.update();
     game_base.draw();
-    
-
 }
 
 
 game_base.update = function(event) {
 
+//play song the first time the player enters the lobby
 if (lobby.play_intro == true) {
 	snd_lobby.play();
 	lobby.play_intro = false;
     }
-//add ai, scene transition etc in here
-    if (jim.x > _canvas.width -1 && lobby.draw ) {
-        //scene transition
-	elevator.draw = true;
-	lobby.draw = false;
-        jim.x = 1;
-	redshirt.draw = false;
-        blueshirt.draw = false;
-        robin.draw = false;
-    }else if (jim.x < 1 && elevator.draw){
-        elevator.draw = false;
-	lobby.draw = true;
-	jim.x = _canvas.width -2;
-        redshirt.draw = true;
-        blueshirt.draw = true;
-        robin.draw = true;
+//transition to scene to the right
+    if (jim.x > _canvas.width - 75  ) {
+        for (var i in scenes){
+            if (scenes[i].draw && scenes[i].right_transition != 'none') {
+                scenes[i].draw = false;
+                scenes[scenes[i].right_transition].draw = true;
+                chars.jim.x = 50;
+                for (var j in npcs){
+                    if (npcs[j].scene == scenes[i].right_transition) {
+                        npcs[j].draw = true;
+                    } else { 
+                        npcs[j].draw = false;
+                    } 
+                }
+                break;
+            }
+        }
+//transition to scene to the left
+    } else if (jim.x < 2) {
+        for (var i in scenes){
+            if (scenes[i].draw && scenes[i].left_transition != 'none') {
+                scenes[i].draw = false;
+                scenes[scenes[i].left_transition].draw = true;
+                chars.jim.x = 700;
+                for (var j in npcs){
+                    if (npcs[j].scene == scenes[i].left_transition) {
+                        npcs[j].draw = true;
+                    } else { 
+                        npcs[j].draw = false;
+                    } 
+                }
+                break;
+            }
+        }
+    }      
 
-    }else if (jim.y < box.yorigin + 1 && jim.x > 325 && elevator.draw){
-        elevator.draw = false;
-        elevator_interior.draw = true;
-        jim.x = 450;
-	
-    }
-    else if (jim.y > 350 && elevator_interior.draw){
-        elevator_interior.draw = false;
-        elevator.draw = true;
-        jim.x = 425;
-        //jim.y = box.yorigin + 2;
-        jim.y = 400;
-    }
-
+//update npcs positions
     redshirt.x = redshirt.x + 1;
-    blueshirt.x = blueshirt.x -1;
-    //robin.x = robin.x - 2;
+//    blueshirt.x = blueshirt.x -1;
+    armor.x = armor.x - 2;
 }
 
 game_base.draw = function() {
-
+        
+        //clear the canvas and the buffer for the next frame
 	_canvasContext.clearRect(0,0,_canvas.width,_canvas.height);
         _canvasBufferContext.clearRect(0,0,_canvas.width,_canvas.height);
 
         //draw active scene        
-        if (lobby.draw){
-            _canvasBufferContext.drawImage(lobby.img, 0, 0);
-        } else if (elevator.draw){
-            _canvasBufferContext.drawImage(elevator.img, 0, 0);
-        } else if (elevator_interior.draw){
-            _canvasBufferContext.drawImage(elevator_interior.img, 0, 0);
+        for (var i in scenes){
+            if (scenes[i].draw){
+                _canvasBufferContext.drawImage(scenes[i].img, 0, 0);       
+            }       
         }
         
         //draw active npcs
-        if (redshirt.draw == true) {
-            _canvasBufferContext.drawImage(redshirt.img, redshirt.x, redshirt.y);	
-	}
-        if (blueshirt.draw == true) {
-            _canvasBufferContext.drawImage(blueshirt.img, blueshirt.x, blueshirt.y);	
-	}
-        if (robin.draw == true) {
-            _canvasBufferContext.drawImage(robin.img, robin.x, robin.y);	
-	}
 
-        //draw active character
-        if (jim.draw == true) {
-            _canvasBufferContext.drawImage(jim.img, jim.x, jim.y);	
-	}
+        for (var i in npcs) {
+            if (npcs[i].draw){
+                _canvasBufferContext.drawImage(npcs[i].img, npcs[i].x, npcs[i].y);
+            }   
+        }
+        
+        //draw active characters from the associative array
+
+        for (var i in chars){
+            if (chars[i].draw){
+                _canvasBufferContext.drawImage(chars[i].img, chars[i].x, chars[i].y);
+            }
+                
+        }
         _canvasContext.drawImage(_canvasBuffer, 0 , 0);	
 }
 
@@ -145,7 +186,7 @@ case 65: // A
 
         if (jim.x > box.xorigin){
             jim.x = jim.x - jim.speed;
-            jim.img.src = "./content/images/robin.png";
+            jim.img.src = "./content/images/jim_left.png";
         }
         break;
 
@@ -153,7 +194,7 @@ case 65: // A
         case 68: // D
         if (jim.x < box.xorigin + box.xsize){
             jim.x = jim.x + jim.speed;
-            jim.img.src = "./content/images/robin.png";
+            jim.img.src = "./content/images/meepo.png";
         }
     
     break;
