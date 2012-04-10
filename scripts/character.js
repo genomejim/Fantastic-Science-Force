@@ -1,4 +1,4 @@
-character = function(draw,speed,x,y,src,defeated_src,height,scene,type,hp,state,text,xp){
+character = function(draw,speed,x,y,src,defeated_src,height,scene,type,hp,state,text,xp,ammo,beam){
 this.draw = draw;
 this.speed = speed;
 this.x = x;
@@ -15,4 +15,6 @@ this.hp = hp;
 this.state = state;
 this.text = text;
 this.xp = xp;
+this.ammo = ammo;
+this.beam = false;
 }

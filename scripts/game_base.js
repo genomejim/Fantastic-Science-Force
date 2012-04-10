@@ -13,7 +13,7 @@ var scenes = new Object;
 //var enemies = new Object;
 
 //instantiate character and stuff him in the associative array chars
-var jim = new character (true,10,50,505,"./content/images/jim_right.png","./content/images/jim_defeated.png",96,'lobby','hero',100,'active', 'rawr',0);
+var jim = new character (true,10,50,505,"./content/images/jim_right.png","./content/images/jim_defeated.png",96,'lobby','hero',100,'active', 'rawr',0,200,false);
 chars.jim = jim;
 //var spidey = new character (false,10,120,505,"./content/images/spidey.png",96,'lobby');
 //chars.spidey = spidey;
@@ -43,7 +43,7 @@ var redshirt = new character (true,10,300,500,"./content/images/redshirt.png",".
 var blueshirt = new character (true,10,600,500,"./content/images/female_blueshirt.png","./content/images/female_blueshirt.png",96,'lobby','quest',50,'active','Save the Lemur!');
 var armor = new character (true,10,600,505,"./content/images/jim_left_white_armor.png","./content/images/jim_left_white_armor.png",96,'lobby');
 var meepo = new character (false,10,600,505,"./content/images/meepo.png","./content/images/meepo.png",96,'lab2','quest',50,'active','Thanks, Im Saved!');
-var bunny = new character (true,10,300,505,"./content/images/bunny.png","./content/images/bunny.png",96,'lobby','quest',50,'active','HOP!');
+var bunny = new character (true,10,300,505,"./content/images/bunny.png","./content/images/bunny.png",96,'lobby','quest',50,'active','press space for Science beam!');
 npcs.redshirt = redshirt;
 npcs.blueshirt = blueshirt;
 npcs.armor = armor;
@@ -184,7 +184,7 @@ if (lobby.play_intro == true) {
                  //npcs[i].img.src = "./content/images/ninja_defeated.png";
                  //npcs[i].img.src = "./content/images/alien_defeated.png";
                  chars.jim.xp = chars.jim.xp + 50;
-		 chars.jim.hp = chars.jim.hp + 25;
+		 chars.jim.hp = chars.jim.hp + 10;
             }
                 
         }
@@ -253,8 +253,30 @@ game_base.draw = function() {
         _canvasBufferContext.fillText(chars.jim.hp, chars.jim.x + 40, chars.jim.y - 50);
         _canvasBufferContext.fillText('xp = ', 0, 0);
         _canvasBufferContext.fillText(chars.jim.xp, 50, 0);
+        _canvasBufferContext.fillText('ammo = ', 200, 0);
+        _canvasBufferContext.fillText(chars.jim.ammo, 270, 0);
         
-        
+        //draw the science beam
+        if (chars.jim.beam && chars.jim.ammo > 0){
+            for (var i in npcs) {
+                if (npcs[i].draw && npcs[i].type == 'enemy' && npcs[i].state != 'defeated'){
+                    npcs[i].hp = npcs[i].hp - .5;
+                    chars.jim.ammo = chars.jim.ammo - .5;
+                    if (npcs[i].hp % 2) {                   
+                    _canvasBufferContext.strokeStyle = '#f00';
+                    } else {
+                    _canvasBufferContext.strokeStyle = '#ff0';
+                    }
+                    _canvasBufferContext.lineWidth   = 4;
+
+                    _canvasBufferContext.beginPath();
+                    // Start from the top-left point.
+                    _canvasBufferContext.moveTo(chars.jim.x + 50, chars.jim.y + 50);                                              _canvasBufferContext.lineTo(npcs[i].x + 50, npcs[i].y + 50);                    
+                    _canvasBufferContext.stroke();
+            }   
+        }
+
+        }
 
         _canvasContext.drawImage(_canvasBuffer, 0 , 0);	
 }
@@ -274,6 +296,7 @@ function move (event) {
 
     
             jim.y = jim.y - jim.speed;
+            chars.jim.beam = false;
         } 
     
     break;
@@ -285,6 +308,7 @@ case 65: // A
         if (jim.x > box.xorigin){
             jim.x = jim.x - jim.speed;
             jim.img.src = "./content/images/jim_left.png";
+            chars.jim.beam = false;
         }
         break;
 
@@ -293,6 +317,7 @@ case 65: // A
         if (jim.x < box.xorigin + box.xsize){
             jim.x = jim.x + jim.speed;
             jim.img.src = "./content/images/jim_right.png";
+            chars.jim.beam = false;
         }
     
     break;
@@ -303,12 +328,21 @@ case 65: // A
 
         if (jim.y < box.yorigin + box.ysize - jim.height){
             jim.y = jim.y + jim.speed;
+            chars.jim.beam = false;
         }
         
 break;
 
+        case 32: // Space bar : SCIENCE BEAM
 
-
+        for (var i in npcs) {
+        if (npcs[i].draw && npcs[i].type == 'enemy' & chars.jim.ammo > 0){
+                    //npcs[i].hp = npcs[i].hp - 25;
+                    chars.jim.beam = true;
+                    //chars.jim.ammo = chars.jim.ammo -1;
+        } 
+        }
+        break;
 }
 }
 
