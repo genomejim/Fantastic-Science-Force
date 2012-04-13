@@ -12,6 +12,8 @@ var scenes = new Object;
 //create an object to use as an associative array to store enemies
 //var enemies = new Object;
 
+
+//character = function(draw,speed,x,y,src,defeated_src,height,scene,type,hp,state,text,xp,ammo,beam,contact)
 //instantiate character and stuff him in the associative array chars
 var jim = new character (true,10,50,505,"./content/images/jim_right.png","./content/images/jim_defeated.png",96,'lobby','hero',100,'active', 'rawr',0,200,false);
 chars.jim = jim;
@@ -40,10 +42,10 @@ npcs.alien = alien;
 
 //instantiate npcs and stuff them in the associative array npcs
 var redshirt = new character (true,10,300,500,"./content/images/redshirt.png","./content/images/redshirt.png",96,'lobby');
-var blueshirt = new character (true,10,600,500,"./content/images/female_blueshirt.png","./content/images/female_blueshirt.png",96,'lobby','quest',50,'active','Save the Lemur!');
+var blueshirt = new character (true,10,300,500,"./content/images/female_blueshirt.png","./content/images/female_blueshirt.png",96,'lobby','quest',50,'active','Save the Lemur!',0,0,false,false);
 var armor = new character (true,10,600,505,"./content/images/jim_left_white_armor.png","./content/images/jim_left_white_armor.png",96,'lobby');
-var meepo = new character (false,10,600,505,"./content/images/meepo.png","./content/images/meepo.png",96,'lab2','quest',50,'active','Thanks, Im Saved!');
-var bunny = new character (true,10,300,505,"./content/images/bunny.png","./content/images/bunny.png",96,'lobby','quest',50,'active','press space for Science beam!');
+var meepo = new character (false,10,600,505,"./content/images/meepo.png","./content/images/meepo.png",96,'lab2','quest',50,'active','Thanks, Im Saved!',0,0,false,false);
+var bunny = new character (true,10,600,505,"./content/images/bunny.png","./content/images/bunny.png",96,'lobby','quest',50,'active','press space for Science beam!');
 npcs.redshirt = redshirt;
 npcs.blueshirt = blueshirt;
 npcs.armor = armor;

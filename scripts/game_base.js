@@ -1,9 +1,19 @@
-//proto quest stuff
+//HACK proto quest stuff
 //var objective = 'Talk with miss AnniePennie';
-story = function(objective){
-this.objective = 'Talk with miss AnniePennie';
+
+story = function(quest){
+//this.quest = quest;
+this.active_quest = quest;
 }
-var game_base_story = new story();
+
+quest = function(objective,state){
+this.objective = objective;
+this.state = state;
+}
+
+//quest states inactive,active,turn_in,complete
+var quest_001 = new quest('Talk with miss AnniePennie','active');
+var story_001 = new story(quest_001);
 
 //event handler for movement
 document.onkeydown = move;
@@ -57,7 +67,7 @@ if (lobby.play_intro == true) {
         }
     }      
 
-//update npcs positions
+//HACK - update npcs positions
     redshirt.x = redshirt.x + 1;
     armor.x = armor.x - 2;
 
@@ -98,6 +108,7 @@ if (lobby.play_intro == true) {
                 
         }
     }
+    //shield regen
     if (chars.jim.hp < 25 && chars.jim.state != 'defeated'){
         chars.jim.hp = chars.jim.hp + 1;
     } 
@@ -116,7 +127,7 @@ game_base.draw = function() {
             }       
         }
         
-        //draw active npcs
+//draw active npcs
 
         for (var i in npcs) {
             if (npcs[i].draw && npcs[i].state != 'defeated'){
@@ -135,14 +146,18 @@ game_base.draw = function() {
                 _canvasBufferContext.drawImage(chars[i].img_defeated, chars[i].x, chars[i].y);
             }    
         }
-        //combat text
+
+//draw combat text
+
         for (var i in npcs) {
             if (npcs[i].draw && npcs[i].type == 'enemy'){
                 _canvasBufferContext.fillStyle    = '#f00';
                 _canvasBufferContext.fillText(npcs[i].hp, npcs[i].x + 25, npcs[i].y - 50);
             }   
         }
-       //check for npc text
+
+//draw npc text
+
         for (var i in npcs){
             if (npcs[i].draw && npcs[i].type == 'quest' && npcs[i].state == 'active' && chars.jim.state == 'active'){
             //entering quest
@@ -153,18 +168,24 @@ game_base.draw = function() {
                     _canvasBufferContext.fillStyle    = '#00f';
                     _canvasBufferContext.fillText(npcs[i].text, npcs[i].x - 100, npcs[i].y - 75);
                     //quest hacking
-                    if (npcs[i].scene == 'lobby'){
+                    if (npcs[i].scene == 'lobby' && story_001.active_quest.state == 'active'){
                         npcs.blueshirt.text = 'Save the Lemur!';
-                        game_base_story.objective = 'Save the Lemur!';   
+                        story_001.active_quest.objective = 'Save the Lemur!';   
+                    } else if (npcs[i].scene == 'lobby' && story_001.active_quest.state == 'turn_in'){
+                        story_001.active_quest.objective = 'Quest Complete: Save the Lemur!';
+                        
                     }
+
                     if (npcs[i].scene == 'lab2'){
                         npcs.blueshirt.text = 'Thanks for saving the Lemur!';
-                        game_base_story.objective = 'Return to Annie!';    
+                        story_001.active_quest.objective = 'Return to Annie!';
+                        story_001.active_quest.state = 'turn_in';    
                     }
-                    npcs[i].contact = true;
-                }
+                                    }
             }
         }
+
+//draw HUD
         _canvasBufferContext.fillStyle    = '#0f0';
         _canvasBufferContext.fillText(chars.jim.hp, chars.jim.x + 40, chars.jim.y - 50);
         _canvasBufferContext.fillText('xp = ', 0, 0);
@@ -172,9 +193,10 @@ game_base.draw = function() {
         _canvasBufferContext.fillText('ammo = ', 200, 0);
         _canvasBufferContext.fillText(chars.jim.ammo, 270, 0);
         _canvasBufferContext.fillText('objective = ', 400, 0);
-        _canvasBufferContext.fillText(game_base_story.objective, 500, 0);
+        _canvasBufferContext.fillText(story_001.active_quest.objective, 500, 0);
+
         
-        //draw the science beam
+//draw the science beam 
         if (chars.jim.beam && chars.jim.ammo > 0){
             for (var i in npcs) {
                 if (npcs[i].draw && npcs[i].type == 'enemy' && npcs[i].state != 'defeated'){
@@ -255,10 +277,9 @@ break;
 
         for (var i in npcs) {
         if (npcs[i].draw && npcs[i].type == 'enemy' & chars.jim.ammo > 0){
-                    //npcs[i].hp = npcs[i].hp - 25;
                     chars.jim.beam = true;
-                    //chars.jim.ammo = chars.jim.ammo -1;
-        } 
+                    snd_hit.play();
+                    } 
         }
         break;
 }
