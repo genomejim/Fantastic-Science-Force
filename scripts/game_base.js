@@ -88,9 +88,9 @@ if (lobby.play_intro == true) {
             }
             if (Math.abs(chars.jim.x - npcs[i].x) < 100) {
                 snd_hit.play();
-                chars.jim.hp = chars.jim.hp - 2;
+                chars.jim.hp = chars.jim.hp - npcs[i].melee_damage;
                 if (chars.jim.state == 'active'){
-                    npcs[i].hp = npcs[i].hp -2;
+                    npcs[i].hp = npcs[i].hp - chars.jim.melee_damage;
                 }                
             }
             if (chars.jim.hp < 0){
@@ -173,7 +173,8 @@ game_base.draw = function() {
                         story_001.active_quest.objective = 'Save the Lemur!';   
                     } else if (npcs[i].scene == 'lobby' && story_001.active_quest.state == 'turn_in'){
                         story_001.active_quest.objective = 'Quest Complete: Save the Lemur!';
-                        
+                        chars.jim.suit = 'red armor';
+                                                
                     }
 
                     if (npcs[i].scene == 'lab2'){
@@ -186,14 +187,16 @@ game_base.draw = function() {
         }
 
 //draw HUD
+        _canvasBufferContext.fillStyle = '#aaa';
+        _canvasBufferContext.fillRect(0, 0 , 800, 25);
         _canvasBufferContext.fillStyle    = '#0f0';
         _canvasBufferContext.fillText(chars.jim.hp, chars.jim.x + 40, chars.jim.y - 50);
-        _canvasBufferContext.fillText('xp = ', 0, 0);
-        _canvasBufferContext.fillText(chars.jim.xp, 50, 0);
-        _canvasBufferContext.fillText('ammo = ', 200, 0);
-        _canvasBufferContext.fillText(chars.jim.ammo, 270, 0);
-        _canvasBufferContext.fillText('objective = ', 400, 0);
-        _canvasBufferContext.fillText(story_001.active_quest.objective, 500, 0);
+        _canvasBufferContext.fillText('xp = ', 10, 5);
+        _canvasBufferContext.fillText(chars.jim.xp, 50, 5);
+        _canvasBufferContext.fillText('ammo = ', 200, 5);
+        _canvasBufferContext.fillText(chars.jim.ammo, 270, 5);
+        _canvasBufferContext.fillText('objective = ', 400, 5);
+        _canvasBufferContext.fillText(story_001.active_quest.objective, 500, 5);
 
         
 //draw the science beam 
@@ -232,10 +235,10 @@ function move (event) {
         switch (key) {
     
     case 87: // W
-        if (jim.y > box.yorigin){
+        if (chars.jim.y > box.yorigin){
 
     
-            jim.y = jim.y - jim.speed;
+            chars.jim.y = chars.jim.y - chars.jim.speed;
             chars.jim.beam = false;
         } 
     
@@ -245,18 +248,26 @@ function move (event) {
 
 case 65: // A
 
-        if (jim.x > box.xorigin){
-            jim.x = jim.x - jim.speed;
-            jim.img.src = "./content/images/jim_left.png";
+        if (chars.jim.x > box.xorigin){
+            chars.jim.x = chars.jim.x - chars.jim.speed;
+            if (chars.jim.suit == 'labcoat') {
+                chars.jim.img.src = "./content/images/jim_left.png";
+            } else if (chars.jim.suit == 'red armor') {
+                chars.jim.img.src = "./content/images/jim_left_red_armor.png";
+            }
             chars.jim.beam = false;
         }
         break;
 
 
         case 68: // D
-        if (jim.x < box.xorigin + box.xsize){
-            jim.x = jim.x + jim.speed;
-            jim.img.src = "./content/images/jim_right.png";
+        if (chars.jim.x < box.xorigin + box.xsize){
+            chars.jim.x = chars.jim.x + chars.jim.speed;
+            if (chars.jim.suit == 'labcoat') {
+                chars.jim.img.src = "./content/images/jim_right.png";
+            } else if (chars.jim.suit == 'red armor') {
+                chars.jim.img.src = "./content/images/jim_right_red_armor.png";
+            }
             chars.jim.beam = false;
         }
     
@@ -266,8 +277,8 @@ case 65: // A
 
         case 83: // S
 
-        if (jim.y < box.yorigin + box.ysize - jim.height){
-            jim.y = jim.y + jim.speed;
+        if (chars.jim.y < box.yorigin + box.ysize - chars.jim.height){
+            chars.jim.y = chars.jim.y + chars.jim.speed;
             chars.jim.beam = false;
         }
         
