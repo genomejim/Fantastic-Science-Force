@@ -12,7 +12,7 @@ this.state = state;
 
 //quest states inactive,active,turn_in,complete
 var quest_001 = new quest('Talk with miss AnniePennie','active');
-var quest_002 = new quest('Take the Fantastic Science Plane to track the Ninjas','active');
+var quest_002 = new quest('Board the Fantastic Science Plane','active');
 var story_001 = new story(quest_001);
 
 //event handler for movement
@@ -70,7 +70,13 @@ if (lobby.play_intro == true) {
 //HACK - update npcs positions
     redshirt.x = redshirt.x + 1;
     armor.x = armor.x - 2;
-
+    if (npcs.pogo.contact == true){
+        npcs.pogo.y = npcs.pogo.y + npcs.pogo.speed;
+        //npcs.pogo.speed = npcs.pogo.speed - .1;
+        npcs.pogo.speed = npcs.pogo.speed + (npcs.pogo.speed/50);
+        chars.jim.draw = false;
+        story_001.active_quest.objective = 'Fly to Ninja Palace';
+    }
 
 //check for combat
     for (var i in npcs){
@@ -88,6 +94,12 @@ if (lobby.play_intro == true) {
             }
             if (Math.abs(chars.jim.x - npcs[i].x) < 100) {
                 snd_hit.play();
+                if (chars.jim.shield > 0) {
+                    chars.jim.shield = chars.jim.shield - npcs[i].melee_damage;
+                } else {
+                    chars.jim.hp = chars.jim.hp - npcs[i].melee_damage;
+                }
+                
                 chars.jim.hp = chars.jim.hp - npcs[i].melee_damage;
                 if (chars.jim.state == 'active'){
                     npcs[i].hp = npcs[i].hp - chars.jim.melee_damage;
@@ -109,9 +121,13 @@ if (lobby.play_intro == true) {
         }
     }
     //shield regen
-    if (chars.jim.hp < 25 && chars.jim.state != 'defeated'){
-        chars.jim.hp = chars.jim.hp + 1;
-    } 
+    if (chars.jim.shield < 25 && chars.jim.state != 'defeated'){
+        chars.jim.shield = chars.jim.shield + 1;
+    }
+    //health regen
+    if (chars.jim.hp < 10 && chars.jim.state != 'defeated'){
+        chars.jim.hp = chars.jim.hp + .1;
+    }
 }
 
 game_base.draw = function() {
@@ -151,8 +167,15 @@ game_base.draw = function() {
 
         for (var i in npcs) {
             if (npcs[i].draw && npcs[i].type == 'enemy'){
-                _canvasBufferContext.fillStyle    = '#f00';
-                _canvasBufferContext.fillText(npcs[i].hp, npcs[i].x + 25, npcs[i].y - 50);
+                //_canvasBufferContext.fillStyle    = '#f00';
+                //_canvasBufferContext.fillText(npcs[i].hp, npcs[i].x + 25, npcs[i].y - 50);
+                _canvasBufferContext.strokeStyle = '#f00';
+                _canvasBufferContext.lineWidth   = 4;
+                _canvasBufferContext.beginPath();
+                _canvasBufferContext.moveTo(npcs[i].x + 25, npcs[i].y - 25);
+                _canvasBufferContext.lineTo(npcs[i].x + 25 + (npcs[i].hp/2), npcs[i].y - 25);
+                _canvasBufferContext.stroke();       
+                _canvasBufferContext.closePath();
             }   
         }
 
@@ -163,6 +186,7 @@ game_base.draw = function() {
             //entering quest
                 if (Math.abs(chars.jim.x - npcs[i].x) < 100) {
                     //snd_hit.play();
+                    npcs[i].contact = true;
                     _canvasBufferContext.fillStyle = '#aaa';
                     _canvasBufferContext.fillRect(npcs[i].x - 100, npcs[i].y - 75, 200, 25);
                     _canvasBufferContext.fillStyle    = '#00f';
@@ -175,6 +199,7 @@ game_base.draw = function() {
                         story_001.active_quest.objective = 'Quest Complete: Save the Lemur!';
                         story_001.active_quest.state = 'complete';
                         chars.jim.suit = 'red armor';
+                        chars.jim.hp = 100;
                         scenes.launch = launch;
                         scenes.lab2.right_transition = 'launch';
                         story_001.active_quest = quest_002;
@@ -188,6 +213,8 @@ game_base.draw = function() {
                         story_001.active_quest.state = 'turn_in';
                         npcs[i].type = 'tutorial';  
                     }
+                    
+
                 }
             }
         }
@@ -195,8 +222,29 @@ game_base.draw = function() {
 //draw HUD
         _canvasBufferContext.fillStyle = '#0a0';
         _canvasBufferContext.fillRect(0, 0 , 800, 25);
+        //_canvasBufferContext.fillStyle = '#0F0';
+        //_canvasBufferContext.fillText(chars.jim.hp, chars.jim.x + 40, chars.jim.y - 25);
+        if (chars.jim.draw){
+        //draw health bar
+        _canvasBufferContext.strokeStyle = '#0F0';
+        _canvasBufferContext.lineWidth   = 4;
+        _canvasBufferContext.beginPath();
+        _canvasBufferContext.moveTo(chars.jim.x + 25, chars.jim.y - 25);                                              _canvasBufferContext.lineTo(chars.jim.x + 25 + (chars.jim.hp/2), chars.jim.y - 25);
+        _canvasBufferContext.stroke();       
+        _canvasBufferContext.closePath();
+
+        //_canvasBufferContext.fillStyle = '#00a';
+        //_canvasBufferContext.fillText(chars.jim.shield, chars.jim.x + 65, chars.jim.y - 25);
+        //draw shield bar
+        _canvasBufferContext.strokeStyle = '#00a';
+        _canvasBufferContext.lineWidth   = 5;
+        _canvasBufferContext.beginPath();
+        _canvasBufferContext.moveTo(chars.jim.x +25 + (chars.jim.hp/2) + 3 , chars.jim.y - 25);                        _canvasBufferContext.lineTo(chars.jim.x +25 + (chars.jim.hp/2) + 3 + (chars.jim.shield/2), chars.jim.y - 25);
+        _canvasBufferContext.stroke();       
+        _canvasBufferContext.closePath();
+        }
         _canvasBufferContext.fillStyle    = '#fff';
-        _canvasBufferContext.fillText(chars.jim.hp, chars.jim.x + 40, chars.jim.y - 50);
+        
         _canvasBufferContext.fillText('xp = ', 10, 5);
         _canvasBufferContext.fillText(chars.jim.xp, 50, 5);
         _canvasBufferContext.fillText('ammo = ', 200, 5);
@@ -222,6 +270,8 @@ game_base.draw = function() {
                     // Start from the top-left point.
                     _canvasBufferContext.moveTo(chars.jim.x + 50, chars.jim.y + 50);                                              _canvasBufferContext.lineTo(npcs[i].x + 50, npcs[i].y + 50);                    
                     _canvasBufferContext.stroke();
+                    _canvasBufferContext.closePath();
+
             }   
         }
 
@@ -229,7 +279,12 @@ game_base.draw = function() {
 //draw the razer beam
         for (var i in npcs) {
             if (npcs[i].draw == true && npcs[i].beam == true && npcs[i].type == 'enemy' && npcs[i].state != 'defeated' && npcs[i].ammo > 0){
-                chars.jim.hp = chars.jim.hp - 1;
+                if (chars.jim.hp > 0){
+                    chars.jim.hp = chars.jim.hp - .5;
+                }
+                if (chars.jim.shield > 0){
+                    chars.jim.shield = chars.jim.shield - 2;
+                }
                 npcs[i].ammo = npcs[i].ammo -.5;
                 if (npcs[i].ammo % 2) {                   
                     _canvasBufferContext.strokeStyle = '#F00';
@@ -241,6 +296,8 @@ game_base.draw = function() {
                  _canvasBufferContext.beginPath();
                  _canvasBufferContext.moveTo(npcs[i].x + 10, npcs[i].y + 50);                                                  _canvasBufferContext.lineTo(chars.jim.x + 50, chars.jim.y + 50);                    
                  _canvasBufferContext.stroke();
+                 _canvasBufferContext.closePath();
+
                                     
             }
         }
@@ -252,7 +309,7 @@ game_base.draw = function() {
 function move (event) {
 
 
-    if (event && chars.jim.state != 'defeated'){
+    if (event && chars.jim.state != 'defeated' && chars.jim.draw){
         var key = event.keyCode;
 
         switch (key) {

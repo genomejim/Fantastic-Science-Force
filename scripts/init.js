@@ -15,7 +15,7 @@ var scenes = new Object;
 
 //character(draw,speed,x,y,src,defeated_src,height,scene,type,hp,state,text,xp,ammo,beam,contact,melee_damage,suit)
 //instantiate character and stuff him in the associative array chars
-var jim = new character (true,10,50,505,"./content/images/jim_right.png","./content/images/jim_defeated.png",96,'lobby','hero',100,'active', 'rawr',0,200,false,false,3,'labcoat');
+var jim = new character (true,10,50,505,"./content/images/jim_right.png","./content/images/jim_defeated.png",96,'lobby','hero',100,'active', 'rawr',0,200,false,false,3,'labcoat',25);
 chars.jim = jim;
 //var spidey = new character (false,10,120,505,"./content/images/spidey.png",96,'lobby');
 //chars.spidey = spidey;
@@ -48,7 +48,7 @@ var armor = new character (true,10,600,505,"./content/images/jim_left_white_armo
 var meepo = new character (false,10,600,505,"./content/images/meepo.png","./content/images/meepo.png",96,'lab2','quest',50,'active','Thanks, Im Saved!',0,0,false,false);
 var bunny = new character (true,10,600,505,"./content/images/bunny.png","./content/images/bunny.png",96,'lobby','tutorial',50,'active','press space for Science beam!');
 
-var pogo = new character (false,10,500,275,"./content/images/pogo.png","./content/images/pogo.png",96,'launch','quest',50,'active','Behold the Pogo Plane!',0,0,false,false);
+var pogo = new character (false,-1,500,275,"./content/images/pogo.png","./content/images/pogo.png",96,'launch','quest',50,'active','Behold the Pogo Plane!',0,0,false,false);
 
 npcs.redshirt = redshirt;
 npcs.blueshirt = blueshirt;

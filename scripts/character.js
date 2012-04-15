@@ -1,4 +1,4 @@
-character = function(draw,speed,x,y,src,defeated_src,height,scene,type,hp,state,text,xp,ammo,beam,contact,melee_damage,suit){
+character = function(draw,speed,x,y,src,defeated_src,height,scene,type,hp,state,text,xp,ammo,beam,contact,melee_damage,suit,shield){
 this.draw = draw;
 this.speed = speed;
 this.x = x;
@@ -20,4 +20,5 @@ this.beam = beam;
 this.contact = contact;
 this.melee_damage = melee_damage;
 this.suit = suit;
+this.shield = shield;
 }
