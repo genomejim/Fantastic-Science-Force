@@ -76,6 +76,18 @@ if (lobby.play_intro == true) {
         npcs.pogo.speed = npcs.pogo.speed + (npcs.pogo.speed/50);
         chars.jim.draw = false;
         story_001.active_quest.objective = 'Fly to Ninja Palace';
+        //init ninja palace
+        if (npcs.pogo.y < -400) {
+            scenes.launch.draw = false;
+            scenes.ninja_palace.draw = true;
+            chars.jim.draw = true;
+            chars.jim.x = 100;
+            npcs.pogo.contact = false;
+            npcs.pogo.draw = false;
+            npcs.pogo.type = 'tutorial';
+            npcs.palace_ninja1.draw = true;
+            story_001.active_quest.objective = 'Defeat the Grey Ninjas!';
+        }
     }
 
 //check for combat
@@ -200,6 +212,8 @@ game_base.draw = function() {
                         story_001.active_quest.state = 'complete';
                         chars.jim.suit = 'red armor';
                         chars.jim.hp = 100;
+                        chars.jim.xp = chars.jim.xp + 100;
+                        chars.jim.ammo = 200;
                         scenes.launch = launch;
                         scenes.lab2.right_transition = 'launch';
                         story_001.active_quest = quest_002;
@@ -213,7 +227,16 @@ game_base.draw = function() {
                         story_001.active_quest.state = 'turn_in';
                         npcs[i].type = 'tutorial';  
                     }
-                    
+                    if (npcs[i].scene == 'ninja_palace2'){
+                        npcs[i].type = 'tutorial';
+                        for (var j in npcs){    
+                            if (npcs[j].scene == 'none'){
+                                npcs[j].scene = 'ninja_palace2';
+                                npcs[j].draw = true;
+                            }
+                        }
+                    }  
+                                        
 
                 }
             }
@@ -254,7 +277,7 @@ game_base.draw = function() {
 
         
 //draw the science beam 
-        if (chars.jim.beam && chars.jim.ammo > 0){
+        if (chars.jim.beam && chars.jim.ammo > 0 && chars.jim.state == 'active'){
             for (var i in npcs) {
                 if (npcs[i].draw && npcs[i].type == 'enemy' && npcs[i].state != 'defeated'){
                     npcs[i].hp = npcs[i].hp - 1;
@@ -278,7 +301,7 @@ game_base.draw = function() {
         }
 //draw the razer beam
         for (var i in npcs) {
-            if (npcs[i].draw == true && npcs[i].beam == true && npcs[i].type == 'enemy' && npcs[i].state != 'defeated' && npcs[i].ammo > 0){
+            if (npcs[i].draw == true && npcs[i].beam == true && npcs[i].type == 'enemy' && npcs[i].state != 'defeated' && npcs[i].ammo > 0 && chars.jim.state == 'active'){
                 if (chars.jim.hp > 0){
                     chars.jim.hp = chars.jim.hp - .5;
                 }

@@ -22,13 +22,20 @@ chars.jim = jim;
 
 //instantiate enemies and stuff them in the associative array npcs (for now)
 var ninja = new character (false,2,500,505,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'elevator','enemy',50,'active','HIIIIYAH!',0,0,false,false,1,'black ninja');
-var ninja2 = new character (false,2,700,511,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'elevator','enemy',50,'active','HIIIIYAH!',0,0,false,false,1);
-var ninja3 = new character (false,2,400,413,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'lab1','enemy',50,'active','HIIIIYAH!',0,0,false,false,1);
+var ninja2 = new character (false,2,700,511,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'elevator','enemy',50,'active','HIIIIYAH!',0,0,false,false,1,'black ninja');
+var ninja3 = new character (false,2,400,413,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'lab1','enemy',50,'active','HIIIIYAH!',0,0,false,false,1,'black ninja');
 var ettrigan = new character (false,1,500,505,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'lab1','enemy',50,'active','HIIIIYAH!',0,0,false,false,1);
-var ninja4 = new character (false,2,600,513,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'lab2','enemy',50,'active','HIIIIYAH!',0,0,false,false,1);
-var ninja5 = new character (false,2,400,423,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'lab2','enemy',50,'active','HIIIIYAH!',0,0,false,false,1);
-var alien = new character (false,1,800,423,"./content/images/alien_left.png","./content/images/alien_defeated.png",96,'lab1','enemy',30,'active','GABLARG!!',0,0,false,false,2);
+var ninja4 = new character (false,2,600,513,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'lab2','enemy',50,'active','HIIIIYAH!',0,0,false,false,1,'black ninja');
+var ninja5 = new character (false,2,400,423,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'lab2','enemy',50,'active','HIIIIYAH!',0,0,false,false,1,'black ninja');
+var alien = new character (false,1,700,423,"./content/images/alien_left.png","./content/images/alien_defeated.png",96,'lab1','enemy',30,'active','GABLARG!!',0,0,false,false,2,'alien');
 var razer = new character (false,1,800,423,"./content/images/razer_left.png","./content/images/razer_defeated.png",96,'lab2','enemy',100,'active','RAWR!!',0,100,true,false,2,'razer');
+
+var ironman = new character (false,1,750,423,"./content/images/ironman_left.png","./content/images/ironman_defeated.png",96,'ninja_palace3','enemy',200,'active','Repulsor Blast!!',0,70,true,false,2,'ironman');
+
+var palace_ninja1 = new character (false,2,500,511,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png",96,'ninja_palace','enemy',50,'active','HIIIIYAH!',0,0,false,false,1,'grey ninja');
+var palace_ninja2 = new character (false,2,25,505,"./content/images/grey_ninja_right.png","./content/images/grey_ninja_defeated.png",96,'none','enemy',60,'active','HIIIIYAH!',0,0,false,false,1,'grey ninja');
+var palace_ninja3 = new character (false,2,800,505,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png",96,'none','enemy',70,'active','HIIIIYAH!',0,0,false,false,1,'grey ninja');
+var palace_ninja4 = new character (false,2,700,505,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png",96,'none','enemy',100,'active','HIIIIYAH!',0,0,false,false,2,'grey ninja');
 
 
 //enemies.ninja = ninja;
@@ -40,7 +47,13 @@ npcs.ninja4 = ninja4;
 npcs.ninja5 = ninja5;
 npcs.alien = alien;
 npcs.razer = razer;
+npcs.palace_ninja1 = palace_ninja1;
+npcs.palace_ninja2 = palace_ninja2;
+npcs.palace_ninja3 = palace_ninja3;
+npcs.palace_ninja4 = palace_ninja4;
+npcs.ironman = ironman;
 
+//character(draw,speed,x,y,src,defeated_src,height,scene,type,hp,state,text,xp,ammo,beam,contact,melee_damage,suit)
 //instantiate npcs and stuff them in the associative array npcs
 var redshirt = new character (true,10,300,500,"./content/images/redshirt.png","./content/images/redshirt.png",96,'lobby');
 var blueshirt = new character (true,10,300,500,"./content/images/female_blueshirt.png","./content/images/female_blueshirt.png",96,'lobby','quest',50,'active','Save the Lemur!',0,0,false,false);
@@ -50,12 +63,15 @@ var bunny = new character (true,10,600,505,"./content/images/bunny.png","./conte
 
 var pogo = new character (false,-1,500,275,"./content/images/pogo.png","./content/images/pogo.png",96,'launch','quest',50,'active','Behold the Pogo Plane!',0,0,false,false);
 
+var ninja_palace2_trigger = new character(false,0,400,505,'none','none',0,'ninja_palace2','quest',0,'active','ATTACK!');
+
 npcs.redshirt = redshirt;
 npcs.blueshirt = blueshirt;
 npcs.armor = armor;
 npcs.meepo = meepo;
 npcs.bunny = bunny;
 npcs.pogo = pogo;
+npcs.ninja_palace2_trigger = ninja_palace2_trigger;
 
 //instantiate scenes and stuff them in the associative array scenes
 var lobby = new scene(true,'lobby',"./content/images/lobby2.png",'none','elevator',true);
@@ -65,10 +81,17 @@ var lab2 = new scene(false,'lab2',"./content/images/lab2.png",'lab1','none');
 
 var launch = new scene(false,'launch',"./content/images/launch.png",'lab2','none');
 
+var ninja_palace = new scene(false,'ninja_palace',"./content/images/ninja_palace.png",'none','ninja_palace2');
+var ninja_palace2 = new scene(false,'ninja_palace2',"./content/images/ninja_palace2.png",'ninja_palace','ninja_palace3');
+var ninja_palace3 = new scene(false,'ninja_palace3',"./content/images/ninja_palace_throne.png",'ninja_palace2','none');
+
 scenes.lobby = lobby;
 scenes.elevator = elevator;
 scenes.lab1 = lab1;
 scenes.lab2 = lab2;
+scenes.ninja_palace = ninja_palace;
+scenes.ninja_palace2 = ninja_palace2;
+scenes.ninja_palace3 = ninja_palace3;
 
 //instantiate the walkbox
 var box = new walkbox(750,150,0,450);
