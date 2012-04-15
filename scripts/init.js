@@ -28,6 +28,7 @@ var ettrigan = new character (false,1,500,505,"./content/images/ninja_left.png",
 var ninja4 = new character (false,2,600,513,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'lab2','enemy',50,'active','HIIIIYAH!',0,0,false,false,1);
 var ninja5 = new character (false,2,400,423,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'lab2','enemy',50,'active','HIIIIYAH!',0,0,false,false,1);
 var alien = new character (false,1,800,423,"./content/images/alien_left.png","./content/images/alien_defeated.png",96,'lab1','enemy',30,'active','GABLARG!!',0,0,false,false,2);
+var razer = new character (false,1,800,423,"./content/images/razer_left.png","./content/images/razer_defeated.png",96,'lab2','enemy',100,'active','RAWR!!',0,100,true,false,2,'razer');
 
 
 //enemies.ninja = ninja;
@@ -38,6 +39,7 @@ npcs.ninja3 = ninja3;
 npcs.ninja4 = ninja4;
 npcs.ninja5 = ninja5;
 npcs.alien = alien;
+npcs.razer = razer;
 
 //instantiate npcs and stuff them in the associative array npcs
 var redshirt = new character (true,10,300,500,"./content/images/redshirt.png","./content/images/redshirt.png",96,'lobby');
@@ -45,17 +47,23 @@ var blueshirt = new character (true,10,300,500,"./content/images/female_blueshir
 var armor = new character (true,10,600,505,"./content/images/jim_left_white_armor.png","./content/images/jim_left_white_armor.png",96,'lobby');
 var meepo = new character (false,10,600,505,"./content/images/meepo.png","./content/images/meepo.png",96,'lab2','quest',50,'active','Thanks, Im Saved!',0,0,false,false);
 var bunny = new character (true,10,600,505,"./content/images/bunny.png","./content/images/bunny.png",96,'lobby','tutorial',50,'active','press space for Science beam!');
+
+var pogo = new character (false,10,500,275,"./content/images/pogo.png","./content/images/pogo.png",96,'launch','quest',50,'active','Behold the Pogo Plane!',0,0,false,false);
+
 npcs.redshirt = redshirt;
 npcs.blueshirt = blueshirt;
 npcs.armor = armor;
 npcs.meepo = meepo;
 npcs.bunny = bunny;
+npcs.pogo = pogo;
 
 //instantiate scenes and stuff them in the associative array scenes
 var lobby = new scene(true,'lobby',"./content/images/lobby2.png",'none','elevator',true);
 var elevator = new scene(false,'elevator',"./content/images/elevator.png",'lobby','lab1');
 var lab1 = new scene(false,'lab1',"./content/images/lab1.png",'elevator','lab2');
 var lab2 = new scene(false,'lab2',"./content/images/lab2.png",'lab1','none');
+
+var launch = new scene(false,'launch',"./content/images/launch.png",'lab2','none');
 
 scenes.lobby = lobby;
 scenes.elevator = elevator;

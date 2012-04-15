@@ -2,7 +2,6 @@
 //var objective = 'Talk with miss AnniePennie';
 
 story = function(quest){
-//this.quest = quest;
 this.active_quest = quest;
 }
 
@@ -13,6 +12,7 @@ this.state = state;
 
 //quest states inactive,active,turn_in,complete
 var quest_001 = new quest('Talk with miss AnniePennie','active');
+var quest_002 = new quest('Take the Fantastic Science Plane to track the Ninjas','active');
 var story_001 = new story(quest_001);
 
 //event handler for movement
@@ -117,7 +117,7 @@ if (lobby.play_intro == true) {
 game_base.draw = function() {
         
         //clear the canvas and the buffer for the next frame
-	_canvasContext.clearRect(0,0,_canvas.width,_canvas.height);
+	//_canvasContext.clearRect(0,0,_canvas.width,_canvas.height);
         _canvasBufferContext.clearRect(0,0,_canvas.width,_canvas.height);
 
         //draw active scene        
@@ -173,23 +173,29 @@ game_base.draw = function() {
                         story_001.active_quest.objective = 'Save the Lemur!';   
                     } else if (npcs[i].scene == 'lobby' && story_001.active_quest.state == 'turn_in'){
                         story_001.active_quest.objective = 'Quest Complete: Save the Lemur!';
+                        story_001.active_quest.state = 'complete';
                         chars.jim.suit = 'red armor';
+                        scenes.launch = launch;
+                        scenes.lab2.right_transition = 'launch';
+                        story_001.active_quest = quest_002;
+                        npcs[i].type = 'tutorial';
                                                 
                     }
 
-                    if (npcs[i].scene == 'lab2'){
+                    if (npcs[i].scene == 'lab2' && story_001.active_quest.state == 'active'){
                         npcs.blueshirt.text = 'Thanks for saving the Lemur!';
                         story_001.active_quest.objective = 'Return to Annie!';
-                        story_001.active_quest.state = 'turn_in';    
+                        story_001.active_quest.state = 'turn_in';
+                        npcs[i].type = 'tutorial';  
                     }
-                                    }
+                }
             }
         }
 
 //draw HUD
-        _canvasBufferContext.fillStyle = '#aaa';
+        _canvasBufferContext.fillStyle = '#0a0';
         _canvasBufferContext.fillRect(0, 0 , 800, 25);
-        _canvasBufferContext.fillStyle    = '#0f0';
+        _canvasBufferContext.fillStyle    = '#fff';
         _canvasBufferContext.fillText(chars.jim.hp, chars.jim.x + 40, chars.jim.y - 50);
         _canvasBufferContext.fillText('xp = ', 10, 5);
         _canvasBufferContext.fillText(chars.jim.xp, 50, 5);
@@ -203,10 +209,10 @@ game_base.draw = function() {
         if (chars.jim.beam && chars.jim.ammo > 0){
             for (var i in npcs) {
                 if (npcs[i].draw && npcs[i].type == 'enemy' && npcs[i].state != 'defeated'){
-                    npcs[i].hp = npcs[i].hp - .5;
+                    npcs[i].hp = npcs[i].hp - 1;
                     chars.jim.ammo = chars.jim.ammo - .5;
                     if (npcs[i].hp % 2) {                   
-                    _canvasBufferContext.strokeStyle = '#f00';
+                    _canvasBufferContext.strokeStyle = '#0f0';
                     } else {
                     _canvasBufferContext.strokeStyle = '#ff0';
                     }
@@ -220,7 +226,24 @@ game_base.draw = function() {
         }
 
         }
-
+//draw the razer beam
+        for (var i in npcs) {
+            if (npcs[i].draw == true && npcs[i].beam == true && npcs[i].type == 'enemy' && npcs[i].state != 'defeated' && npcs[i].ammo > 0){
+                chars.jim.hp = chars.jim.hp - 1;
+                npcs[i].ammo = npcs[i].ammo -.5;
+                if (npcs[i].ammo % 2) {                   
+                    _canvasBufferContext.strokeStyle = '#F00';
+                    _canvasBufferContext.lineWidth   = 10;
+                } else {
+                    _canvasBufferContext.strokeStyle = '#c00';
+                    _canvasBufferContext.lineWidth   = 4;
+                }
+                 _canvasBufferContext.beginPath();
+                 _canvasBufferContext.moveTo(npcs[i].x + 10, npcs[i].y + 50);                                                  _canvasBufferContext.lineTo(chars.jim.x + 50, chars.jim.y + 50);                    
+                 _canvasBufferContext.stroke();
+                                    
+            }
+        }
         _canvasContext.drawImage(_canvasBuffer, 0 , 0);	
 }
 

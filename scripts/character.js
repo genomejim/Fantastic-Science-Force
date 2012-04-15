@@ -16,8 +16,8 @@ this.state = state;
 this.text = text;
 this.xp = xp;
 this.ammo = ammo;
-this.beam = false;
-this.contact = false;
+this.beam = beam;
+this.contact = contact;
 this.melee_damage = melee_damage;
 this.suit = suit;
 }
