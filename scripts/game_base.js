@@ -1,5 +1,4 @@
 //HACK proto quest stuff
-//var objective = 'Talk with miss AnniePennie';
 
 story = function(quest){
 this.active_quest = quest;
@@ -18,7 +17,7 @@ var story_001 = new story(quest_001);
 //event handler for movement
 document.onkeydown = down;
 document.onkeyup = up;
-//document.onkeypress = move;
+
 var pressed_up = false;
 var pressed_down = false;
 var pressed_right = false;
@@ -38,6 +37,8 @@ game_base.update = function(event) {
 	//snd_lobby.play();
 	lobby.play_intro = false;
     }
+
+//character movement
     if (chars.jim.state != 'defeated' && chars.jim.draw){
         if (pressed_up == true && chars.jim.y > box.yorigin){
             chars.jim.y = chars.jim.y - chars.jim.speed;
@@ -92,6 +93,8 @@ game_base.update = function(event) {
 //HACK - update npcs positions
     redshirt.x = redshirt.x + 1;
     armor.x = armor.x - 2;
+
+//HACK - level transition
     if (npcs.pogo.contact == true){
         npcs.pogo.y = npcs.pogo.y + npcs.pogo.speed;
         //npcs.pogo.speed = npcs.pogo.speed - .1;
@@ -116,7 +119,7 @@ game_base.update = function(event) {
 //check for combat
     for (var i in npcs){
         if (npcs[i].draw && npcs[i].type == 'enemy' && npcs[i].state == 'active' && chars.jim.state == 'active'){
-            //entering combat
+            //entering combat - enemy movement toward character
             if (chars.jim.x > npcs[i].x +50) {
                 npcs[i].x = npcs[i].x + npcs[i].speed;
             } else if (chars.jim.x < npcs[i].x -50) {
@@ -127,28 +130,33 @@ game_base.update = function(event) {
             } else if (chars.jim.y < npcs[i].y) {
                 npcs[i].y = npcs[i].y - npcs[i].speed;
             }
+
+            //melee combat detection
             if (Math.abs(chars.jim.x - npcs[i].x) < 100) {
                 //snd_hit.play();
+
+                //npc deals melee damage to character
                 if (chars.jim.shield > 0) {
                     chars.jim.shield = chars.jim.shield - npcs[i].melee_damage;
                 } else {
                     chars.jim.hp = chars.jim.hp - npcs[i].melee_damage;
                 }
                 
+                //character deals melee damage to npc
                 chars.jim.hp = chars.jim.hp - npcs[i].melee_damage;
                 if (chars.jim.state == 'active'){
                     npcs[i].hp = npcs[i].hp - chars.jim.melee_damage;
                 }                
             }
+
+            //check to see if character is defeated and set state
             if (chars.jim.hp < 0){
                 chars.jim.state = 'defeated';
-                //chars.jim.img.src = "./content/images/jim_defeated.png";
             }
+
+            //check to see if npc is defeated and set state
             if (npcs[i].hp < 0){
                  npcs[i].state = 'defeated';
-                 //need to allow for enemie specific defeated sprite
-                 //npcs[i].img.src = "./content/images/ninja_defeated.png";
-                 //npcs[i].img.src = "./content/images/alien_defeated.png";
                  chars.jim.xp = chars.jim.xp + 50;
 		 chars.jim.hp = chars.jim.hp + 10;
             }
@@ -202,8 +210,6 @@ game_base.draw = function() {
 
         for (var i in npcs) {
             if (npcs[i].draw && npcs[i].type == 'enemy'){
-                //_canvasBufferContext.fillStyle    = '#f00';
-                //_canvasBufferContext.fillText(npcs[i].hp, npcs[i].x + 25, npcs[i].y - 50);
                 _canvasBufferContext.strokeStyle = '#f00';
                 _canvasBufferContext.lineWidth   = 4;
                 _canvasBufferContext.beginPath();
@@ -226,6 +232,7 @@ game_base.draw = function() {
                     _canvasBufferContext.fillRect(npcs[i].x - 100, npcs[i].y - 75, 200, 25);
                     _canvasBufferContext.fillStyle    = '#00f';
                     _canvasBufferContext.fillText(npcs[i].text, npcs[i].x - 100, npcs[i].y - 75);
+
                     //quest hacking
                     if (npcs[i].scene == 'lobby' && story_001.active_quest.state == 'active'){
                         npcs.blueshirt.text = 'Save the Lemur!';
@@ -268,8 +275,6 @@ game_base.draw = function() {
 //draw HUD
         _canvasBufferContext.fillStyle = '#0a0';
         _canvasBufferContext.fillRect(0, 0 , 800, 25);
-        //_canvasBufferContext.fillStyle = '#0F0';
-        //_canvasBufferContext.fillText(chars.jim.hp, chars.jim.x + 40, chars.jim.y - 25);
         if (chars.jim.draw){
         //draw health bar
         _canvasBufferContext.strokeStyle = '#0F0';
@@ -279,18 +284,16 @@ game_base.draw = function() {
         _canvasBufferContext.stroke();       
         _canvasBufferContext.closePath();
 
-        //_canvasBufferContext.fillStyle = '#00a';
-        //_canvasBufferContext.fillText(chars.jim.shield, chars.jim.x + 65, chars.jim.y - 25);
         //draw shield bar
         _canvasBufferContext.strokeStyle = '#00a';
         _canvasBufferContext.lineWidth   = 5;
         _canvasBufferContext.beginPath();
-        _canvasBufferContext.moveTo(chars.jim.x +25 + (chars.jim.hp/2) + 3 , chars.jim.y - 25);                        _canvasBufferContext.lineTo(chars.jim.x +25 + (chars.jim.hp/2) + 3 + (chars.jim.shield/2), chars.jim.y - 25);
+        _canvasBufferContext.moveTo(chars.jim.x+25+(chars.jim.hp/2)+3,chars.jim.y-25);
+        _canvasBufferContext.lineTo(chars.jim.x+25+(chars.jim.hp/2)+3+(chars.jim.shield/2),chars.jim.y-25);
         _canvasBufferContext.stroke();       
         _canvasBufferContext.closePath();
         }
         _canvasBufferContext.fillStyle    = '#fff';
-        
         _canvasBufferContext.fillText('xp = ', 10, 5);
         _canvasBufferContext.fillText(chars.jim.xp, 50, 5);
         _canvasBufferContext.fillText('ammo = ', 200, 5);
