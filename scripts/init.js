@@ -30,13 +30,14 @@ var ninja5 = new character (false,2,400,423,"./content/images/ninja_left.png",".
 var alien = new character (false,1,700,423,"./content/images/alien_left.png","./content/images/alien_defeated.png",96,'lab1','enemy',30,'active','GABLARG!!',0,0,false,false,2,'alien');
 var razer = new character (false,1,800,423,"./content/images/razer_left.png","./content/images/razer_defeated.png",96,'lab2','enemy',100,'active','RAWR!!',0,100,true,false,2,'razer');
 
-var ironman = new character (false,1,750,423,"./content/images/ironman_left.png","./content/images/ironman_defeated.png",96,'ninja_palace3','enemy',200,'active','Repulsor Blast!!',0,70,true,false,2,'ironman');
+var ironman = new character (false,1,750,423,"./content/images/ironman_left.png","./content/images/ironman_defeated.png",96,'ninja_palace3','enemy',100,'active','Repulsor Blast!!',0,70,true,false,2,'ironman');
 
 var palace_ninja1 = new character (false,2,500,511,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png",96,'ninja_palace','enemy',50,'active','HIIIIYAH!',0,0,false,false,1,'grey ninja');
 var palace_ninja2 = new character (false,2,25,505,"./content/images/grey_ninja_right.png","./content/images/grey_ninja_defeated.png",96,'none','enemy',60,'active','HIIIIYAH!',0,0,false,false,1,'grey ninja');
 var palace_ninja3 = new character (false,2,800,505,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png",96,'none','enemy',70,'active','HIIIIYAH!',0,0,false,false,1,'grey ninja');
 var palace_ninja4 = new character (false,2,700,505,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png",96,'none','enemy',100,'active','HIIIIYAH!',0,0,false,false,2,'grey ninja');
 
+var pink_ninja = new character (false,.1,700,405,"./content/images/pink_ninja_left.png","./content/images/pink_ninja_defeated.png",96,'ninja_palace3','enemy',100,'active','HIIIIYAH!',0,0,false,false,5,'pink ninja');
 
 //enemies.ninja = ninja;
 npcs.ninja = ninja;
@@ -52,6 +53,7 @@ npcs.palace_ninja2 = palace_ninja2;
 npcs.palace_ninja3 = palace_ninja3;
 npcs.palace_ninja4 = palace_ninja4;
 npcs.ironman = ironman;
+npcs.pink_ninja = pink_ninja;
 
 //character(draw,speed,x,y,src,defeated_src,height,scene,type,hp,state,text,xp,ammo,beam,contact,melee_damage,suit)
 //instantiate npcs and stuff them in the associative array npcs

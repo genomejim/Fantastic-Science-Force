@@ -16,7 +16,14 @@ var quest_002 = new quest('Board the Fantastic Science Plane','active');
 var story_001 = new story(quest_001);
 
 //event handler for movement
-document.onkeydown = move;
+document.onkeydown = down;
+document.onkeyup = up;
+//document.onkeypress = move;
+var pressed_up = false;
+var pressed_down = false;
+var pressed_right = false;
+var pressed_left = false;
+var pressed_space = false;
 
 game_base.run = function () {
     game_base.update();
@@ -31,6 +38,20 @@ if (lobby.play_intro == true) {
 	//snd_lobby.play();
 	lobby.play_intro = false;
     }
+
+    if (pressed_up == true){
+        chars.jim.y = chars.jim.y - chars.jim.speed;
+    }
+    if (pressed_down == true){
+        chars.jim.y = chars.jim.y + chars.jim.speed;
+    }
+    if (pressed_left == true){
+        chars.jim.x = chars.jim.x - chars.jim.speed;
+    }
+    if (pressed_right == true){
+        chars.jim.x = chars.jim.x + chars.jim.speed;
+    }
+
 //transition to scene to the right
     if (jim.x > _canvas.width - 75  ) {
         for (var i in scenes){
@@ -105,7 +126,7 @@ if (lobby.play_intro == true) {
                 npcs[i].y = npcs[i].y - npcs[i].speed;
             }
             if (Math.abs(chars.jim.x - npcs[i].x) < 100) {
-                snd_hit.play();
+                //snd_hit.play();
                 if (chars.jim.shield > 0) {
                     chars.jim.shield = chars.jim.shield - npcs[i].melee_damage;
                 } else {
@@ -329,7 +350,7 @@ game_base.draw = function() {
 
 
 
-function move (event) {
+function down (event) {
 
 
     if (event && chars.jim.state != 'defeated' && chars.jim.draw){
@@ -341,7 +362,8 @@ function move (event) {
         if (chars.jim.y > box.yorigin){
 
     
-            chars.jim.y = chars.jim.y - chars.jim.speed;
+            //chars.jim.y = chars.jim.y - chars.jim.speed;
+            pressed_up = true;
             chars.jim.beam = false;
         } 
     
@@ -352,12 +374,13 @@ function move (event) {
 case 65: // A
 
         if (chars.jim.x > box.xorigin){
-            chars.jim.x = chars.jim.x - chars.jim.speed;
+            //chars.jim.x = chars.jim.x - chars.jim.speed;
             if (chars.jim.suit == 'labcoat') {
                 chars.jim.img.src = "./content/images/jim_left.png";
             } else if (chars.jim.suit == 'red armor') {
                 chars.jim.img.src = "./content/images/jim_left_red_armor.png";
             }
+            pressed_left = true;
             chars.jim.beam = false;
         }
         break;
@@ -365,12 +388,13 @@ case 65: // A
 
         case 68: // D
         if (chars.jim.x < box.xorigin + box.xsize){
-            chars.jim.x = chars.jim.x + chars.jim.speed;
+            //chars.jim.x = chars.jim.x + chars.jim.speed;
             if (chars.jim.suit == 'labcoat') {
                 chars.jim.img.src = "./content/images/jim_right.png";
             } else if (chars.jim.suit == 'red armor') {
                 chars.jim.img.src = "./content/images/jim_right_red_armor.png";
             }
+            pressed_right= true;
             chars.jim.beam = false;
         }
     
@@ -381,22 +405,66 @@ case 65: // A
         case 83: // S
 
         if (chars.jim.y < box.yorigin + box.ysize - chars.jim.height){
-            chars.jim.y = chars.jim.y + chars.jim.speed;
+            //chars.jim.y = chars.jim.y + chars.jim.speed;
             chars.jim.beam = false;
+            pressed_down = true;
         }
         
 break;
 
         case 32: // Space bar : SCIENCE BEAM
+        pressed_space = true;
 
         for (var i in npcs) {
         if (npcs[i].draw && npcs[i].type == 'enemy' & chars.jim.ammo > 0){
                     chars.jim.beam = true;
-                    snd_hit.play();
+                    //snd_hit.play();
                     } 
         }
         break;
+    }
 }
+}
+
+function up (event) {
+
+
+    if (event && chars.jim.state != 'defeated' && chars.jim.draw){
+        var key = event.keyCode;
+
+        switch (key) {
+    
+    case 87: // W
+            pressed_up = false;
+    
+    break;
+
+        
+
+case 65: // A
+
+            pressed_left = false;
+        break;
+
+
+        case 68: // D
+        pressed_right= false;
+        
+    
+    break;
+
+
+
+        case 83: // S
+        pressed_down = false;
+       
+        
+break;
+
+        case 32: // Space bar : SCIENCE BEAM
+        pressed_space = false;
+        break;
+    }
 }
 
 
