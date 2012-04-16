@@ -34,22 +34,23 @@ game_base.run = function () {
 game_base.update = function(event) {
 
 //play song the first time the player enters the lobby
-if (lobby.play_intro == true) {
+    if (lobby.play_intro == true) {
 	//snd_lobby.play();
 	lobby.play_intro = false;
     }
-
-    if (pressed_up == true){
-        chars.jim.y = chars.jim.y - chars.jim.speed;
-    }
-    if (pressed_down == true){
-        chars.jim.y = chars.jim.y + chars.jim.speed;
-    }
-    if (pressed_left == true){
-        chars.jim.x = chars.jim.x - chars.jim.speed;
-    }
-    if (pressed_right == true){
-        chars.jim.x = chars.jim.x + chars.jim.speed;
+    if (chars.jim.state != 'defeated' && chars.jim.draw){
+        if (pressed_up == true && chars.jim.y > box.yorigin){
+            chars.jim.y = chars.jim.y - chars.jim.speed;
+        }
+        if (pressed_down == true && chars.jim.y < box.yorigin + box.ysize - chars.jim.height){
+            chars.jim.y = chars.jim.y + chars.jim.speed;
+        }
+        if (pressed_left == true && chars.jim.x > box.xorigin){
+            chars.jim.x = chars.jim.x - chars.jim.speed;
+        }
+        if (pressed_right == true && chars.jim.x < box.xorigin + box.xsize){
+            chars.jim.x = chars.jim.x + chars.jim.speed;
+        }
     }
 
 //transition to scene to the right
@@ -108,6 +109,7 @@ if (lobby.play_intro == true) {
             npcs.pogo.type = 'tutorial';
             npcs.palace_ninja1.draw = true;
             story_001.active_quest.objective = 'Defeat the Grey Ninjas!';
+            pressed_right = false;
         }
     }
 
@@ -359,13 +361,8 @@ function down (event) {
         switch (key) {
     
     case 87: // W
-        if (chars.jim.y > box.yorigin){
-
-    
-            //chars.jim.y = chars.jim.y - chars.jim.speed;
             pressed_up = true;
-            chars.jim.beam = false;
-        } 
+            chars.jim.beam = false; 
     
     break;
 
@@ -373,8 +370,6 @@ function down (event) {
 
 case 65: // A
 
-        if (chars.jim.x > box.xorigin){
-            //chars.jim.x = chars.jim.x - chars.jim.speed;
             if (chars.jim.suit == 'labcoat') {
                 chars.jim.img.src = "./content/images/jim_left.png";
             } else if (chars.jim.suit == 'red armor') {
@@ -382,13 +377,10 @@ case 65: // A
             }
             pressed_left = true;
             chars.jim.beam = false;
-        }
         break;
 
 
         case 68: // D
-        if (chars.jim.x < box.xorigin + box.xsize){
-            //chars.jim.x = chars.jim.x + chars.jim.speed;
             if (chars.jim.suit == 'labcoat') {
                 chars.jim.img.src = "./content/images/jim_right.png";
             } else if (chars.jim.suit == 'red armor') {
@@ -396,19 +388,14 @@ case 65: // A
             }
             pressed_right= true;
             chars.jim.beam = false;
-        }
     
     break;
 
 
 
         case 83: // S
-
-        if (chars.jim.y < box.yorigin + box.ysize - chars.jim.height){
-            //chars.jim.y = chars.jim.y + chars.jim.speed;
             chars.jim.beam = false;
             pressed_down = true;
-        }
         
 break;
 
