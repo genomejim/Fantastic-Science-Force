@@ -13,9 +13,9 @@ var scenes = new Object;
 //var enemies = new Object;
 
 
-//character(draw,speed,x,y,src,defeated_src,height,scene,type,hp,state,text,xp,ammo,beam,contact,melee_damage,suit)
+//character(draw,speed,x,y,src,defeated_src,height,scene,type,hp,state,text,xp,ammo,beam,contact,melee_damage,suit,shield,width)
 //instantiate character and stuff him in the associative array chars
-var jim = new character (true,10,50,505,"./content/images/jim_right.png","./content/images/jim_defeated.png",96,'lobby','hero',100,'active', 'rawr',0,200,false,false,3,'labcoat',25);
+var jim = new character (true,10,50,505,"./content/images/jim_right.png","./content/images/jim_defeated.png",96,'lobby','hero',100,'active', 'rawr',0,200,false,false,3,'labcoat',25,96);
 chars.jim = jim;
 //var spidey = new character (false,10,120,505,"./content/images/spidey.png",96,'lobby');
 //chars.spidey = spidey;
@@ -96,7 +96,7 @@ scenes.ninja_palace2 = ninja_palace2;
 scenes.ninja_palace3 = ninja_palace3;
 
 //instantiate the walkbox
-var box = new walkbox(750,150,0,450);
+var box = new walkbox(800,150,0,450);
 
 //init sounds
 var snd_lobby = new Audio("./content/sounds/lobby.mp3");
@@ -105,12 +105,9 @@ var snd_hit = new Audio("./content/sounds/thunder.wav");
 //init filthy global variables
 game_base.fps = 50;
 
-//event handler for movement
-//document.onkeydown = move;
-
-var combat_text = function(){
-var text = ' ';
-}
+//var combat_text = function(){
+//var text = ' ';
+//}
 
 //init canvas and buffer
 var _canvas = document.getElementById('game_base');

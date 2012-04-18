@@ -1,12 +1,12 @@
 //HACK proto quest stuff
 
 story = function(quest){
-this.active_quest = quest;
+    this.active_quest = quest;
 }
 
 quest = function(objective,state){
-this.objective = objective;
-this.state = state;
+    this.objective = objective;
+    this.state = state;
 }
 
 //quest states inactive,active,turn_in,complete
@@ -49,13 +49,13 @@ game_base.update = function(event) {
         if (pressed_left == true && chars.jim.x > box.xorigin){
             chars.jim.x = chars.jim.x - chars.jim.speed;
         }
-        if (pressed_right == true && chars.jim.x < box.xorigin + box.xsize){
+        if (pressed_right == true && chars.jim.x < box.xorigin + box.xsize - chars.jim.width){
             chars.jim.x = chars.jim.x + chars.jim.speed;
         }
     }
 
 //transition to scene to the right
-    if (jim.x > _canvas.width - 75  ) {
+    if (chars.jim.x > _canvas.width - chars.jim.width  ) {
         for (var i in scenes){
             if (scenes[i].draw && scenes[i].right_transition != 'none') {
                 scenes[i].draw = false;
@@ -72,7 +72,7 @@ game_base.update = function(event) {
             }
         }
 //transition to scene to the left
-    } else if (jim.x < 2) {
+    } else if (chars.jim.x < 1) {
         for (var i in scenes){
             if (scenes[i].draw && scenes[i].left_transition != 'none') {
                 scenes[i].draw = false;
@@ -90,7 +90,7 @@ game_base.update = function(event) {
         }
     }      
 
-//HACK - update npcs positions
+//HACK - update npcs positions...ambient movement
     redshirt.x = redshirt.x + 1;
     armor.x = armor.x - 2;
 
@@ -109,7 +109,7 @@ game_base.update = function(event) {
             chars.jim.x = 100;
             npcs.pogo.contact = false;
             npcs.pogo.draw = false;
-            npcs.pogo.type = 'tutorial';
+            npcs.pogo.type = 'inactive';
             npcs.palace_ninja1.draw = true;
             story_001.active_quest.objective = 'Defeat the Grey Ninjas!';
             pressed_right = false;
@@ -132,7 +132,7 @@ game_base.update = function(event) {
             }
 
             //melee combat detection
-            if (Math.abs(chars.jim.x - npcs[i].x) < 100) {
+            if (Math.abs(chars.jim.x - npcs[i].x) < 100 && Math.abs(chars.jim.y - npcs[i].y) < 100)  {
                 //snd_hit.play();
 
                 //npc deals melee damage to character
@@ -152,12 +152,19 @@ game_base.update = function(event) {
             //check to see if character is defeated and set state
             if (chars.jim.hp < 0){
                 chars.jim.state = 'defeated';
+                //bring hp back to zero for cleanliness
+                chars.jim.hp = 0;
+                chars.jim.shield = 0;
             }
 
             //check to see if npc is defeated and set state
             if (npcs[i].hp < 0){
                  npcs[i].state = 'defeated';
+                 //set hp of enemy to zero for cleanliness
+                 npcs[i].hp = 0;
+                 //award xp for defeating an enemy - this needs to be based on an npc attribute at some point
                  chars.jim.xp = chars.jim.xp + 50;
+                 //small health regen for defeating an enemy
 		 chars.jim.hp = chars.jim.hp + 10;
             }
                 
@@ -247,7 +254,7 @@ game_base.draw = function() {
                         scenes.launch = launch;
                         scenes.lab2.right_transition = 'launch';
                         story_001.active_quest = quest_002;
-                        npcs[i].type = 'tutorial';
+                        npcs[i].type = 'inactive';
                                                 
                     }
 
@@ -255,10 +262,10 @@ game_base.draw = function() {
                         npcs.blueshirt.text = 'Thanks for saving the Lemur!';
                         story_001.active_quest.objective = 'Return to Annie!';
                         story_001.active_quest.state = 'turn_in';
-                        npcs[i].type = 'tutorial';  
+                        npcs[i].type = 'inactive';  
                     }
                     if (npcs[i].scene == 'ninja_palace2'){
-                        npcs[i].type = 'tutorial';
+                        npcs[i].type = 'inactive';
                         for (var j in npcs){    
                             if (npcs[j].scene == 'none'){
                                 npcs[j].scene = 'ninja_palace2';
@@ -303,7 +310,7 @@ game_base.draw = function() {
 
         
 //draw the science beam 
-        if (chars.jim.beam && chars.jim.ammo > 0 && chars.jim.state == 'active'){
+        if (chars.jim.beam && chars.jim.ammo > 0 && chars.jim.state == 'active' && pressed_space == true){
             for (var i in npcs) {
                 if (npcs[i].draw && npcs[i].type == 'enemy' && npcs[i].state != 'defeated'){
                     npcs[i].hp = npcs[i].hp - 1;
@@ -365,9 +372,7 @@ function down (event) {
     
     case 87: // W
             pressed_up = true;
-            chars.jim.beam = false; 
-    
-    break;
+        break;
 
         
 
@@ -379,7 +384,6 @@ case 65: // A
                 chars.jim.img.src = "./content/images/jim_left_red_armor.png";
             }
             pressed_left = true;
-            chars.jim.beam = false;
         break;
 
 
@@ -390,14 +394,12 @@ case 65: // A
                 chars.jim.img.src = "./content/images/jim_right_red_armor.png";
             }
             pressed_right= true;
-            chars.jim.beam = false;
     
     break;
 
 
 
         case 83: // S
-            chars.jim.beam = false;
             pressed_down = true;
         
 break;
