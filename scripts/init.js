@@ -13,26 +13,39 @@ var scenes = new Object;
 //var enemies = new Object;
 
 
-//character(draw,speed,x,y,src,defeated_src,height,scene,type,hp,state,text,xp,ammo,beam,contact,melee_damage,suit,shield,width)
-//instantiate character and stuff him in the associative array chars
-var jim = new character (true,10,50,505,"./content/images/jim_right.png","./content/images/jim_defeated.png",96,'lobby','hero',100,'active', 'rawr',0,200,false,false,3,'labcoat',25,96);
-chars.jim = jim;
-//var spidey = new character (false,10,120,505,"./content/images/spidey.png",96,'lobby');
-//chars.spidey = spidey;
+//                     draw,speed,x,y,scene,
+//                     height,width,
+//                     src,defeated_src,suit
+//                     role,text,contact,xp,
+//                     state,hp,max_hp,hp_regen_rate,hp_regen_baseline,shield,max_shield,shield_regen_rate,
+//                     ammo,beam,beam_damage,melee_damage,
 
+
+//instantiate character and stuff him in the associative array chars
+var jim = new character (true,10,50,505,"lobby",96,96,"./content/images/jim_right.png","./content/images/jim_defeated.png","labcoat","hero","rawr",false,0,"active",100,100,1,25,25,25,1,200,false,3,3);
+chars.jim = jim;
+
+/*
 //instantiate enemies and stuff them in the associative array npcs (for now)
-var ninja = new character (false,2,500,505,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'elevator','enemy',50,'active','HIIIIYAH!',0,0,false,false,1,'black ninja');
-var ninja2 = new character (false,2,700,511,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'elevator','enemy',50,'active','HIIIIYAH!',0,0,false,false,1,'black ninja');
-var ninja3 = new character (false,2,400,413,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'lab1','enemy',50,'active','HIIIIYAH!',0,0,false,false,1,'black ninja');
-var ettrigan = new character (false,1,500,505,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'lab1','enemy',50,'active','HIIIIYAH!',0,0,false,false,1);
-var ninja4 = new character (false,2,600,513,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'lab2','enemy',50,'active','HIIIIYAH!',0,0,false,false,1,'black ninja');
-var ninja5 = new character (false,2,400,423,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",96,'lab2','enemy',50,'active','HIIIIYAH!',0,0,false,false,1,'black ninja');
-var alien = new character (false,1,700,423,"./content/images/alien_left.png","./content/images/alien_defeated.png",96,'lab1','enemy',30,'active','GABLARG!!',0,0,false,false,2,'alien');
-var razer = new character (false,1,800,423,"./content/images/razer_left.png","./content/images/razer_defeated.png",96,'lab2','enemy',100,'active','RAWR!!',0,100,true,false,2,'razer');
+var ninja = new character (false,2,500,505,"elevator",96,96,"enemy","active",50,50,0,0,0,0,0,0,false,0,2,'HIIIIYAH!',0,false,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",'black ninja');
+var ninja2 = new character (false,2,700,511,"elevator",96,96,"enemy","active",50,50,0,0,0,0,0,0,false,0,2,'HIIIIYAH!',0,false,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",'black ninja');
+var ninja3 = new character (false,2,400,413,"lab1",96,96,"enemy","active",50,50,0,0,0,0,0,0,false,0,2,'HIIIIYAH!',0,false,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",'black ninja');
+var ninja4 = new character (false,2,500,505,"lab1",96,96,"enemy","active",50,50,0,0,0,0,0,0,false,0,2,'HIIIIYAH!',0,false,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",'black ninja');
+var ninja5 = new character (false,2,600,513,"lab2",96,96,"enemy","active",50,50,0,0,0,0,0,0,false,0,2,'HIIIIYAH!',0,false,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",'black ninja');
+var ninja6 = new character (false,2,400,423,"lab2",96,96,"enemy","active",50,50,0,0,0,0,0,0,false,0,2,'HIIIIYAH!',0,false,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",'black ninja');
+var alien = new character (false,1,700,423,"lab1",96,96,"enemy","active",50,50,0,0,0,10,0,0,false,0,2,'GABLARG!',0,false,"./content/images/alien_left.png","./content/images/alien_defeated.png",'alien');
+var razer = new character 
+(false,1,800,423,"lab2",96,96,'enemy','active',100,100,1,25,25,25,1,200,false,3,3,"rawr",0,false,"./content/images/razer_left.png","./content/images/razer_defeated.png","razer");
+
+
 
 var ironman = new character (false,1,750,423,"./content/images/ironman_left.png","./content/images/ironman_defeated.png",96,'ninja_palace3','enemy',100,'active','Repulsor Blast!!',0,70,true,false,2,'ironman');
 
-var palace_ninja1 = new character (false,2,500,511,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png",96,'ninja_palace','enemy',50,'active','HIIIIYAH!',0,0,false,false,1,'grey ninja');
+var palace_ninja1 = new character (false,2,500,511,"ninja_palace",96,96,"enemy","active",50,50,0,0,0,0,0,0,false,0,2,'HIIIIYAH!',0,false,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png",'grey  ninja');
+
+(false,2,500,511,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png",96,'ninja_palace','enemy',50,'active','HIIIIYAH!',0,0,false,false,1,'grey ninja');
+
+
 var palace_ninja2 = new character (false,2,25,505,"./content/images/grey_ninja_right.png","./content/images/grey_ninja_defeated.png",96,'none','enemy',60,'active','HIIIIYAH!',0,0,false,false,1,'grey ninja');
 var palace_ninja3 = new character (false,2,800,505,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png",96,'none','enemy',70,'active','HIIIIYAH!',0,0,false,false,1,'grey ninja');
 var palace_ninja4 = new character (false,2,700,505,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png",96,'none','enemy',100,'active','HIIIIYAH!',0,0,false,false,2,'grey ninja');
@@ -41,11 +54,11 @@ var pink_ninja = new character (false,.1,700,405,"./content/images/pink_ninja_le
 
 //enemies.ninja = ninja;
 npcs.ninja = ninja;
-npcs.ettrigan = ettrigan;
 npcs.ninja2 = ninja2;
 npcs.ninja3 = ninja3;
 npcs.ninja4 = ninja4;
 npcs.ninja5 = ninja5;
+npcs.ninha6 = ninja6;
 npcs.alien = alien;
 npcs.razer = razer;
 npcs.palace_ninja1 = palace_ninja1;
@@ -127,3 +140,4 @@ _canvasBuffer.height = _canvas.height;
     _canvasBufferContext.textBaseline = 'top';
 }
 
+*/

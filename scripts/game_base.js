@@ -317,10 +317,12 @@ game_base.draw = function() {
                     chars.jim.ammo = chars.jim.ammo - .5;
                     if (npcs[i].hp % 2) {                   
                     _canvasBufferContext.strokeStyle = '#0f0';
+                    _canvasBufferContext.lineWidth   = 4;
                     } else {
                     _canvasBufferContext.strokeStyle = '#ff0';
+                    _canvasBufferContext.lineWidth   = 3;
                     }
-                    _canvasBufferContext.lineWidth   = 4;
+                    
 
                     _canvasBufferContext.beginPath();
                     // Start from the top-left point.
