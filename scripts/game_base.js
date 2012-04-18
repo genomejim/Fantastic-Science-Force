@@ -406,10 +406,10 @@ break;
         pressed_space = true;
 
         for (var i in npcs) {
-        if (npcs[i].draw && npcs[i].type == 'enemy' & chars.jim.ammo > 0){
-                    chars.jim.beam = true;
-                    //snd_hit.play();
-                    } 
+            if (npcs[i].draw && npcs[i].type == 'enemy' & chars.jim.ammo > 0){
+                chars.jim.beam = true;
+                //snd_hit.play();
+            } 
         }
         break;
     }
@@ -439,15 +439,13 @@ case 65: // A
 
         case 68: // D
         pressed_right= false;
-        
     
     break;
 
 
 
         case 83: // S
-        pressed_down = false;
-       
+        pressed_down = false;       
         
 break;
 
