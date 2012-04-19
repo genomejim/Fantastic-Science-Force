@@ -13,32 +13,62 @@ var scenes = new Object;
 //var enemies = new Object;
 
 
-//                     draw,speed,x,y,scene,
-//                     height,width,
+//location
+//                     draw,x,y,scene,
+//base stats
+//                     speed,height,width,
 //                     src,defeated_src,suit
 //                     role,text,contact,xp,
+//combat stats
 //                     state,hp,max_hp,hp_regen_rate,hp_regen_baseline,shield,max_shield,shield_regen_rate,
 //                     ammo,beam,beam_damage,melee_damage,
 
+var jim_loc = new character_location(true,50,505,"lobby");
+var jim_stats= new base_stats(10,96,96,"./content/images/jim_right.png","./content/images/jim_defeated.png","labcoat","hero","rawr",false,0);
+var jim_combat_stats = new combat_stats("active",100,100,1,25,25,25,1,200,false,3,3);
 
 //instantiate character and stuff him in the associative array chars
-var jim = new character (true,10,50,505,"lobby",96,96,"./content/images/jim_right.png","./content/images/jim_defeated.png","labcoat","hero","rawr",false,0,"active",100,100,1,25,25,25,1,200,false,3,3);
+var jim = new character (jim_loc,jim_stats,jim_combat_stats);
 chars.jim = jim;
 
-/*
+
 //instantiate enemies and stuff them in the associative array npcs (for now)
-var ninja = new character (false,2,500,505,"elevator",96,96,"enemy","active",50,50,0,0,0,0,0,0,false,0,2,'HIIIIYAH!',0,false,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",'black ninja');
-var ninja2 = new character (false,2,700,511,"elevator",96,96,"enemy","active",50,50,0,0,0,0,0,0,false,0,2,'HIIIIYAH!',0,false,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",'black ninja');
-var ninja3 = new character (false,2,400,413,"lab1",96,96,"enemy","active",50,50,0,0,0,0,0,0,false,0,2,'HIIIIYAH!',0,false,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",'black ninja');
-var ninja4 = new character (false,2,500,505,"lab1",96,96,"enemy","active",50,50,0,0,0,0,0,0,false,0,2,'HIIIIYAH!',0,false,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",'black ninja');
-var ninja5 = new character (false,2,600,513,"lab2",96,96,"enemy","active",50,50,0,0,0,0,0,0,false,0,2,'HIIIIYAH!',0,false,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",'black ninja');
-var ninja6 = new character (false,2,400,423,"lab2",96,96,"enemy","active",50,50,0,0,0,0,0,0,false,0,2,'HIIIIYAH!',0,false,"./content/images/ninja_left.png","./content/images/ninja_defeated.png",'black ninja');
-var alien = new character (false,1,700,423,"lab1",96,96,"enemy","active",50,50,0,0,0,10,0,0,false,0,2,'GABLARG!',0,false,"./content/images/alien_left.png","./content/images/alien_defeated.png",'alien');
-var razer = new character 
-(false,1,800,423,"lab2",96,96,'enemy','active',100,100,1,25,25,25,1,200,false,3,3,"rawr",0,false,"./content/images/razer_left.png","./content/images/razer_defeated.png","razer");
+
+var ninja_base_stats = new base_stats(2,96,96,"./content/images/ninja_left.png","./content/images/ninja_defeated.png","ninja","enemy","HIIIIYAGH",false,50)
+var ninja_combat_stats = new combat_stats("active",50,50,0,0,0,0,0,0,false,0,2);
 
 
+var ninja_loc = new character_location(false,500,505,"elevator");
+var ninja = new character(ninja_loc, ninja_base_stats, ninja_combat_stats);
 
+
+var ninja2_loc = new character_location(false,700,511,"elevator");
+var ninja2 = new character(ninja2_loc, ninja_base_stats, ninja_combat_stats);
+var ninja3_loc = new character_location(false,400,413,"lab1");
+var ninja3 = new character(ninja3_loc, ninja_base_stats, ninja_combat_stats);
+var ninja4_loc = new character_location(false,500,505,"lab1");
+var ninja4 = new character(ninja4_loc, ninja_base_stats, ninja_combat_stats);
+var ninja5_loc = new character_location(false,600,513,"lab2");
+var ninja5 = new character(ninja5_loc, ninja_base_stats, ninja_combat_stats);
+var ninja6_loc = new character_location(false,400,423,"lab2");
+var ninja6 = new character(ninja6_loc, ninja_base_stats, ninja_combat_stats);
+
+npcs.ninja = ninja;
+npcs.ninja2 = ninja2;
+npcs.ninja3 = ninja3;
+npcs.ninja4 = ninja4;
+npcs.ninja5 = ninja5;
+npcs.ninja6 = ninja6;
+
+var razer_base_stats = new base_stats(1,96,96,"./content/images/razer_left.png","./content/images/razer_defeated.png","razer","enemy","BLOOD!",false,100)
+var razer_combat_stats = new combat_stats("active",100,100,1,0,0,0,0,100,false,2,3);
+
+var razer_loc = new character_location(false,400,423,"lab2");
+var razer = new character(razer_loc, razer_base_stats, razer_combat_stats);
+
+npcs.razer = razer;
+
+/*
 var ironman = new character (false,1,750,423,"./content/images/ironman_left.png","./content/images/ironman_defeated.png",96,'ninja_palace3','enemy',100,'active','Repulsor Blast!!',0,70,true,false,2,'ironman');
 
 var palace_ninja1 = new character (false,2,500,511,"ninja_palace",96,96,"enemy","active",50,50,0,0,0,0,0,0,false,0,2,'HIIIIYAH!',0,false,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png",'grey  ninja');
@@ -53,14 +83,6 @@ var palace_ninja4 = new character (false,2,700,505,"./content/images/grey_ninja_
 var pink_ninja = new character (false,.1,700,405,"./content/images/pink_ninja_left.png","./content/images/pink_ninja_defeated.png",96,'ninja_palace3','enemy',100,'active','HIIIIYAH!',0,0,false,false,5,'pink ninja');
 
 //enemies.ninja = ninja;
-npcs.ninja = ninja;
-npcs.ninja2 = ninja2;
-npcs.ninja3 = ninja3;
-npcs.ninja4 = ninja4;
-npcs.ninja5 = ninja5;
-npcs.ninha6 = ninja6;
-npcs.alien = alien;
-npcs.razer = razer;
 npcs.palace_ninja1 = palace_ninja1;
 npcs.palace_ninja2 = palace_ninja2;
 npcs.palace_ninja3 = palace_ninja3;
@@ -68,11 +90,22 @@ npcs.palace_ninja4 = palace_ninja4;
 npcs.ironman = ironman;
 npcs.pink_ninja = pink_ninja;
 
+*/
+
+
 //character(draw,speed,x,y,src,defeated_src,height,scene,type,hp,state,text,xp,ammo,beam,contact,melee_damage,suit)
 //instantiate npcs and stuff them in the associative array npcs
-var redshirt = new character (true,10,300,500,"./content/images/redshirt.png","./content/images/redshirt.png",96,'lobby');
+
+
+var npc_base_stats= new base_stats(1,96,96,"./content/images/redshirt.png","./content/images/redshirt.png","labcoat","npc","hi",false,0);
+var npc_combat_stats = new combat_stats("active",0,0,0,0,0,0,0,0,false,0,0);
+
+var redshirt_loc = new character_location(true,500,505,"lobby");
+var redshirt = new character(redshirt_loc, npc_base_stats, npc_combat_stats);
+
+/*
 var blueshirt = new character (true,10,300,500,"./content/images/female_blueshirt.png","./content/images/female_blueshirt.png",96,'lobby','quest',50,'active','Save the Lemur!',0,0,false,false);
-var armor = new character (true,10,600,505,"./content/images/jim_left_white_armor.png","./content/images/jim_left_white_armor.png",96,'lobby');
+//var armor = new character (true,10,600,505,"./content/images/jim_left_white_armor.png","./content/images/jim_left_white_armor.png",96,'lobby');
 var meepo = new character (false,10,600,505,"./content/images/meepo.png","./content/images/meepo.png",96,'lab2','quest',50,'active','Thanks, Im Saved!',0,0,false,false);
 var bunny = new character (true,10,600,505,"./content/images/bunny.png","./content/images/bunny.png",96,'lobby','tutorial',50,'active','press space for Science beam!');
 
@@ -80,13 +113,16 @@ var pogo = new character (false,-1,500,275,"./content/images/pogo.png","./conten
 
 var ninja_palace2_trigger = new character(false,0,400,505,'none','none',0,'ninja_palace2','quest',0,'active','ATTACK!');
 
+*/
+
 npcs.redshirt = redshirt;
-npcs.blueshirt = blueshirt;
-npcs.armor = armor;
-npcs.meepo = meepo;
-npcs.bunny = bunny;
-npcs.pogo = pogo;
-npcs.ninja_palace2_trigger = ninja_palace2_trigger;
+//npcs.blueshirt = blueshirt;
+//npcs.armor = armor;
+//npcs.meepo = meepo;
+//npcs.bunny = bunny;
+//npcs.pogo = pogo;
+
+//npcs.ninja_palace2_trigger = ninja_palace2_trigger;
 
 //instantiate scenes and stuff them in the associative array scenes
 var lobby = new scene(true,'lobby',"./content/images/lobby2.png",'none','elevator',true);
@@ -140,4 +176,3 @@ _canvasBuffer.height = _canvas.height;
     _canvasBufferContext.textBaseline = 'top';
 }
 
-*/

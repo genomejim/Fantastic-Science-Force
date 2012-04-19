@@ -92,8 +92,9 @@ game_base.update = function(event) {
 
 //HACK - update npcs positions...ambient movement
     redshirt.x = redshirt.x + 1;
-    armor.x = armor.x - 2;
+//    armor.x = armor.x - 2;
 
+/*
 //HACK - level transition
     if (npcs.pogo.contact == true){
         npcs.pogo.y = npcs.pogo.y + npcs.pogo.speed;
@@ -115,6 +116,8 @@ game_base.update = function(event) {
             pressed_right = false;
         }
     }
+*/
+
 
 //check for combat
     for (var i in npcs){
