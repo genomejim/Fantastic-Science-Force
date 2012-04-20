@@ -1,4 +1,4 @@
-character = function(character_location,base_stats,combat_stats){
+character = function(character_location,appearance,base_stats,combat_stats){
     this.draw = character_location.draw;
     //location
     this.x = character_location.x;
@@ -6,15 +6,16 @@ character = function(character_location,base_stats,combat_stats){
     this.scene = character_location.scene;
 
     this.speed = base_stats.speed;
+    
     //collison
-    this.height = base_stats.height;
-    this.width = base_stats.width;
+    this.height = appearance.height;
+    this.width = appearance.width;
     //display
     this.img = new Image();
     this.img_defeated = new Image();
-    this.img.src = base_stats.src;
-    this.img_defeated.src = base_stats.defeated_src;
-    this.suit = base_stats.suit;
+    this.img.src = appearance.src;
+    this.img_defeated.src = appearance.defeated_src;
+    this.suit = appearance.suit;
 
     //roles (enemy,quest,inactive,tutorial)
     this.role = base_stats.role;
@@ -43,20 +44,9 @@ character = function(character_location,base_stats,combat_stats){
 }
 
 
-base_stats = function(speed,height,width,src,defeated_src,suit,role,text,contact,xp){
+base_stats = function(speed,role,text,contact,xp){
 
     this.speed = speed;
-
-    //collison
-    this.height = height;
-    this.width = width;
-
-    //display
-    this.img = new Image();
-    this.img_defeated = new Image();
-    this.src = src;
-    this.defeated_src = defeated_src;
-    this.suit = suit;
 
     //roles (enemy,quest,inactive,tutorial)
     this.role = role;
@@ -92,4 +82,16 @@ character_location = function(draw,x,y,scene) {
     this.x = x;
     this.y = y;
     this.scene = scene;
+}
+
+appearance = function(height,width,src,defeated_src,suit){
+//collison
+    this.height = height;
+    this.width = width;
+    //display
+    //this.img = new Image();
+    //this.img_defeated = new Image();
+    this.src = src;
+    this.defeated_src = defeated_src;
+    this.suit = suit;
 }

@@ -33,10 +33,12 @@ game_base.run = function () {
 game_base.update = function(event) {
 
 //play song the first time the player enters the lobby
+    /*
     if (lobby.play_intro == true) {
 	//snd_lobby.play();
 	lobby.play_intro = false;
     }
+    */
 
 //character movement
     if (chars.jim.state != 'defeated' && chars.jim.draw){
@@ -251,7 +253,7 @@ game_base.draw = function() {
                         chars.jim.suit = 'red armor';
                         chars.jim.hp = 100;
                         chars.jim.xp = chars.jim.xp + 100;
-                        chars.jim.ammo = 200;
+                        chars.jim.ammo = 200; 
                         scenes.launch = launch;
                         scenes.lab2.right_transition = 'launch';
                         story_001.active_quest = quest_002;
