@@ -1,27 +1,23 @@
-//big mess of inits that needs to get broken out up top
-
-//create an object to use as an associative array to store characters
+//create objects to use as associative arrays 
 var chars = new Object;
-
-//create an object to use as an associative array to store npcs
 var npcs = new Object;
-
-//create an object to use as an associative array to store scenes
 var scenes = new Object;
 
-//create an object to use as an associative array to store enemies
-//var enemies = new Object;
+/* cheat sheet for initializing characters,npcs,enemies
+character_location
+                     draw,x,y,scene,
+base_stats
+                     speed,height,width,
+                     src,defeated_src,suit
+                     role,text,contact,xp,
+combat_stats
+                     state,hp,max_hp,hp_regen_rate,hp_regen_baseline,shield,max_shield,shield_regen_rate,
+                     ammo,beam,beam_damage,melee_damage
+*/
 
-
-//location
-//                     draw,x,y,scene,
-//base stats
-//                     speed,height,width,
-//                     src,defeated_src,suit
-//                     role,text,contact,xp,
-//combat stats
-//                     state,hp,max_hp,hp_regen_rate,hp_regen_baseline,shield,max_shield,shield_regen_rate,
-//                     ammo,beam,beam_damage,melee_damage,
+//generic base and combat stats
+var npc_base_stats= new base_stats(1,96,96,"./content/images/redshirt.png","./content/images/redshirt.png","labcoat","npc","hi",false,0);
+var npc_combat_stats = new combat_stats("active",0,0,0,0,0,0,0,0,false,0,0);
 
 //character
 var jim_loc = new character_location(true,50,505,"lobby");
@@ -31,7 +27,7 @@ var jim_combat_stats = new combat_stats("active",100,100,1,25,25,25,1,200,false,
 var jim = new character (jim_loc,jim_stats,jim_combat_stats);
 chars.jim = jim;
 
-//enemies
+//enemies - Lab level 
 var ninja_base_stats = new base_stats(2,96,96,"./content/images/ninja_left.png","./content/images/ninja_defeated.png","ninja","enemy","HIIIIYAGH",false,50)
 var ninja_combat_stats = new combat_stats("active",50,50,0,0,0,0,0,0,false,0,2);
 
@@ -57,16 +53,36 @@ npcs.ninja6 = ninja6;
 
 var razer_base_stats = new base_stats(1,96,96,"./content/images/razer_left.png","./content/images/razer_defeated.png","razer","enemy","BLOOD!",false,100)
 var razer_combat_stats = new combat_stats("active",100,100,1,0,0,0,0,100,true,2,3);
-
 var razer_loc = new character_location(false,700,423,"lab2");
 var razer = new character(razer_loc, razer_base_stats, razer_combat_stats);
 
 npcs.razer = razer;
 
+//enemies - Ninja Palace Level
+var np2_trigger_loc = new character_location(false,400,505,"ninja_palace2");
+var np2_trigger_base_stats = new base_stats(0,96,96,"./content/images/trigger.png","./content/images/trigger.png","trigger","quest","GET EM!",false,0);
+var np2_trigger = new character(np2_trigger_loc, np2_trigger_base_stats, npc_combat_stats);
+
+var grey_ninja_base_stats = new base_stats(3,96,96,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png","grey_ninja","enemy","HIIIIYAGH",false,75)
+var grey_ninja_combat_stats = new combat_stats("active",75,75,0,0,0,0,0,0,false,0,3);
+
+var palace_ninja_loc = new character_location(false,500,511,"ninja_palace");
+var palace_ninja = new character(palace_ninja_loc, grey_ninja_base_stats, grey_ninja_combat_stats);
+var palace_ninja2_loc = new character_location(false,25,511,"monster_closet");
+var palace_ninja2 = new character(palace_ninja2_loc, grey_ninja_base_stats, grey_ninja_combat_stats);
+var palace_ninja3_loc = new character_location(false,700,511,"monster_closet");
+var palace_ninja3 = new character(palace_ninja3_loc, grey_ninja_base_stats, grey_ninja_combat_stats);
+
+
+
+npcs.palace_ninja = palace_ninja;
+npcs.palace_ninja2 = palace_ninja2;
+npcs.palace_ninja3 = palace_ninja3;
+
 /*
+
 var ironman = new character (false,1,750,423,"./content/images/ironman_left.png","./content/images/ironman_defeated.png",96,'ninja_palace3','enemy',100,'active','Repulsor Blast!!',0,70,true,false,2,'ironman');
 
-var palace_ninja1 = new character (false,2,500,511,"ninja_palace",96,96,"enemy","active",50,50,0,0,0,0,0,0,false,0,2,'HIIIIYAH!',0,false,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png",'grey  ninja');
 
 (false,2,500,511,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png",96,'ninja_palace','enemy',50,'active','HIIIIYAH!',0,0,false,false,1,'grey ninja');
 
@@ -91,9 +107,6 @@ npcs.pink_ninja = pink_ninja;
 
 //npcs
 
-var npc_base_stats= new base_stats(1,96,96,"./content/images/redshirt.png","./content/images/redshirt.png","labcoat","npc","hi",false,0);
-var npc_combat_stats = new combat_stats("active",0,0,0,0,0,0,0,0,false,0,0);
-
 var redshirt_loc = new character_location(true,500,505,"lobby");
 var redshirt = new character(redshirt_loc, npc_base_stats, npc_combat_stats);
 
@@ -110,14 +123,8 @@ var meepo_base_stats = new base_stats(0,96,96,"./content/images/meepo.png","./co
 var meepo = new character(meepo_loc,meepo_base_stats,npc_combat_stats);
 
 
-/*
+//var bunny = new character (true,10,600,505,"./content/images/bunny.png","./content/images/bunny.png",96,'lobby','tutorial',50,'active','press space for Science beam!');
 
-var bunny = new character (true,10,600,505,"./content/images/bunny.png","./content/images/bunny.png",96,'lobby','tutorial',50,'active','press space for Science beam!');
-
-
-var ninja_palace2_trigger = new character(false,0,400,505,'none','none',0,'ninja_palace2','quest',0,'active','ATTACK!');
-
-*/
 
 npcs.redshirt = redshirt;
 npcs.annie = annie;

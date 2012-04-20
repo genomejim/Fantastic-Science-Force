@@ -111,9 +111,8 @@ game_base.update = function(event) {
             npcs.pogo.contact = false;
             npcs.pogo.draw = false;
             npcs.pogo.role = 'inactive';
-            //npcs.palace_ninja1.draw = true;
-            story_001.active_quest.objective = 'Defeat the Grey Ninjas!';
-            
+            npcs.palace_ninja.draw = true;
+            story_001.active_quest.objective = 'Defeat the Grey Ninjas!';           
             pressed_right = false;
         }
     }
@@ -269,7 +268,7 @@ game_base.draw = function() {
                     if (npcs[i].scene == 'ninja_palace2'){
                         npcs[i].role = 'inactive';
                         for (var j in npcs){    
-                            if (npcs[j].scene == 'none'){
+                            if (npcs[j].scene == 'monster_closet'){
                                 npcs[j].scene = 'ninja_palace2';
                                 npcs[j].draw = true;
                             }
@@ -339,16 +338,15 @@ game_base.draw = function() {
 //draw the razer beam
         for (var i in npcs) {
             if (npcs[i].draw == true && npcs[i].beam == true && npcs[i].role == 'enemy' && npcs[i].state != 'defeated' && npcs[i].ammo > 0 && chars.jim.state == 'active'){
-                if (chars.jim.hp > 0){
-                    chars.jim.hp = chars.jim.hp - .5;
-                }
                 if (chars.jim.shield > 0){
-                    chars.jim.shield = chars.jim.shield - 2;
+                    chars.jim.shield = chars.jim.shield - npcs[i].beam_damage;
+                }else if (chars.jim.hp > 0){
+                    chars.jim.hp = chars.jim.hp - npcs[i].beam_damage;
                 }
                 npcs[i].ammo = npcs[i].ammo -.5;
                 if (npcs[i].ammo % 2) {                   
                     _canvasBufferContext.strokeStyle = '#F00';
-                    _canvasBufferContext.lineWidth   = 10;
+                    _canvasBufferContext.lineWidth   = 5;
                 } else {
                     _canvasBufferContext.strokeStyle = '#c00';
                     _canvasBufferContext.lineWidth   = 4;
