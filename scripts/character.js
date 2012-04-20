@@ -19,7 +19,7 @@ character = function(character_location,base_stats,
 //display
     this.img = new Image();
     this.img_defeated = new Image();
-    //this.src = src;
+    //this.src = base_stats.src;
     this.img.src = base_stats.src;
     this.img_defeated.src = base_stats.defeated_src;
     this.suit = base_stats.suit;
@@ -64,8 +64,7 @@ base_stats = function(speed,height,width,src,defeated_src,suit,role,text,contact
     this.img = new Image();
     this.img_defeated = new Image();
     this.src = src;
-    this.img.src = src;
-    this.img_defeated.src = defeated_src;
+    this.defeated_src = defeated_src;
     this.suit = suit;
 
 //roles (enemy,quest,inactive,tutorial)

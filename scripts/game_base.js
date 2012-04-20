@@ -57,7 +57,7 @@ game_base.update = function(event) {
 //transition to scene to the right
     if (chars.jim.x > _canvas.width - chars.jim.width  ) {
         for (var i in scenes){
-            if (scenes[i].draw && scenes[i].right_transition != 'none') {
+            if (scenes[i].draw && scenes[i].right_transition != "none") {
                 scenes[i].draw = false;
                 scenes[scenes[i].right_transition].draw = true;
                 chars.jim.x = 50;
@@ -74,7 +74,7 @@ game_base.update = function(event) {
 //transition to scene to the left
     } else if (chars.jim.x < 1) {
         for (var i in scenes){
-            if (scenes[i].draw && scenes[i].left_transition != 'none') {
+            if (scenes[i].draw && scenes[i].left_transition != "none") {
                 scenes[i].draw = false;
                 scenes[scenes[i].left_transition].draw = true;
                 chars.jim.x = 700;
@@ -91,10 +91,10 @@ game_base.update = function(event) {
     }      
 
 //HACK - update npcs positions...ambient movement
-    redshirt.x = redshirt.x + 1;
+    npcs.redshirt.x = npcs.redshirt.x - npcs.redshirt.speed;
 //    armor.x = armor.x - 2;
 
-/*
+
 //HACK - level transition
     if (npcs.pogo.contact == true){
         npcs.pogo.y = npcs.pogo.y + npcs.pogo.speed;
@@ -110,18 +110,19 @@ game_base.update = function(event) {
             chars.jim.x = 100;
             npcs.pogo.contact = false;
             npcs.pogo.draw = false;
-            npcs.pogo.type = 'inactive';
-            npcs.palace_ninja1.draw = true;
+            npcs.pogo.role = 'inactive';
+            //npcs.palace_ninja1.draw = true;
             story_001.active_quest.objective = 'Defeat the Grey Ninjas!';
+            
             pressed_right = false;
         }
     }
-*/
+
 
 
 //check for combat
     for (var i in npcs){
-        if (npcs[i].draw && npcs[i].type == 'enemy' && npcs[i].state == 'active' && chars.jim.state == 'active'){
+        if (npcs[i].draw && npcs[i].role == 'enemy' && npcs[i].state == 'active' && chars.jim.state == 'active'){
             //entering combat - enemy movement toward character
             if (chars.jim.x > npcs[i].x +50) {
                 npcs[i].x = npcs[i].x + npcs[i].speed;
@@ -162,24 +163,22 @@ game_base.update = function(event) {
 
             //check to see if npc is defeated and set state
             if (npcs[i].hp < 0){
-                 npcs[i].state = 'defeated';
+                 npcs[i].state = "defeated";
                  //set hp of enemy to zero for cleanliness
                  npcs[i].hp = 0;
                  //award xp for defeating an enemy - this needs to be based on an npc attribute at some point
-                 chars.jim.xp = chars.jim.xp + 50;
-                 //small health regen for defeating an enemy
-		 chars.jim.hp = chars.jim.hp + 10;
+                 chars.jim.xp = chars.jim.xp + npcs[i].xp;                 
             }
                 
         }
     }
     //shield regen
-    if (chars.jim.shield < 25 && chars.jim.state != 'defeated'){
-        chars.jim.shield = chars.jim.shield + 1;
+    if (chars.jim.shield < chars.jim.max_shield && chars.jim.state != 'defeated'){
+        chars.jim.shield = chars.jim.shield + chars.jim.shield_regen_rate;
     }
     //health regen
-    if (chars.jim.hp < 10 && chars.jim.state != 'defeated'){
-        chars.jim.hp = chars.jim.hp + .1;
+    if (chars.jim.hp < chars.jim.hp_regen_baseline && chars.jim.state != 'defeated'){
+        chars.jim.hp = chars.jim.hp + chars.jim.hp_regen_rate;
     }
 }
 
@@ -219,7 +218,7 @@ game_base.draw = function() {
 //draw combat text
 
         for (var i in npcs) {
-            if (npcs[i].draw && npcs[i].type == 'enemy'){
+            if (npcs[i].draw && npcs[i].role == 'enemy'){
                 _canvasBufferContext.strokeStyle = '#f00';
                 _canvasBufferContext.lineWidth   = 4;
                 _canvasBufferContext.beginPath();
@@ -233,7 +232,7 @@ game_base.draw = function() {
 //draw npc text
 
         for (var i in npcs){
-            if (npcs[i].draw && npcs[i].type == 'quest' && npcs[i].state == 'active' && chars.jim.state == 'active'){
+            if (npcs[i].draw && npcs[i].role == 'quest' && npcs[i].state == 'active' && chars.jim.state == 'active'){
             //entering quest
                 if (Math.abs(chars.jim.x - npcs[i].x) < 100) {
                     //snd_hit.play();
@@ -245,7 +244,7 @@ game_base.draw = function() {
 
                     //quest hacking
                     if (npcs[i].scene == 'lobby' && story_001.active_quest.state == 'active'){
-                        npcs.blueshirt.text = 'Save the Lemur!';
+                        npcs.annie.text = 'Save the Lemur!';
                         story_001.active_quest.objective = 'Save the Lemur!';   
                     } else if (npcs[i].scene == 'lobby' && story_001.active_quest.state == 'turn_in'){
                         story_001.active_quest.objective = 'Quest Complete: Save the Lemur!';
@@ -257,18 +256,18 @@ game_base.draw = function() {
                         scenes.launch = launch;
                         scenes.lab2.right_transition = 'launch';
                         story_001.active_quest = quest_002;
-                        npcs[i].type = 'inactive';
+                        npcs[i].role = 'inactive';
                                                 
                     }
 
                     if (npcs[i].scene == 'lab2' && story_001.active_quest.state == 'active'){
-                        npcs.blueshirt.text = 'Thanks for saving the Lemur!';
+                        npcs.annie.text = 'Thanks for saving the Lemur!';
                         story_001.active_quest.objective = 'Return to Annie!';
                         story_001.active_quest.state = 'turn_in';
-                        npcs[i].type = 'inactive';  
+                        npcs[i].role = 'inactive';  
                     }
                     if (npcs[i].scene == 'ninja_palace2'){
-                        npcs[i].type = 'inactive';
+                        npcs[i].role = 'inactive';
                         for (var j in npcs){    
                             if (npcs[j].scene == 'none'){
                                 npcs[j].scene = 'ninja_palace2';
@@ -315,7 +314,7 @@ game_base.draw = function() {
 //draw the science beam 
         if (chars.jim.beam && chars.jim.ammo > 0 && chars.jim.state == 'active' && pressed_space == true){
             for (var i in npcs) {
-                if (npcs[i].draw && npcs[i].type == 'enemy' && npcs[i].state != 'defeated'){
+                if (npcs[i].draw && npcs[i].role == 'enemy' && npcs[i].state != 'defeated'){
                     npcs[i].hp = npcs[i].hp - 1;
                     chars.jim.ammo = chars.jim.ammo - .5;
                     if (npcs[i].hp % 2) {                   
@@ -339,7 +338,7 @@ game_base.draw = function() {
         }
 //draw the razer beam
         for (var i in npcs) {
-            if (npcs[i].draw == true && npcs[i].beam == true && npcs[i].type == 'enemy' && npcs[i].state != 'defeated' && npcs[i].ammo > 0 && chars.jim.state == 'active'){
+            if (npcs[i].draw == true && npcs[i].beam == true && npcs[i].role == 'enemy' && npcs[i].state != 'defeated' && npcs[i].ammo > 0 && chars.jim.state == 'active'){
                 if (chars.jim.hp > 0){
                     chars.jim.hp = chars.jim.hp - .5;
                 }
@@ -413,7 +412,7 @@ break;
         pressed_space = true;
 
         for (var i in npcs) {
-            if (npcs[i].draw && npcs[i].type == 'enemy' & chars.jim.ammo > 0){
+            if (npcs[i].draw && npcs[i].role == 'enemy' & chars.jim.ammo > 0){
                 chars.jim.beam = true;
                 //snd_hit.play();
             } 

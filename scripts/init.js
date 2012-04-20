@@ -23,25 +23,20 @@ var scenes = new Object;
 //                     state,hp,max_hp,hp_regen_rate,hp_regen_baseline,shield,max_shield,shield_regen_rate,
 //                     ammo,beam,beam_damage,melee_damage,
 
+//character
 var jim_loc = new character_location(true,50,505,"lobby");
 var jim_stats= new base_stats(10,96,96,"./content/images/jim_right.png","./content/images/jim_defeated.png","labcoat","hero","rawr",false,0);
 var jim_combat_stats = new combat_stats("active",100,100,1,25,25,25,1,200,false,3,3);
 
-//instantiate character and stuff him in the associative array chars
 var jim = new character (jim_loc,jim_stats,jim_combat_stats);
 chars.jim = jim;
 
-
-//instantiate enemies and stuff them in the associative array npcs (for now)
-
+//enemies
 var ninja_base_stats = new base_stats(2,96,96,"./content/images/ninja_left.png","./content/images/ninja_defeated.png","ninja","enemy","HIIIIYAGH",false,50)
 var ninja_combat_stats = new combat_stats("active",50,50,0,0,0,0,0,0,false,0,2);
 
-
 var ninja_loc = new character_location(false,500,505,"elevator");
 var ninja = new character(ninja_loc, ninja_base_stats, ninja_combat_stats);
-
-
 var ninja2_loc = new character_location(false,700,511,"elevator");
 var ninja2 = new character(ninja2_loc, ninja_base_stats, ninja_combat_stats);
 var ninja3_loc = new character_location(false,400,413,"lab1");
@@ -61,9 +56,9 @@ npcs.ninja5 = ninja5;
 npcs.ninja6 = ninja6;
 
 var razer_base_stats = new base_stats(1,96,96,"./content/images/razer_left.png","./content/images/razer_defeated.png","razer","enemy","BLOOD!",false,100)
-var razer_combat_stats = new combat_stats("active",100,100,1,0,0,0,0,100,false,2,3);
+var razer_combat_stats = new combat_stats("active",100,100,1,0,0,0,0,100,true,2,3);
 
-var razer_loc = new character_location(false,400,423,"lab2");
+var razer_loc = new character_location(false,700,423,"lab2");
 var razer = new character(razer_loc, razer_base_stats, razer_combat_stats);
 
 npcs.razer = razer;
@@ -93,9 +88,8 @@ npcs.pink_ninja = pink_ninja;
 */
 
 
-//character(draw,speed,x,y,src,defeated_src,height,scene,type,hp,state,text,xp,ammo,beam,contact,melee_damage,suit)
-//instantiate npcs and stuff them in the associative array npcs
 
+//npcs
 
 var npc_base_stats= new base_stats(1,96,96,"./content/images/redshirt.png","./content/images/redshirt.png","labcoat","npc","hi",false,0);
 var npc_combat_stats = new combat_stats("active",0,0,0,0,0,0,0,0,false,0,0);
@@ -103,24 +97,32 @@ var npc_combat_stats = new combat_stats("active",0,0,0,0,0,0,0,0,false,0,0);
 var redshirt_loc = new character_location(true,500,505,"lobby");
 var redshirt = new character(redshirt_loc, npc_base_stats, npc_combat_stats);
 
+var annie_loc = new character_location(true,400,505,"lobby");
+var annie_base_stats= new base_stats(1,96,96,"./content/images/annie.png","./content/images/annie.png","labcoat","quest","Save the Lemur!",false,0)
+var annie = new character(annie_loc, annie_base_stats, npc_combat_stats);
+
+var pogo_loc = new character_location(false,500,275,"launch");
+var pogo_base_stats = new base_stats(-1,256,256,"./content/images/pogo.png","./content/images/pogo.png","pogo","quest","RRRRUMBLE",false,0);
+var pogo = new character(pogo_loc,pogo_base_stats,npc_combat_stats);
+
+var meepo_loc = new character_location(false,600,505,"lab2");
+var meepo_base_stats = new base_stats(0,96,96,"./content/images/meepo.png","./content/images/meepo.png","lemur","quest","",false,0);
+var meepo = new character(meepo_loc,meepo_base_stats,npc_combat_stats);
+
+
 /*
-var blueshirt = new character (true,10,300,500,"./content/images/female_blueshirt.png","./content/images/female_blueshirt.png",96,'lobby','quest',50,'active','Save the Lemur!',0,0,false,false);
-//var armor = new character (true,10,600,505,"./content/images/jim_left_white_armor.png","./content/images/jim_left_white_armor.png",96,'lobby');
-var meepo = new character (false,10,600,505,"./content/images/meepo.png","./content/images/meepo.png",96,'lab2','quest',50,'active','Thanks, Im Saved!',0,0,false,false);
+
 var bunny = new character (true,10,600,505,"./content/images/bunny.png","./content/images/bunny.png",96,'lobby','tutorial',50,'active','press space for Science beam!');
 
-var pogo = new character (false,-1,500,275,"./content/images/pogo.png","./content/images/pogo.png",96,'launch','quest',50,'active','Behold the Pogo Plane!',0,0,false,false);
 
 var ninja_palace2_trigger = new character(false,0,400,505,'none','none',0,'ninja_palace2','quest',0,'active','ATTACK!');
 
 */
 
 npcs.redshirt = redshirt;
-//npcs.blueshirt = blueshirt;
-//npcs.armor = armor;
-//npcs.meepo = meepo;
-//npcs.bunny = bunny;
-//npcs.pogo = pogo;
+npcs.annie = annie;
+npcs.meepo = meepo;
+npcs.pogo = pogo;
 
 //npcs.ninja_palace2_trigger = ninja_palace2_trigger;
 
