@@ -63,6 +63,8 @@ var np2_trigger_loc = new character_location(false,400,505,"ninja_palace2");
 var np2_trigger_base_stats = new base_stats(0,96,96,"./content/images/trigger.png","./content/images/trigger.png","trigger","quest","GET EM!",false,0);
 var np2_trigger = new character(np2_trigger_loc, np2_trigger_base_stats, npc_combat_stats);
 
+npcs.np2_trigger = np2_trigger;
+
 var grey_ninja_base_stats = new base_stats(3,96,96,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png","grey_ninja","enemy","HIIIIYAGH",false,75)
 var grey_ninja_combat_stats = new combat_stats("active",75,75,0,0,0,0,0,0,false,0,3);
 
