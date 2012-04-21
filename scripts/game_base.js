@@ -227,6 +227,15 @@ game_base.draw = function() {
                 _canvasBufferContext.lineTo(npcs[i].x + 25 + (npcs[i].hp/2), npcs[i].y - 25);
                 _canvasBufferContext.stroke();       
                 _canvasBufferContext.closePath();
+                if (npcs[i].beam == true) {
+                   _canvasBufferContext.strokeStyle = '#ff6';
+                   _canvasBufferContext.lineWidth   = 4;
+                   _canvasBufferContext.beginPath();
+                   _canvasBufferContext.moveTo(npcs[i].x + 25, npcs[i].y - 15);
+                   _canvasBufferContext.lineTo(npcs[i].x + 25 + (npcs[i].ammo/2), npcs[i].y - 15);
+                   _canvasBufferContext.stroke();       
+                   _canvasBufferContext.closePath();
+                }
             }   
         }
 
@@ -306,7 +315,7 @@ game_base.draw = function() {
         _canvasBufferContext.fillStyle    = '#fff';
         _canvasBufferContext.fillText('xp = ', 10, 5);
         _canvasBufferContext.fillText(chars.jim.xp, 50, 5);
-        _canvasBufferContext.fillText('ammo = ', 200, 5);
+        _canvasBufferContext.fillText('funding = ', 200, 5);
         _canvasBufferContext.fillText(chars.jim.ammo, 270, 5);
         _canvasBufferContext.fillText('objective = ', 400, 5);
         _canvasBufferContext.fillText(story_001.active_quest.objective, 500, 5);
@@ -329,7 +338,7 @@ game_base.draw = function() {
 
                     _canvasBufferContext.beginPath();
                     // Start from the top-left point.
-                    _canvasBufferContext.moveTo(chars.jim.x + 50, chars.jim.y + 50);                                              _canvasBufferContext.lineTo(npcs[i].x + 50, npcs[i].y + 50);                    
+                    _canvasBufferContext.moveTo(chars.jim.x + chars.jim.width -15, chars.jim.y + 50);                    _canvasBufferContext.lineTo(npcs[i].x + 50, npcs[i].y + 50);                    
                     _canvasBufferContext.stroke();
                     _canvasBufferContext.closePath();
 
@@ -339,7 +348,7 @@ game_base.draw = function() {
                     _canvasBufferContext.lineWidth   = 4;
                     _canvasBufferContext.beginPath();
                     // Start from the top-left point.
-                    _canvasBufferContext.moveTo(chars.jim.x + 50, chars.jim.y + 50);                                              
+                    _canvasBufferContext.moveTo(chars.jim.x + chars.jim.width -15 , chars.jim.y + 50);                                 
                    if (chars,jim.x < npcs[i].x  && npcs[i].ammo > 0){
                         _canvasBufferContext.lineTo(chars.jim.x +(npcs[i].x - chars.jim.x)/2 , npcs[i].y + 50);
                    } else if (chars,jim.x > npcs[i].x  && npcs[i].ammo > 0){
@@ -373,7 +382,15 @@ game_base.draw = function() {
                     _canvasBufferContext.lineWidth   = 4;
                 }
                  _canvasBufferContext.beginPath();
-                 _canvasBufferContext.moveTo(npcs[i].x + 10, npcs[i].y + 50);                                                  _canvasBufferContext.lineTo(chars.jim.x + 50, chars.jim.y + 50);                    
+                 _canvasBufferContext.moveTo(npcs[i].x + 10, npcs[i].y + 50);
+                 //beam collison code goes here
+                 if (pressed_space == true && chars.jim.x > npcs[i].x){
+                    _canvasBufferContext.lineTo(npcs[i].x +(- chars.jim.x + npcs[i].x)/2 , chars.jim.y + 50);
+                 } else if (pressed_space == true && chars.jim.x < npcs[i].x){
+                     _canvasBufferContext.lineTo(npcs[i].x +( chars.jim.x  - npcs[i].x)/2 , chars.jim.y + 50);
+                 } else {                                                
+                     _canvasBufferContext.lineTo(chars.jim.x + 50, chars.jim.y + 50);
+                 }                    
                  _canvasBufferContext.stroke();
                  _canvasBufferContext.closePath();
 
