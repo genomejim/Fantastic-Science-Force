@@ -53,15 +53,15 @@ npcs.ninja = ninja;
 npcs.ninja2 = ninja2;
 npcs.ninja3 = ninja3;
 npcs.ninja4 = ninja4;
-npcs.ninja5 = ninja5;
-npcs.ninja6 = ninja6;
+//npcs.ninja5 = ninja5;
+//npcs.ninja6 = ninja6;
 
 
 
 var razer_appearance = new appearance(96,96,"./content/images/razer_left.png","./content/images/razer_defeated.png","razer");
 var razer_base_stats = new base_stats(1,"enemy","BLOOD!",false,100);
 var razer_combat_stats = new combat_stats("active",100,100,1,0,0,0,0,100,true,2,3);
-var razer_loc = new character_location(false,700,423,"lab2");
+var razer_loc = new character_location(false,700,505,"lab2");
 var razer = new character(razer_loc, razer_appearance,razer_base_stats, razer_combat_stats);
 
 npcs.razer = razer;
@@ -87,8 +87,6 @@ var palace_ninja2 = new character(palace_ninja2_loc,grey_ninja_appearance, grey_
 var palace_ninja3_loc = new character_location(false,700,511,"monster_closet");
 var palace_ninja3 = new character(palace_ninja3_loc,grey_ninja_appearance, grey_ninja_base_stats, grey_ninja_combat_stats);
 
-
-
 npcs.palace_ninja = palace_ninja;
 npcs.palace_ninja2 = palace_ninja2;
 npcs.palace_ninja3 = palace_ninja3;
@@ -99,11 +97,7 @@ var ironman_base_stats = new base_stats(1,"enemy","Repulsor Blast!",false,100);
 var ironman_combat_stats = new combat_stats("active",100,100,1,0,0,0,0,100,true,2,3);
 var ironman = new character(ironman_loc,ironman_appearance, ironman_base_stats, ironman_combat_stats);
 
-
 npcs.ironman = ironman;
-
-
-
 
 //npcs
 
@@ -127,7 +121,6 @@ var meepo = new character(meepo_loc,meepo_appearance,meepo_base_stats,npc_combat
 
 
 //var bunny = new character (true,10,600,505,"./content/images/bunny.png","./content/images/bunny.png",96,'lobby','tutorial',50,'active','press space for Science beam!');
-
 
 npcs.redshirt = redshirt;
 npcs.annie = annie;

@@ -93,7 +93,7 @@ game_base.update = function(event) {
     }      
 
 //HACK - update npcs positions...ambient movement
-    npcs.redshirt.x = npcs.redshirt.x - npcs.redshirt.speed;
+    npcs.redshirt.x = npcs.redshirt.x + npcs.redshirt.speed;
 //    armor.x = armor.x - 2;
 
 
@@ -315,7 +315,7 @@ game_base.draw = function() {
 //draw the science beam 
         if (chars.jim.beam && chars.jim.ammo > 0 && chars.jim.state == 'active' && pressed_space == true){
             for (var i in npcs) {
-                if (npcs[i].draw && npcs[i].role == 'enemy' && npcs[i].state != 'defeated'){
+                if (npcs[i].draw && npcs[i].role == 'enemy' && npcs[i].state != 'defeated' && npcs[i].beam != true){
                     npcs[i].hp = npcs[i].hp - 1;
                     chars.jim.ammo = chars.jim.ammo - .5;
                     if (npcs[i].hp % 2) {                   
@@ -333,8 +333,27 @@ game_base.draw = function() {
                     _canvasBufferContext.stroke();
                     _canvasBufferContext.closePath();
 
-            }   
-        }
+                } else if(npcs[i].draw && npcs[i].role == 'enemy' && npcs[i].state != 'defeated' && npcs[i].beam === true){
+                    chars.jim.ammo = chars.jim.ammo - .5;
+                    _canvasBufferContext.strokeStyle = '#0f0';
+                    _canvasBufferContext.lineWidth   = 4;
+                    _canvasBufferContext.beginPath();
+                    // Start from the top-left point.
+                    _canvasBufferContext.moveTo(chars.jim.x + 50, chars.jim.y + 50);                                              
+                   if (chars,jim.x < npcs[i].x  && npcs[i].ammo > 0){
+                        _canvasBufferContext.lineTo(chars.jim.x +(npcs[i].x - chars.jim.x)/2 , npcs[i].y + 50);
+                   } else if (chars,jim.x > npcs[i].x  && npcs[i].ammo > 0){
+                       _canvasBufferContext.lineTo(chars.jim.x +(- npcs[i].x + chars.jim.x)/2 , npcs[i].y + 50);
+                   } else {
+                       _canvasBufferContext.lineTo(npcs[i].x + 50, npcs[i].y + 50);
+                       npcs[i].hp = npcs[i].hp - 1;   
+                   }
+                 
+                    _canvasBufferContext.stroke();
+                    _canvasBufferContext.closePath();
+                }
+                       
+            }
 
         }
 //draw the razer beam
