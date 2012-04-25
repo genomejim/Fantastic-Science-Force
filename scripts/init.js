@@ -91,6 +91,8 @@ var palace_ninja3 = new character(palace_ninja3_loc,grey_ninja_appearance, grey_
 
 npcs.palace_ninja = palace_ninja;
 npcs.palace_ninja2 = palace_ninja2;
+npcs.palace_ninja2.ammo = 10;
+npcs.palace_ninja2.speed = 0;
 npcs.palace_ninja3 = palace_ninja3;
 
 var ironman_appearance = new appearance(96,96,"./content/images/ironman_left.png","./content/images/ironman_defeated.png","ironman");

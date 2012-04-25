@@ -300,7 +300,7 @@ game_base.draw = function() {
                     } else if (npcs[i].scene == 'lobby' && story_001.active_quest.state == 'turn_in'){
                         story_001.active_quest.objective = 'Quest Complete: Save the Lemur!';
                         story_001.active_quest.state = 'complete';
-                        chars.jim.suit = 'red armor';
+                        chars.jim.suit = 'flightsuit';
                         chars.jim.hp = 100;
                         chars.jim.xp = chars.jim.xp + 100;
                         chars.jim.ammo = 200; 
@@ -461,8 +461,8 @@ case 65: // A
 
             if (chars.jim.suit == 'labcoat') {
                 chars.jim.img.src = "./content/images/jim_left.png";
-            } else if (chars.jim.suit == 'red armor') {
-                chars.jim.img.src = "./content/images/jim_left_red_armor.png";
+            } else if (chars.jim.suit == 'flightsuit') {
+                chars.jim.img.src = "./content/images/flightsuit_left.png";
             }
             pressed_left = true;
         break;
@@ -471,8 +471,8 @@ case 65: // A
         case 68: // D
             if (chars.jim.suit == 'labcoat') {
                 chars.jim.img.src = "./content/images/jim_right.png";
-            } else if (chars.jim.suit == 'red armor') {
-                chars.jim.img.src = "./content/images/jim_right_red_armor.png";
+            } else if (chars.jim.suit == 'flightsuit') {
+                chars.jim.img.src = "./content/images/flightsuit_right.png";
             }
             pressed_right= true;
     
