@@ -36,7 +36,7 @@ chars.jim = jim;
 //enemies - Lab level 
 var ninja_appearance = new appearance(96,96,"./content/images/ninja_left.png","./content/images/ninja_defeated.png","ninja");
 var ninja_base_stats = new base_stats(2,"enemy","HIIIIYAGH",false,50);
-var ninja_combat_stats = new combat_stats("active",50,50,0,0,0,0,0,0,false,0,2);
+var ninja_combat_stats = new combat_stats("active",50,50,0,0,0,0,0,1,false,0,2);
 
 var ninja_loc = new character_location(false,500,505,"elevator");
 var ninja = new character(ninja_loc, ninja_appearance,ninja_base_stats, ninja_combat_stats);

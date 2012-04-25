@@ -159,7 +159,7 @@ game_base.update = function(event) {
 
 
             //ranged combat launch detection
-            if (Math.abs(chars.jim.x - npcs[i].x) < 300 && Math.abs(chars.jim.y - npcs[i].y) < 100 && npcs[i].ammo > 0 && npcs[i].suit == "grey_ninja" && !projectile_aloft)  {
+            if (Math.abs(chars.jim.x - npcs[i].x) < 300 && Math.abs(chars.jim.y - npcs[i].y) < 100 && npcs[i].ammo > 0 && (npcs[i].suit == "grey_ninja"||npcs[i].suit == "ninja") && !projectile_aloft)  {
                 //snd_hit.play();
             var projectile_name = "ninja_star" + i; 
             var ninja_star = new projectile(npcs[i].x,npcs[i].y);    
