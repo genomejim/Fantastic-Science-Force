@@ -93,12 +93,14 @@ npcs.palace_ninja = palace_ninja;
 npcs.palace_ninja2 = palace_ninja2;
 npcs.palace_ninja2.ammo = 10;
 npcs.palace_ninja2.speed = 0;
+npcs.palace_ninja2.hp = 100;
 npcs.palace_ninja3 = palace_ninja3;
+npcs.palace_ninja3.speed = 0;
 
 var ironman_appearance = new appearance(96,96,"./content/images/ironman_left.png","./content/images/ironman_defeated.png","ironman");
 var ironman_loc = new character_location(false,800,511,"ninja_palace3");
 var ironman_base_stats = new base_stats(1,"enemy","Repulsor Blast!",false,100);
-var ironman_combat_stats = new combat_stats("active",100,100,1,0,0,0,0,100,true,2,3);
+var ironman_combat_stats = new combat_stats("active",100,100,1,0,0,0,0,50,true,2,3);
 var ironman = new character(ironman_loc,ironman_appearance, ironman_base_stats, ironman_combat_stats);
 
 npcs.ironman = ironman;

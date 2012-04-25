@@ -297,22 +297,24 @@ game_base.draw = function() {
                     if (npcs[i].scene == 'lobby' && story_001.active_quest.state == 'active'){
                         npcs.annie.text = 'Save the Lemur!';
                         story_001.active_quest.objective = 'Save the Lemur!';   
-                    } else if (npcs[i].scene == 'lobby' && story_001.active_quest.state == 'turn_in'){
+                    } else if (npcs[i].scene == 'lab1' && story_001.active_quest.state == 'turn_in'){
                         story_001.active_quest.objective = 'Quest Complete: Save the Lemur!';
                         story_001.active_quest.state = 'complete';
                         chars.jim.suit = 'flightsuit';
                         chars.jim.hp = 100;
                         chars.jim.xp = chars.jim.xp + 100;
-                        chars.jim.ammo = 200; 
+                        chars.jim.ammo = 300; 
                         scenes.launch = launch;
                         scenes.lab2.right_transition = 'launch';
                         story_001.active_quest = quest_002;
                         npcs[i].role = 'inactive';
+                        chars.jim.img.src = "./content/images/flightsuit_left.png";
                                                 
                     }
 
                     if (npcs[i].scene == 'lab2' && story_001.active_quest.state == 'active'){
                         npcs.annie.text = 'Thanks for saving the Lemur!';
+                        npcs.annie.scene = "lab1";
                         story_001.active_quest.objective = 'Return to Annie!';
                         story_001.active_quest.state = 'turn_in';
                         npcs[i].role = 'inactive';  
