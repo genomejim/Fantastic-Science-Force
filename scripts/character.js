@@ -95,3 +95,10 @@ appearance = function(height,width,src,defeated_src,suit){
     this.defeated_src = defeated_src;
     this.suit = suit;
 }
+
+projectile = function(x,y) {
+    this.x = x;
+    this.y = y;
+    this.img = new Image();
+    this.img.src = "./content/images/ninja_star.png";
+}

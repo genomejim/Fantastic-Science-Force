@@ -1,3 +1,6 @@
+//Hack projectiles
+var projectile_aloft = false;
+
 //HACK proto quest stuff
 
 story = function(quest){
@@ -154,6 +157,19 @@ game_base.update = function(event) {
                 }                
             }
 
+
+            //ranged combat launch detection
+            if (Math.abs(chars.jim.x - npcs[i].x) < 300 && Math.abs(chars.jim.y - npcs[i].y) < 100 && npcs[i].ammo > 0 && npcs[i].suit == "grey_ninja" && !projectile_aloft)  {
+                //snd_hit.play();
+            var projectile_name = "ninja_star" + i; 
+            var ninja_star = new projectile(npcs[i].x,npcs[i].y);    
+            projectiles.projectile_name = ninja_star;
+            projectile_aloft = true;
+            npcs[i].ammo = npcs[i].ammo -1;   
+                                
+            }
+            
+
             //check to see if character is defeated and set state
             if (chars.jim.hp < 0){
                 chars.jim.state = 'defeated';
@@ -172,6 +188,27 @@ game_base.update = function(event) {
             }
                 
         }
+    }
+
+    //move projectiles
+    for (var j in projectiles){
+            if (chars.jim.x > projectiles[j].x +50) {
+                projectiles[j].x = projectiles[j].x + 10;
+            } else if (chars.jim.x < projectiles[j].x -50) {
+                projectiles[j].x = projectiles[j].x - 10;
+            }
+            if (chars.jim.y > projectiles[j].y) {
+                projectiles[j].y = projectiles[j].y + 10;
+            } else if (chars.jim.y < projectiles[j].y) {
+                projectiles[j].y = projectiles[j].y - 10;
+            }
+            //ranged combat collision detection
+            if (Math.abs(chars.jim.x - projectiles[j].x) < 60 && Math.abs(chars.jim.y - projectiles[j].y) < 60)  {
+            snd_hit.play();
+            chars.jim.hp = chars.jim.hp - 20;
+            projectile_aloft = false;   
+            delete projectiles[j];                    
+            }
     }
     //shield regen
     if (chars.jim.shield < chars.jim.max_shield && chars.jim.state != 'defeated'){
@@ -204,6 +241,10 @@ game_base.draw = function() {
             } else if (npcs[i].draw && npcs[i].state == 'defeated'){
                 _canvasBufferContext.drawImage(npcs[i].img_defeated, npcs[i].x, npcs[i].y);
             }   
+        }
+//draw projectiles
+        for (var i in projectiles) {
+                _canvasBufferContext.drawImage(projectiles[i].img, projectiles[i].x, projectiles[i].y);    
         }
         
         //draw active characters from the associative array
@@ -315,7 +356,7 @@ game_base.draw = function() {
         _canvasBufferContext.fillStyle    = '#fff';
         _canvasBufferContext.fillText('xp = ', 10, 5);
         _canvasBufferContext.fillText(chars.jim.xp, 50, 5);
-        _canvasBufferContext.fillText('funding = ', 200, 5);
+        _canvasBufferContext.fillText('ammo = ', 200, 5);
         _canvasBufferContext.fillText(chars.jim.ammo, 270, 5);
         _canvasBufferContext.fillText('objective = ', 400, 5);
         _canvasBufferContext.fillText(story_001.active_quest.objective, 500, 5);

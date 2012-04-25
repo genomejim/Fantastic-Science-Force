@@ -2,14 +2,16 @@
 var chars = new Object;
 var npcs = new Object;
 var scenes = new Object;
+var projectiles = new Object;
 
 /* cheat sheet for initializing characters,npcs,enemies
 character_location
                      draw,x,y,scene,
+
+appearance           
+                     height,width,src,defeated_src,suit
 base_stats
-                     speed,height,width,
-                     src,defeated_src,suit
-                     role,text,contact,xp,
+                     speed,role,text,contact,xp,
 combat_stats
                      state,hp,max_hp,hp_regen_rate,hp_regen_baseline,shield,max_shield,shield_regen_rate,
                      ammo,beam,beam_damage,melee_damage
@@ -60,7 +62,7 @@ npcs.ninja4 = ninja4;
 
 var razer_appearance = new appearance(96,96,"./content/images/razer_left.png","./content/images/razer_defeated.png","razer");
 var razer_base_stats = new base_stats(1,"enemy","BLOOD!",false,100);
-var razer_combat_stats = new combat_stats("active",100,100,1,0,0,0,0,100,true,2,3);
+var razer_combat_stats = new combat_stats("active",100,100,1,0,0,0,0,25,true,2,3);
 var razer_loc = new character_location(false,700,505,"lab2");
 var razer = new character(razer_loc, razer_appearance,razer_base_stats, razer_combat_stats);
 
@@ -77,8 +79,8 @@ npcs.np2_trigger = np2_trigger;
 
 var grey_ninja_appearance = new appearance
 (96,96,"./content/images/grey_ninja_left.png","./content/images/grey_ninja_defeated.png","grey_ninja");
-var grey_ninja_base_stats = new base_stats(3,"enemy","HIIIIYAGH",false,75);
-var grey_ninja_combat_stats = new combat_stats("active",75,75,0,0,0,0,0,0,false,0,3);
+var grey_ninja_base_stats = new base_stats(1,"enemy","HIIIIYAGH",false,75);
+var grey_ninja_combat_stats = new combat_stats("active",75,75,0,0,0,0,0,2,false,0,3);
 
 var palace_ninja_loc = new character_location(false,500,511,"ninja_palace");
 var palace_ninja = new character(palace_ninja_loc,grey_ninja_appearance, grey_ninja_base_stats, grey_ninja_combat_stats);
