@@ -116,6 +116,37 @@ var ironman = new character(ironman_loc,ironman_appearance, ironman_base_stats, 
 
 npcs.ironman = ironman;
 
+//enemies - moonbase level 
+var alien_appearance = new appearance(96,96,"./content/images/alien_left.png","./content/images/alien_defeated.png","alien");
+var alien_base_stats = new base_stats(2,"enemy","HIIIIYAGH",false,50);
+var alien_combat_stats = new combat_stats("active",50,50,0,0,0,0,0,10,true,0,2);
+
+var alien_loc = new character_location(false,500,505,"moonbase");
+var alien = new character(alien_loc, alien_appearance,alien_base_stats, alien_combat_stats);
+alien.speed = Math.round(((Math.random()*4) - 1 )) * alien.speed;
+var alien2_loc = new character_location(false,700,511,"moonbase2");
+var alien2 = new character(alien2_loc, alien_appearance, alien_base_stats, alien_combat_stats);
+alien2.speed = Math.round(((Math.random()*4) - 1 )) * alien2.speed;
+var alien3_loc = new character_location(false,400,413,"moonbase2");
+var alien3 = new character(alien3_loc, alien_appearance,alien_base_stats, alien_combat_stats);
+alien3.speed = Math.round(((Math.random()*4) - 1 )) * alien3.speed;
+var alien4_loc = new character_location(false,500,505,"moonbase2");
+var alien4 = new character(alien4_loc, alien_appearance,alien_base_stats, alien_combat_stats);
+alien4.speed = Math.round(((Math.random()*4) - 1 )) * alien4.speed;
+var alien5_loc = new character_location(false,600,513,"moonbase2");
+var alien5 = new character(alien5_loc, alien_appearance,alien_base_stats, alien_combat_stats);
+alien5.speed = Math.round(Math.random()*5) * alien5.speed;
+var alien6_loc = new character_location(false,400,423,"moonbase2");
+var alien6 = new character(alien6_loc, alien_appearance, alien_base_stats, alien_combat_stats);
+alien6.speed = Math.round(((Math.random()*4) - 1 )) * alien6.speed;
+
+npcs.alien = alien;
+npcs.alien2 = alien2;
+npcs.alien3 = alien3;
+npcs.alien4 = alien4;
+npcs.alien5 = alien5;
+//npcs.alien6 = alien6;
+
 //npcs
 
 var redshirt_loc = new character_location(true,500,505,"lobby");
