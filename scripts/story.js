@@ -51,8 +51,34 @@ level_transition = function(){
     }
 }
 
+portal_001 = function(){
+//HACK - portal transition
+    if (npcs.portal.contact == true){
+        //npcs.pogo.y = npcs.pogo.y + npcs.pogo.speed;
+        //npcs.pogo.speed = npcs.pogo.speed - .1;
+        //npcs.pogo.speed = npcs.pogo.speed + (npcs.pogo.speed/50);
+        chars.jim.draw = false;
+        story_001.active_quest.objective = 'Take the fight to their alien masters!';
+        //init ninja palace
+        
+            scenes.ninja_palace3.draw = false;
+            scenes.moonbase.draw = true;
+            chars.jim.draw = true;
+            chars.jim.x = 100;
+            npcs.portal.contact = false;
+            npcs.portal.draw = false;
+            npcs.portal.role = 'inactive';
+            npcs.alien1.draw = true;
+            //story_001.active_quest.objective = 'Defeat the Grey Ninjas!';           
+            pressed_right = false;
+        
+    }
+}
+
+
 draw_npc_text = function() {
-//draw npc text
+//draw npc text - need to change this function name...
+//since i don't really draw the text long enough for anyone to read
 
         for (var i in npcs){
             if (npcs[i].draw && npcs[i].role == 'quest' && npcs[i].state == 'active' && chars.jim.state == 'active'){
@@ -75,7 +101,7 @@ draw_npc_text = function() {
                         chars.jim.suit = 'flightsuit';
                         chars.jim.hp = 100;
                         chars.jim.xp = chars.jim.xp + 100;
-                        chars.jim.ammo = 250; 
+                        chars.jim.ammo = 200; 
                         scenes.launch = launch;
                         scenes.lab2.right_transition = 'launch';
                         story_001.active_quest = quest_002;

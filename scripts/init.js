@@ -52,7 +52,7 @@ var ninja4 = new character(ninja4_loc, ninja_appearance,ninja_base_stats, ninja_
 ninja4.speed = Math.round(((Math.random()*4) - 1 )) * ninja4.speed;
 var ninja5_loc = new character_location(false,600,513,"lab2");
 var ninja5 = new character(ninja5_loc, ninja_appearance,ninja_base_stats, ninja_combat_stats);
-ninja5.speed = Math.round(Math.random()*4) * ninja5.speed;
+ninja5.speed = Math.round(Math.random()*5) * ninja5.speed;
 var ninja6_loc = new character_location(false,400,423,"lab2");
 var ninja6 = new character(ninja6_loc, ninja_appearance, ninja_base_stats, ninja_combat_stats);
 ninja6.speed = Math.round(((Math.random()*4) - 1 )) * ninja6.speed;
@@ -108,8 +108,8 @@ npcs.palace_ninja2.ammo = 4;
 npcs.palace_ninja3 = palace_ninja3;
 //npcs.palace_ninja3.speed = 0;
 
-var ironman_appearance = new appearance(96,96,"./content/images/ironman_left.png","./content/images/ironman_defeated.png","ironman");
-var ironman_loc = new character_location(false,800,511,"ninja_palace3");
+var ironman_appearance = new appearance(96,96,"./content/images/alien_left.png","./content/images/alien_defeated.png","alien");
+var ironman_loc = new character_location(false,700,511,"ninja_palace3");
 var ironman_base_stats = new base_stats(1,"enemy","Repulsor Blast!",false,100);
 var ironman_combat_stats = new combat_stats("active",100,100,1,0,0,0,0,50,true,2,3);
 var ironman = new character(ironman_loc,ironman_appearance, ironman_base_stats, ironman_combat_stats);
@@ -137,6 +137,11 @@ var meepo_appearance = new appearance(96,96,"./content/images/meepo.png","./cont
 var meepo_base_stats = new base_stats(0,"quest","",false,0);
 var meepo = new character(meepo_loc,meepo_appearance,meepo_base_stats,npc_combat_stats);
 
+var portal_loc = new character_location(false,700,475,"ninja_palace3");
+var portal_appearance = new appearance(128,128,"./content/images/portal.png","./content/images/portal.png","portal");
+var portal_base_stats = new base_stats(-1,"quest","zzzzzzZAP",false,0);
+var portal = new character(portal_loc,portal_appearance,portal_base_stats,npc_combat_stats);
+
 
 //var bunny = new character (true,10,600,505,"./content/images/bunny.png","./content/images/bunny.png",96,'lobby','tutorial',50,'active','press space for Science beam!');
 
@@ -144,7 +149,7 @@ npcs.redshirt = redshirt;
 npcs.annie = annie;
 npcs.meepo = meepo;
 npcs.pogo = pogo;
-
+npcs.portal = portal;
 //npcs.ninja_palace2_trigger = ninja_palace2_trigger;
 
 //instantiate scenes and stuff them in the associative array scenes
@@ -159,6 +164,11 @@ var ninja_palace = new scene(false,'ninja_palace',"./content/images/ninja_palace
 var ninja_palace2 = new scene(false,'ninja_palace2',"./content/images/ninja_palace2.png",'ninja_palace','ninja_palace3');
 var ninja_palace3 = new scene(false,'ninja_palace3',"./content/images/ninja_palace_throne.png",'ninja_palace2','none');
 
+var moonbase = new scene(false,'moonbase',"./content/images/moonbase.png",'none','moonbase2');
+var moonbase2 = new scene(false,'moonbase2',"./content/images/moonbase2.png",'moonbase','moonbase3');
+var moonbase3 = new scene(false,'moonbase3',"./content/images/moonbase3.png",'moonbase2','none');
+
+
 scenes.lobby = lobby;
 scenes.elevator = elevator;
 scenes.lab1 = lab1;
@@ -166,6 +176,9 @@ scenes.lab2 = lab2;
 scenes.ninja_palace = ninja_palace;
 scenes.ninja_palace2 = ninja_palace2;
 scenes.ninja_palace3 = ninja_palace3;
+scenes.moonbase = moonbase;
+scenes.moonbase2 = moonbase2;
+scenes.moonbase3 = moonbase3;
 
 //instantiate the walkbox
 var box = new walkbox(800,150,0,450);

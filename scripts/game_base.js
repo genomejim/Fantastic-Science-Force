@@ -68,6 +68,7 @@ game_base.update = function(event) {
 
 
 level_transition();
+portal_001();
 
 
 //check for combat
@@ -168,7 +169,7 @@ level_transition();
 game_base.draw = function() {
         
         //clear the canvas and the buffer for the next frame
-	//_canvasContext.clearRect(0,0,_canvas.width,_canvas.height);
+	_canvasContext.clearRect(0,0,_canvas.width,_canvas.height);
         _canvasBufferContext.clearRect(0,0,_canvas.width,_canvas.height);
 
         //draw active scene        
