@@ -1,22 +1,6 @@
 //Hack projectiles
 var projectile_aloft = false;
 
-//HACK proto quest stuff
-
-story = function(quest){
-    this.active_quest = quest;
-}
-
-quest = function(objective,state){
-    this.objective = objective;
-    this.state = state;
-}
-
-//quest states inactive,active,turn_in,complete
-var quest_001 = new quest('Talk with miss AnniePennie','active');
-var quest_002 = new quest('Board the Fantastic Science Plane','active');
-var story_001 = new story(quest_001);
-
 //event handler for movement
 document.onkeydown = down;
 document.onkeyup = up;
@@ -303,7 +287,7 @@ game_base.draw = function() {
                         chars.jim.suit = 'flightsuit';
                         chars.jim.hp = 100;
                         chars.jim.xp = chars.jim.xp + 100;
-                        chars.jim.ammo = 300; 
+                        chars.jim.ammo = 250; 
                         scenes.launch = launch;
                         scenes.lab2.right_transition = 'launch';
                         story_001.active_quest = quest_002;
@@ -457,7 +441,11 @@ function down (event) {
             pressed_up = true;
         break;
 
+        case 38: // W
+            pressed_up = true;
+        break;
         
+         
 
 case 65: // A
 
@@ -468,6 +456,21 @@ case 65: // A
             }
             pressed_left = true;
         break;
+
+         
+
+case 37: // A
+
+            if (chars.jim.suit == 'labcoat') {
+                chars.jim.img.src = "./content/images/jim_left.png";
+            } else if (chars.jim.suit == 'flightsuit') {
+                chars.jim.img.src = "./content/images/flightsuit_left.png";
+            }
+            pressed_left = true;
+        break;
+
+
+
 
 
         case 68: // D
@@ -480,9 +483,27 @@ case 65: // A
     
     break;
 
+        case 39: // D
+            if (chars.jim.suit == 'labcoat') {
+                chars.jim.img.src = "./content/images/jim_right.png";
+            } else if (chars.jim.suit == 'flightsuit') {
+                chars.jim.img.src = "./content/images/flightsuit_right.png";
+            }
+            pressed_right= true;
+    
+    break;
+
+
+
+
 
 
         case 83: // S
+            pressed_down = true;
+        
+break;
+
+        case 40: // S
             pressed_down = true;
         
 break;
