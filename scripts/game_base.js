@@ -1,16 +1,6 @@
 //Hack projectiles
 var projectile_aloft = false;
 
-//event handler for movement
-document.onkeydown = down;
-document.onkeyup = up;
-
-var pressed_up = false;
-var pressed_down = false;
-var pressed_right = false;
-var pressed_left = false;
-var pressed_space = false;
-
 game_base.run = function () {
     game_base.update();
     game_base.draw();
@@ -19,13 +9,6 @@ game_base.run = function () {
 
 game_base.update = function(event) {
 
-//play song the first time the player enters the lobby
-    /*
-    if (lobby.play_intro == true) {
-	//snd_lobby.play();
-	lobby.play_intro = false;
-    }
-    */
 
 //character movement
     if (chars.jim.state != 'defeated' && chars.jim.draw){
@@ -81,7 +64,7 @@ game_base.update = function(event) {
 
 //HACK - update npcs positions...ambient movement
     npcs.redshirt.x = npcs.redshirt.x + npcs.redshirt.speed;
-//    armor.x = armor.x - 2;
+    
 
 
 level_transition();

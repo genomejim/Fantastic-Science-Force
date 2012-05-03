@@ -1,3 +1,13 @@
+//event handler for movement
+document.onkeydown = down;
+document.onkeyup = up;
+
+var pressed_up = false;
+var pressed_down = false;
+var pressed_right = false;
+var pressed_left = false;
+var pressed_space = false;
+
 function down (event) {
 
 

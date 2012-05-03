@@ -40,22 +40,28 @@ var ninja_combat_stats = new combat_stats("active",50,50,0,0,0,0,0,1,false,0,2);
 
 var ninja_loc = new character_location(false,500,505,"elevator");
 var ninja = new character(ninja_loc, ninja_appearance,ninja_base_stats, ninja_combat_stats);
+ninja.speed = Math.round(((Math.random()*4) - 1 )) * ninja.speed;
 var ninja2_loc = new character_location(false,700,511,"elevator");
 var ninja2 = new character(ninja2_loc, ninja_appearance, ninja_base_stats, ninja_combat_stats);
+ninja2.speed = Math.round(((Math.random()*4) - 1 )) * ninja2.speed;
 var ninja3_loc = new character_location(false,400,413,"lab1");
 var ninja3 = new character(ninja3_loc, ninja_appearance,ninja_base_stats, ninja_combat_stats);
+ninja3.speed = Math.round(((Math.random()*4) - 1 )) * ninja3.speed;
 var ninja4_loc = new character_location(false,500,505,"lab1");
 var ninja4 = new character(ninja4_loc, ninja_appearance,ninja_base_stats, ninja_combat_stats);
+ninja4.speed = Math.round(((Math.random()*4) - 1 )) * ninja4.speed;
 var ninja5_loc = new character_location(false,600,513,"lab2");
 var ninja5 = new character(ninja5_loc, ninja_appearance,ninja_base_stats, ninja_combat_stats);
+ninja5.speed = Math.round(Math.random()*4) * ninja5.speed;
 var ninja6_loc = new character_location(false,400,423,"lab2");
 var ninja6 = new character(ninja6_loc, ninja_appearance, ninja_base_stats, ninja_combat_stats);
+ninja6.speed = Math.round(((Math.random()*4) - 1 )) * ninja6.speed;
 
 npcs.ninja = ninja;
 npcs.ninja2 = ninja2;
 npcs.ninja3 = ninja3;
 npcs.ninja4 = ninja4;
-//npcs.ninja5 = ninja5;
+npcs.ninja5 = ninja5;
 //npcs.ninja6 = ninja6;
 
 
@@ -65,6 +71,8 @@ var razer_base_stats = new base_stats(1,"enemy","BLOOD!",false,100);
 var razer_combat_stats = new combat_stats("active",100,100,1,0,0,0,0,25,true,2,3);
 var razer_loc = new character_location(false,700,505,"lab2");
 var razer = new character(razer_loc, razer_appearance,razer_base_stats, razer_combat_stats);
+razer.speed = Math.round(((Math.random()*5) - 1 )) * razer.speed;
+
 
 npcs.razer = razer;
 
@@ -84,18 +92,21 @@ var grey_ninja_combat_stats = new combat_stats("active",75,75,0,0,0,0,0,2,false,
 
 var palace_ninja_loc = new character_location(false,500,511,"ninja_palace");
 var palace_ninja = new character(palace_ninja_loc,grey_ninja_appearance, grey_ninja_base_stats, grey_ninja_combat_stats);
+palace_ninja.speed = Math.round(((Math.random()*3) - 1 )) * palace_ninja.speed;
 var palace_ninja2_loc = new character_location(false,25,511,"monster_closet");
 var palace_ninja2 = new character(palace_ninja2_loc,grey_ninja_appearance, grey_ninja_base_stats, grey_ninja_combat_stats);
+palace_ninja2.speed = Math.round(((Math.random()*2) - 1 )) * palace_ninja2.speed;
 var palace_ninja3_loc = new character_location(false,700,511,"monster_closet");
 var palace_ninja3 = new character(palace_ninja3_loc,grey_ninja_appearance, grey_ninja_base_stats, grey_ninja_combat_stats);
+palace_ninja3.speed = Math.round(((Math.random()*4) - 1 )) * palace_ninja3.speed;
 
 npcs.palace_ninja = palace_ninja;
 npcs.palace_ninja2 = palace_ninja2;
-npcs.palace_ninja2.ammo = 10;
-npcs.palace_ninja2.speed = 0;
-npcs.palace_ninja2.hp = 100;
+npcs.palace_ninja2.ammo = 4;
+//npcs.palace_ninja2.speed = 0;
+//npcs.palace_ninja2.hp = 100;
 npcs.palace_ninja3 = palace_ninja3;
-npcs.palace_ninja3.speed = 0;
+//npcs.palace_ninja3.speed = 0;
 
 var ironman_appearance = new appearance(96,96,"./content/images/ironman_left.png","./content/images/ironman_defeated.png","ironman");
 var ironman_loc = new character_location(false,800,511,"ninja_palace3");
@@ -109,6 +120,7 @@ npcs.ironman = ironman;
 
 var redshirt_loc = new character_location(true,500,505,"lobby");
 var redshirt = new character(redshirt_loc, npc_base_appearance,npc_base_stats, npc_combat_stats);
+redshirt.speed = Math.round(((Math.random()*2) - 1 )) * redshirt.speed;
 
 var annie_loc = new character_location(true,400,505,"lobby");
 var annie_appearance = new appearance(96,96,"./content/images/annie.png","./content/images/annie.png","labcoat");
