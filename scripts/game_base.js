@@ -84,28 +84,7 @@ game_base.update = function(event) {
 //    armor.x = armor.x - 2;
 
 
-//HACK - level transition
-    if (npcs.pogo.contact == true){
-        npcs.pogo.y = npcs.pogo.y + npcs.pogo.speed;
-        //npcs.pogo.speed = npcs.pogo.speed - .1;
-        npcs.pogo.speed = npcs.pogo.speed + (npcs.pogo.speed/50);
-        chars.jim.draw = false;
-        story_001.active_quest.objective = 'Fly to Ninja Palace';
-        //init ninja palace
-        if (npcs.pogo.y < -400) {
-            scenes.launch.draw = false;
-            scenes.ninja_palace.draw = true;
-            chars.jim.draw = true;
-            chars.jim.x = 100;
-            npcs.pogo.contact = false;
-            npcs.pogo.draw = false;
-            npcs.pogo.role = 'inactive';
-            npcs.palace_ninja.draw = true;
-            story_001.active_quest.objective = 'Defeat the Grey Ninjas!';           
-            pressed_right = false;
-        }
-    }
-
+level_transition();
 
 
 //check for combat
@@ -167,7 +146,6 @@ game_base.update = function(event) {
                  npcs[i].state = "defeated";
                  //set hp of enemy to zero for cleanliness
                  npcs[i].hp = 0;
-                 //award xp for defeating an enemy - this needs to be based on an npc attribute at some point
                  chars.jim.xp = chars.jim.xp + npcs[i].xp;                 
             }
                 
@@ -264,59 +242,7 @@ game_base.draw = function() {
             }   
         }
 
-//draw npc text
-
-        for (var i in npcs){
-            if (npcs[i].draw && npcs[i].role == 'quest' && npcs[i].state == 'active' && chars.jim.state == 'active'){
-            //entering quest
-                if (Math.abs(chars.jim.x - npcs[i].x) < 100) {
-                    //snd_hit.play();
-                    npcs[i].contact = true;
-                    _canvasBufferContext.fillStyle = '#aaa';
-                    _canvasBufferContext.fillRect(npcs[i].x - 100, npcs[i].y - 75, 200, 25);
-                    _canvasBufferContext.fillStyle    = '#00f';
-                    _canvasBufferContext.fillText(npcs[i].text, npcs[i].x - 100, npcs[i].y - 75);
-
-                    //quest hacking
-                    if (npcs[i].scene == 'lobby' && story_001.active_quest.state == 'active'){
-                        npcs.annie.text = 'Save the Lemur!';
-                        story_001.active_quest.objective = 'Save the Lemur!';   
-                    } else if (npcs[i].scene == 'lab1' && story_001.active_quest.state == 'turn_in'){
-                        story_001.active_quest.objective = 'Quest Complete: Save the Lemur!';
-                        story_001.active_quest.state = 'complete';
-                        chars.jim.suit = 'flightsuit';
-                        chars.jim.hp = 100;
-                        chars.jim.xp = chars.jim.xp + 100;
-                        chars.jim.ammo = 250; 
-                        scenes.launch = launch;
-                        scenes.lab2.right_transition = 'launch';
-                        story_001.active_quest = quest_002;
-                        npcs[i].role = 'inactive';
-                        chars.jim.img.src = "./content/images/flightsuit_left.png";
-                                                
-                    }
-
-                    if (npcs[i].scene == 'lab2' && story_001.active_quest.state == 'active'){
-                        npcs.annie.text = 'Thanks for saving the Lemur!';
-                        npcs.annie.scene = "lab1";
-                        story_001.active_quest.objective = 'Return to Annie!';
-                        story_001.active_quest.state = 'turn_in';
-                        npcs[i].role = 'inactive';  
-                    }
-                    if (npcs[i].scene == 'ninja_palace2'){
-                        npcs[i].role = 'inactive';
-                        for (var j in npcs){    
-                            if (npcs[j].scene == 'monster_closet'){
-                                npcs[j].scene = 'ninja_palace2';
-                                npcs[j].draw = true;
-                            }
-                        }
-                    }  
-                                        
-
-                }
-            }
-        }
+draw_npc_text();
 
 //draw HUD
         _canvasBufferContext.fillStyle = '#0a0';
@@ -429,138 +355,8 @@ game_base.draw = function() {
 
 
 
-function down (event) {
-
-
-    if (event && chars.jim.state != 'defeated' && chars.jim.draw){
-        var key = event.keyCode;
-
-        switch (key) {
-    
-    case 87: // W
-            pressed_up = true;
-        break;
-
-        case 38: // W
-            pressed_up = true;
-        break;
-        
-         
-
-case 65: // A
-
-            if (chars.jim.suit == 'labcoat') {
-                chars.jim.img.src = "./content/images/jim_left.png";
-            } else if (chars.jim.suit == 'flightsuit') {
-                chars.jim.img.src = "./content/images/flightsuit_left.png";
-            }
-            pressed_left = true;
-        break;
-
-         
-
-case 37: // A
-
-            if (chars.jim.suit == 'labcoat') {
-                chars.jim.img.src = "./content/images/jim_left.png";
-            } else if (chars.jim.suit == 'flightsuit') {
-                chars.jim.img.src = "./content/images/flightsuit_left.png";
-            }
-            pressed_left = true;
-        break;
 
 
 
 
-
-        case 68: // D
-            if (chars.jim.suit == 'labcoat') {
-                chars.jim.img.src = "./content/images/jim_right.png";
-            } else if (chars.jim.suit == 'flightsuit') {
-                chars.jim.img.src = "./content/images/flightsuit_right.png";
-            }
-            pressed_right= true;
-    
-    break;
-
-        case 39: // D
-            if (chars.jim.suit == 'labcoat') {
-                chars.jim.img.src = "./content/images/jim_right.png";
-            } else if (chars.jim.suit == 'flightsuit') {
-                chars.jim.img.src = "./content/images/flightsuit_right.png";
-            }
-            pressed_right= true;
-    
-    break;
-
-
-
-
-
-
-        case 83: // S
-            pressed_down = true;
-        
-break;
-
-        case 40: // S
-            pressed_down = true;
-        
-break;
-
-        case 32: // Space bar : SCIENCE BEAM
-        pressed_space = true;
-
-        for (var i in npcs) {
-            if (npcs[i].draw && npcs[i].role == 'enemy' & chars.jim.ammo > 0){
-                chars.jim.beam = true;
-                //snd_hit.play();
-            } 
-        }
-        break;
-    }
-}
-}
-
-function up (event) {
-
-
-    if (event && chars.jim.state != 'defeated' && chars.jim.draw){
-        var key = event.keyCode;
-
-        switch (key) {
-    
-    case 87: // W
-            pressed_up = false;
-    
-    break;
-
-        
-
-case 65: // A
-
-            pressed_left = false;
-        break;
-
-
-        case 68: // D
-        pressed_right= false;
-    
-    break;
-
-
-
-        case 83: // S
-        pressed_down = false;       
-        
-break;
-
-        case 32: // Space bar : SCIENCE BEAM
-        pressed_space = false;
-        break;
-    }
-}
-
-
-}
 game_base._intervalID = setInterval(game_base.run, 1000 / game_base.fps);

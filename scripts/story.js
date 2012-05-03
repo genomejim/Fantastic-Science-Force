@@ -26,3 +26,85 @@ quest = function(objective,state){
 var quest_001 = new quest('Talk with miss AnniePennie','active');
 var quest_002 = new quest('Board the Fantastic Science Plane','active');
 var story_001 = new story(quest_001);
+
+level_transition = function(){
+//HACK - level transition
+    if (npcs.pogo.contact == true){
+        npcs.pogo.y = npcs.pogo.y + npcs.pogo.speed;
+        //npcs.pogo.speed = npcs.pogo.speed - .1;
+        npcs.pogo.speed = npcs.pogo.speed + (npcs.pogo.speed/50);
+        chars.jim.draw = false;
+        story_001.active_quest.objective = 'Fly to Ninja Palace';
+        //init ninja palace
+        if (npcs.pogo.y < -400) {
+            scenes.launch.draw = false;
+            scenes.ninja_palace.draw = true;
+            chars.jim.draw = true;
+            chars.jim.x = 100;
+            npcs.pogo.contact = false;
+            npcs.pogo.draw = false;
+            npcs.pogo.role = 'inactive';
+            npcs.palace_ninja.draw = true;
+            story_001.active_quest.objective = 'Defeat the Grey Ninjas!';           
+            pressed_right = false;
+        }
+    }
+}
+
+draw_npc_text = function() {
+//draw npc text
+
+        for (var i in npcs){
+            if (npcs[i].draw && npcs[i].role == 'quest' && npcs[i].state == 'active' && chars.jim.state == 'active'){
+            //entering quest
+                if (Math.abs(chars.jim.x - npcs[i].x) < 100) {
+                    //snd_hit.play();
+                    npcs[i].contact = true;
+                    _canvasBufferContext.fillStyle = '#aaa';
+                    _canvasBufferContext.fillRect(npcs[i].x - 100, npcs[i].y - 75, 200, 25);
+                    _canvasBufferContext.fillStyle    = '#00f';
+                    _canvasBufferContext.fillText(npcs[i].text, npcs[i].x - 100, npcs[i].y - 75);
+
+                    //quest hacking
+                    if (npcs[i].scene == 'lobby' && story_001.active_quest.state == 'active'){
+                        npcs.annie.text = 'Save the Lemur!';
+                        story_001.active_quest.objective = 'Save the Lemur!';   
+                    } else if (npcs[i].scene == 'lab1' && story_001.active_quest.state == 'turn_in'){
+                        story_001.active_quest.objective = 'Quest Complete: Save the Lemur!';
+                        story_001.active_quest.state = 'complete';
+                        chars.jim.suit = 'flightsuit';
+                        chars.jim.hp = 100;
+                        chars.jim.xp = chars.jim.xp + 100;
+                        chars.jim.ammo = 250; 
+                        scenes.launch = launch;
+                        scenes.lab2.right_transition = 'launch';
+                        story_001.active_quest = quest_002;
+                        npcs[i].role = 'inactive';
+                        chars.jim.img.src = "./content/images/flightsuit_left.png";
+                                                
+                    }
+
+                    if (npcs[i].scene == 'lab2' && story_001.active_quest.state == 'active'){
+                        npcs.annie.text = 'Thanks for saving the Lemur!';
+                        npcs.annie.scene = "lab1";
+                        story_001.active_quest.objective = 'Return to Annie!';
+                        story_001.active_quest.state = 'turn_in';
+                        npcs[i].role = 'inactive';  
+                    }
+                    if (npcs[i].scene == 'ninja_palace2'){
+                        npcs[i].role = 'inactive';
+                        for (var j in npcs){    
+                            if (npcs[j].scene == 'monster_closet'){
+                                npcs[j].scene = 'ninja_palace2';
+                                npcs[j].draw = true;
+                            }
+                        }
+                    }  
+                                        
+
+                }
+            }
+        }
+
+
+}
