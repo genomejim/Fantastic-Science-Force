@@ -119,11 +119,11 @@ npcs.ironman = ironman;
 //enemies - moonbase level 
 var alien_appearance = new appearance(96,96,"./content/images/alien_left.png","./content/images/alien_defeated.png","alien");
 var alien_base_stats = new base_stats(2,"enemy","HIIIIYAGH",false,50);
-var alien_combat_stats = new combat_stats("active",50,50,0,0,0,0,0,10,true,0,2);
+var alien_combat_stats = new combat_stats("active",50,50,0,0,0,0,0,Math.random()*30+5,true,0,2);
 
-var alien_loc = new character_location(false,500,505,"moonbase");
-var alien = new character(alien_loc, alien_appearance,alien_base_stats, alien_combat_stats);
-alien.speed = Math.round(((Math.random()*4) - 1 )) * alien.speed;
+var alien1_loc = new character_location(false,500,505,"moonbase");
+var alien1 = new character(alien1_loc, alien_appearance,alien_base_stats, alien_combat_stats);
+alien1.speed = Math.round(((Math.random()*4) - 1 )) * alien1.speed;
 var alien2_loc = new character_location(false,700,511,"moonbase2");
 var alien2 = new character(alien2_loc, alien_appearance, alien_base_stats, alien_combat_stats);
 alien2.speed = Math.round(((Math.random()*4) - 1 )) * alien2.speed;
@@ -140,7 +140,7 @@ var alien6_loc = new character_location(false,400,423,"moonbase2");
 var alien6 = new character(alien6_loc, alien_appearance, alien_base_stats, alien_combat_stats);
 alien6.speed = Math.round(((Math.random()*4) - 1 )) * alien6.speed;
 
-npcs.alien = alien;
+npcs.alien1 = alien1;
 npcs.alien2 = alien2;
 npcs.alien3 = alien3;
 npcs.alien4 = alien4;

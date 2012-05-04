@@ -53,13 +53,10 @@ level_transition = function(){
 
 portal_001 = function(){
 //HACK - portal transition
-    if (npcs.portal.contact == true){
-        //npcs.pogo.y = npcs.pogo.y + npcs.pogo.speed;
-        //npcs.pogo.speed = npcs.pogo.speed - .1;
-        //npcs.pogo.speed = npcs.pogo.speed + (npcs.pogo.speed/50);
+    if (npcs.portal.contact == true){        
         chars.jim.draw = false;
         story_001.active_quest.objective = 'Take the fight to their alien masters!';
-        //init ninja palace
+        //init moonbase
         
             scenes.ninja_palace3.draw = false;
             scenes.moonbase.draw = true;
@@ -68,9 +65,9 @@ portal_001 = function(){
             npcs.portal.contact = false;
             npcs.portal.draw = false;
             npcs.portal.role = 'inactive';
-            npcs.alien1.draw = true;
-            //story_001.active_quest.objective = 'Defeat the Grey Ninjas!';           
+            npcs.alien1.draw = true;          
             pressed_right = false;
+            npcs.ironman.draw = false;
         
     }
 }
@@ -101,7 +98,7 @@ draw_npc_text = function() {
                         chars.jim.suit = 'flightsuit';
                         chars.jim.hp = 100;
                         chars.jim.xp = chars.jim.xp + 100;
-                        chars.jim.ammo = 200; 
+                        chars.jim.ammo = chars.jim.ammo + 200; 
                         scenes.launch = launch;
                         scenes.lab2.right_transition = 'launch';
                         story_001.active_quest = quest_002;
