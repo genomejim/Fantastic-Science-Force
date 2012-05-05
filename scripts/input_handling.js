@@ -38,8 +38,7 @@ case 65: // A
 
          
 
-case 37: // A
-
+case 37: // left arrow
             if (chars.jim.suit == 'labcoat') {
                 chars.jim.img.src = "./content/images/jim_left.png";
             } else if (chars.jim.suit == 'flightsuit') {
@@ -82,7 +81,7 @@ case 37: // A
         
 break;
 
-        case 40: // S
+        case 40: // down arrow
             pressed_down = true;
         
 break;
@@ -113,6 +112,10 @@ function up (event) {
             pressed_up = false;
     
     break;
+        case 38: // up arrow
+            pressed_up = false;
+    
+    break;
 
         
 
@@ -120,19 +123,32 @@ case 65: // A
 
             pressed_left = false;
         break;
+        case 37: // left arrow
+
+            pressed_left = false;
+        break;
 
 
         case 68: // D
-        pressed_right= false;
+            pressed_right= false;
+    
+    break;
+        case 39: // right arrow
+            pressed_right= false;
     
     break;
 
 
 
         case 83: // S
-        pressed_down = false;       
+            pressed_down = false;       
         
 break;
+        case 40: // down arrow
+            pressed_down = false;
+        
+break;
+
 
         case 32: // Space bar : SCIENCE BEAM
         pressed_space = false;
