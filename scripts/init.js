@@ -147,6 +147,14 @@ npcs.alien4 = alien4;
 npcs.alien5 = alien5;
 //npcs.alien6 = alien6;
 
+var loki_appearance = new appearance(96,96,"./content/images/loki_left.png","./content/images/loki_defeated.png","loki");
+var loki_loc = new character_location(false,700,511,"moonbase3");
+var loki_base_stats = new base_stats(1,"enemy","THOR!",false,100);
+var loki_combat_stats = new combat_stats("active",100,100,1,0,0,0,0,50,true,2,3);
+var loki = new character(loki_loc,loki_appearance, loki_base_stats, loki_combat_stats);
+
+npcs.loki = loki;
+
 //npcs
 
 var redshirt_loc = new character_location(true,500,505,"lobby");

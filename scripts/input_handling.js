@@ -50,7 +50,6 @@ case 37: // left arrow
 
 
 
-
         case 68: // D
             if (chars.jim.suit == 'labcoat') {
                 chars.jim.img.src = "./content/images/jim_right.png";
@@ -96,6 +95,17 @@ break;
             } 
         }
         break;
+        case 70: // f : SCIENCE BEAM
+        pressed_space = true;
+
+        for (var i in npcs) {
+            if (npcs[i].draw && npcs[i].role == 'enemy' & chars.jim.ammo > 0){
+                chars.jim.beam = true;
+                //snd_hit.play();
+            } 
+        }
+        break;
+
     }
 }
 }
@@ -149,10 +159,13 @@ break;
         
 break;
 
-
         case 32: // Space bar : SCIENCE BEAM
         pressed_space = false;
         break;
+        case 70: // f : SCIENCE BEAM
+        pressed_space = false;
+        break;
+
     }
 }
 }
